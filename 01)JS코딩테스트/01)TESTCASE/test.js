@@ -1,22 +1,20 @@
-//동일 디렉토리의 input.txt로 답안을 입력받아 문자열 리스트로 반환합니다.
+//인풋을 입력받습니다.
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
-let input = fs.readFileSync(filePath).toString().split(' ');
+const input = fs.readFileSync(filePath).toString().trim().split(" ");
+
 
 //solution함수 안에 답안을 작성하세요.
 function solution(input) {
-    let answer;
-    a = parseInt(input[0]);
-    b = parseInt(input[1]);
-    c = parseInt(input[2]);
+    let answer = Number.MAX_SAFE_INTEGER;
+    const arr=input.map(Number);
 
-    if(a<b) answer=a;
-    else answer=b;
-    if(c<answer) answer=c; 
-
+    for (let i of arr){
+      if(i < answer) answer=i;
+    }
     console.log(answer);
 }
-solution(input)
+solution(input);
 
 
 /* 인풋 입력 스켈레톤 코드
