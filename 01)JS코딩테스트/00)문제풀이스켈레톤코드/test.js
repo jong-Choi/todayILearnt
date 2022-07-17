@@ -1,6 +1,6 @@
 //////* 인풋을 입력받는 코드입니다.  *//////
 const fs = require('fs');
-const filePath = process.platform === 'linux' ? '/dev/stdin' : process.platform === 'darwin' ? '/Users/jonghyunchoi/Documents/todayILearnt/01)JS코딩테스트/01)TESTCASE/input.txt' : './input.txt';
+const filePath = process.platform === 'linux' ? '/dev/stdin' : __dirname + '/input.txt';
 let input = fs.readFileSync(filePath).toString().split(' ');
 /*
 동일 디렉토리의 input.txt파일을 인풋값으로 받습니다.
@@ -9,7 +9,7 @@ let input = fs.readFileSync(filePath).toString().split(' ');
 
 ////// 문제를 푸는 란입니다. answer를 정의한 후 그 아래에 답을 입력하세요.//////
 function solution(input) {
-    let answer = ;
+    let answer;
     
     
     
