@@ -1,6 +1,6 @@
 //////* 인풋을 입력받는 코드입니다.  *//////
 const fs = require('fs');
-const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const filePath = process.platform === 'linux' ? '/dev/stdin' : process.platform === 'darwin' ? '/Users/jonghyunchoi/Documents/todayILearnt/01)JS코딩테스트/01)TESTCASE/input.txt' : './input.txt';
 let input = fs.readFileSync(filePath).toString().split(' ');
 /*
 동일 디렉토리의 input.txt파일을 인풋값으로 받습니다.

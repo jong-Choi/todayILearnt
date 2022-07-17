@@ -1,8 +1,7 @@
 //인풋을 입력받습니다.
 const fs = require('fs');
-const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const filePath = process.platform === 'linux' ? '/dev/stdin' : process.platform === 'darwin' ? '/Users/jonghyunchoi/Documents/todayILearnt/01)JS코딩테스트/01)TESTCASE/input.txt' : './input.txt';
 const input = fs.readFileSync(filePath).toString().trim().split(" ");
-
 
 //solution함수 안에 답안을 작성하세요.
 function solution(input) {
