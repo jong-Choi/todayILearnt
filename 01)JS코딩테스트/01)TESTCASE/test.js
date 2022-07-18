@@ -1,19 +1,24 @@
 //인풋을 입력받습니다.
 const fs = require('fs');
+const { arrayBuffer } = require('stream/consumers');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : __dirname + '/input.txt';
-const input = fs.readFileSync(filePath).toString().trim().split(" ");
+const input = fs.readFileSync(filePath).toString().trim().split("\r\n");
 
 //solution함수 안에 답안을 작성하세요.
 function solution(input) {
-    let answer = Number.MAX_SAFE_INTEGER;
-    const arr=input.map(Number);
+  let answer;
+  input.shift()
+  answer=input.filter(function(v, i){
+      return input.indexOf(v)===i;
+  });
 
-    for (let i of arr){
-      if(i < answer) answer=i;
-    }
-    console.log(answer);
+  console.log(answer);
 }
 solution(input);
+
+
+
+
 
 
 /* 인풋 입력 스켈레톤 코드
