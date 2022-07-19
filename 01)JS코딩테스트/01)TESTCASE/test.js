@@ -1,44 +1,21 @@
 //인풋을 입력받습니다.
 const fs = require('fs');
-const { arrayBuffer } = require('stream/consumers');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : __dirname + '/input.txt';
-const input = fs.readFileSync(filePath).toString().trim().split("\r\n");
-const input1 = parseInt(input[0])
-const input2 = []
-for( i = 0; i < input1; i++){
-  input2[i] = input[i+1].split(' ').map(Number)
-}
+const input = fs.readFileSync('input.txt').toString().trim().split(' ');
+const s = input[0];
+const t = input[0];
+
 
 
 //solution함수 안에 답안을 작성하세요.
-function solution(input1, input2) {
-  let answer;
-  let n = input1;
-  let mt = input2;
-  let max = 0;
-  let dia1 = 0;
-  let dia2 = 0;
+function solution(input) {
+  let answer = 'YES';
+  let str = input.toLowerCase().replace(/[^\d]/g, '');
+  answer = parseInt(str);
 
-  for (i = 0; i < n; i++){
-    let sum_row = 0;
-    let sum_col = 0;
-    for (j = 0; j < n; j++){
-      sum_row += mt[i][j];
-      sum_col += mt[j][i];
-    }
-    if (sum_row > max) max = sum_row;
-    if (sum_col > max) max = sum_col;
-    dia1 += mt[i][i]
-    dia2 += mt[4-i][i]
-  }
-  if (dia1 > max) max = dia1;
-  if (dia2 > max) max = dia2;
-  
-  answer = max;
-  console.log(answer);
+  console.log(answer)
 }
-solution(input1, input2);
-
+solution(input)
 
 
 
