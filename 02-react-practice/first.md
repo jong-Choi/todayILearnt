@@ -51,7 +51,7 @@
 `npx serve -s build`는 serve라는 앱을 통해(`serve`) 항상 index.html을 실행하는데(`-s`) 이때 index.html의 폴더는 '`build`'라는 의미이다.
 
 
-# 4. 컴포넌트 만들기
+## 4. 컴포넌트 만들기
 컴포넌트 만들기를 연습하기 위해 `src/`폴더의 `app.css`, `index.css` 파일의 내용을 삭제하고, `App.js`의 함수 내부의 태그들을 지우자. 해당 함수 내부에 새로운 태그를 입력하여 새로운 컴포넌트를 작성해보자.
 
 새로운 사용자 정의 태그는 아래의 과정으로 만들어진다.  
@@ -94,4 +94,54 @@ function App() {
 컴포넌트를 이용하면 위와 같이 태그를 보기좋게 나눌 수 있을 뿐만 아니라,  
 해당 컴포넌트들에 작성된 강력한 기능들을 동시에 적용해낼 수 있다. 
 
+## 5. PROP
+`<Header>` 컴포넌트에서 컴포넌트별로 출력값이 달라지게 하기 위해서는 props를 쓸 수 있다.
 
+기존 `<Header>` 태그에 `title='REACT'` 어트리뷰트를 부여한다.
+```js
+function App() {
+  return (
+    <div className="App">
+      <Header title="REACT"></Header>
+    </div>
+  )
+}
+```
+
+해당 어트리뷰트를 `fuction Header()`에 매개변수로 넘겨준다. (관습적으로 이 매개변수를 props라 한다.)
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/">{props.title}</a></h1>
+  </header>
+}
+```
+ HTML의 속성값을 함수 내부에 프로퍼티로 호출하기 위해서는 중괄호를 이용한다. 이제 화면에 'REACT'가 출력된다.
+
+ 위와 같이 HTML태그의 속성(어트리뷰트)값을 함수의 매개변수 props로 넘겨받아 프로퍼티값으로서 사용할 수 있다. 아래는 여러 속성을 지닌 태그의 예시이다.
+
+ ```js
+function Header(props){
+  return <article>
+    <h2>{props.title}</h2>
+    {props.body}
+  </article>
+}
+
+function App() {
+  return (
+    <div className="App">
+      <Article title="Welcome back!" body="if you're first here, please sign up."></Header>
+    </div>
+  )
+}
+```
+위의 예제는 아래와 같이 출력된다.
+
+---
+## Welcome back!
+if you're first here, please sign up.
+
+---
+
+5강 5분
