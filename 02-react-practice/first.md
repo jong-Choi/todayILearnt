@@ -144,4 +144,42 @@ if you're first here, please sign up.
 
 ---
 
-5강 5분
+props를 이용하면 아래의 HTML코드를 자바스크립트로 리스트화 할 수 있다.
+```js
+<li><a href="/read/1">html</a></li>
+<li><a href="/read/2">css</a></li>
+<li><a href="/read/3">js</a></li>
+```
+topics이라는 변수에 할당하여 리스트화 하자. 리스트에는 고유한 id를 가진 객체를 삽입하자.
+이후 이렇게 만들어진 topics리스트는 return값에서 {중괄호}를 이용해 반환할 수 있다.
+```js
+function App() {
+  const topics =[
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ]
+  return (
+    <div className="App">
+      <Nav topics={topics}></Nav>
+    </div>
+  )
+}
+```
+
+해당 topics 리스트를 다른 컴포넌트에서 for문을 이용해 불러올 수 있다.
+```js
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li><a href={'/read/'+t.id}>{t.title}</a></li>)
+  }
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+```
+위 함수에서 t.title은 topics의 title 프로퍼티를 의미한다. for문을 통해 {lis}에 순차적으로 출력된다. 링크값 역시 동적으로 처리하기 때문에 중괄호를 사용한다. (9분)
