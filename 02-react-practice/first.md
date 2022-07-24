@@ -63,7 +63,7 @@ function Header(){
     <h1><a href="/">HELLO WORLD!!</a></h1>
   </header>
 }
-function App() {
+function App(){
   return (
     <div className="App">
       <Header></Header>
@@ -81,7 +81,7 @@ function App() {
 
 `<header>`뿐만 아니라 `<nav>`, `<article>`과 같은 태그들도 `<Nav>`, `<Article>`라는 이름을 가진 컴포넌트로 분리해낼 수 있다. 
 ```js
-function App() {
+function App(){
   return (
     <div className="App">
       <Header></Header>
@@ -94,12 +94,18 @@ function App() {
 컴포넌트를 이용하면 위와 같이 태그를 보기좋게 나눌 수 있을 뿐만 아니라,  
 해당 컴포넌트들에 작성된 강력한 기능들을 동시에 적용해낼 수 있다. 
 
-## 5. PROP
-`<Header>` 컴포넌트에서 컴포넌트별로 출력값이 달라지게 하기 위해서는 props를 쓸 수 있다.
+## 5. PROP 
+HTRL태그는 속성(어트리뷰트)를 가지고 있다. 이러한 어트리뷰트를 이용해 입력값을 가진다. 이미지의 경로, 이미지의 크기 등.  
+  
+리액트에서는 속성을 PROP라고 한다. 컴포넌트에 PROP을 장착해보자.  
+  
+
+
+`<Header>` 컴포넌트에서 속성에 따라 출력값이 달라지게 하기 위해서는 props를 쓸 수 있다.
 
 기존 `<Header>` 태그에 `title='REACT'` 어트리뷰트를 부여한다.
 ```js
-function App() {
+function App(){
   return (
     <div className="App">
       <Header title="REACT"></Header>
@@ -107,8 +113,9 @@ function App() {
   )
 }
 ```
+해당 어트리뷰트를 아래와 같이 `fuction Header()`에 매개변수 props로 넘겨준다. (관습적으로 매개변수명을 props라 한다.)  
 
-해당 어트리뷰트를 `fuction Header()`에 매개변수로 넘겨준다. (관습적으로 이 매개변수를 props라 한다.)
+
 ```js
 function Header(props){
   return <header>
@@ -116,9 +123,12 @@ function Header(props){
   </header>
 }
 ```
+ props를 콘솔로 호출하여 보면, props는 Object이며, 프로퍼티로 {title: "REACT"}를 가지고 있다.  
  HTML의 속성값을 함수 내부에 프로퍼티로 호출하기 위해서는 중괄호를 이용한다. 이제 화면에 'REACT'가 출력된다.
+ 이처럼 Props는 상위 컴포넌트가 하위 컴포넌트로 프로퍼티를 넘기기 위해 사용된다.
 
- 위와 같이 HTML태그의 속성(어트리뷰트)값을 함수의 매개변수 props로 넘겨받아 프로퍼티값으로서 사용할 수 있다. 아래는 여러 속성을 지닌 태그의 예시이다.
+ 위와 같이 HTML태그의 속성(어트리뷰트)값을 함수의 매개변수 props로 넘겨받아 프로퍼티값으로서 사용할 수 있다. 
+ 아래는 여러 프로퍼티를 지닌 Props객체의 예시이다.
 
  ```js
 function Header(props){
@@ -128,7 +138,7 @@ function Header(props){
   </article>
 }
 
-function App() {
+function App(){
   return (
     <div className="App">
       <Article title="Welcome back!" body="if you're first here, please sign up."></Header>
@@ -144,16 +154,50 @@ if you're first here, please sign up.
 
 ---
 
-props를 이용하면 아래의 HTML코드를 자바스크립트로 리스트화 할 수 있다.
-```js
-<li><a href="/read/1">html</a></li>
-<li><a href="/read/2">css</a></li>
-<li><a href="/read/3">js</a></li>
+### 리스트로 출력하기
+먼저 리스트를 만들고, 이를 태그에 넘겨주는 원리를 살펴보자. 
+아래에는 const lis라는 리스트를 선언한 예시이다.
+
+기존 코드
+``` js
+function Nav(){
+  return <nav>
+    <ol>
+      <li><a href="/read/1">html</a></li>
+      <li><a href="/read/2">css</a></li>
+      <li><a href="/read/3">js</a></li>
+    </ol>
+  </nav>
+}
 ```
-topics이라는 변수에 할당하여 리스트화 하자. 리스트에는 고유한 id를 가진 객체를 삽입하자.
-이후 이렇게 만들어진 topics리스트는 return값에서 {중괄호}를 이용해 반환할 수 있다.
+
+const lis로 새로운 리스트를 선언하고 태그에 넘겨준 예시
+``` js
+function Nav(){
+  const lis = [
+    <li><a href="/read/1">html</a></li>,
+    <li><a href="/read/2">css</a></li>,
+    <li><a href="/read/3">js</a></li>
+  ]
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+```
+
+위처럼 중괄호를 이용하면 js로 만들어진 객체를 반환받을 수 있다.
+
+
+이제 Props를 사용해서 Nav()컴포넌트와 App()컴포넌트를 연결하자
+
+App()내에 topics이라는 리스트를 만들자. 이때 topics는 const로 선언하는데, 프로퍼티는 값을 변경시키지 않기 때문이다.
+해당 topics 리스트에 title과 body를 지닌 객체를 삽입하자. 이때 각 객체는 고유한 id값을 지니고 있어야 한다.
+
+이후 해당 리스트를 `<Nav topics={topics}></Nav>`태그로 `Nav()`의 props로 넘겨준다.
 ```js
-function App() {
+function App(){
   const topics =[
       {id: 1, title:'html', body:'html is ...'},
       {id: 2, title:'css', body:'css is ...'},
@@ -167,14 +211,20 @@ function App() {
 }
 ```
 
-해당 topics 리스트를 다른 컴포넌트에서 for문을 이용해 불러올 수 있다.
+`Nav()`내부에는 기존의 lis리스트를 초기화하고,
+for문을 이용해 props의 객체들을 lis리스트에 푸쉬한다.
 ```js
 function Nav(props){
+  //리스트 초기화
   const lis = [];
+
+  //App()컴포넌트로 부터 전달받은 props를 lis에 push
   for(let i=0; i<props.topics.length; i++){
     let t = propes.topics[i];
-    lis.push(<li><a href={'/read/'+t.id}>{t.title}</a></li>)
+    lis.push(<li>{t.title}</li>)
   }
+
+  //출력값
   return <nav>
     <ol>
       {lis}
@@ -182,4 +232,569 @@ function Nav(props){
   </nav>
 }
 ```
-위 함수에서 t.title은 topics의 title 프로퍼티를 의미한다. for문을 통해 {lis}에 순차적으로 출력된다. 링크값 역시 동적으로 처리하기 때문에 중괄호를 사용한다. (9분)
+
+위 함수에서 t.title은 topics 내부 객체의 title 프로퍼티를 의미한다. for문을 통해 {lis}에 순차적으로 출력된다. ㄹ
+
+for문을 수정하여 해당 title 프로퍼티를 링크로 바꾸어 보자.   
+링크로 바꾸기 위해서는 <a></a>태그를 사용하며, 앞서 고유한 id값을 넘겨준 것을 이용해 객체별로 중괄호를 사용하여 URL을 달리 만들 수 있다.  
+
+```js
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li><a href={'/read/'+t.id}>{t.title}</a></li>)
+  }
+```
+이제 /read/2라는 링크를 가진 css라는 글자 링크가 생긴다.   
+
+한가지 더, 리스트로 전달받은 자식 객체들은 반복문 내에서는 각각 고유한 key값을 가지고 있어야 한다.   
+따라서 최종적으로 아래와 같이 for문이 생성하게 된다.  
+
+```js
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}><a href={'/read/'+t.id}>{t.title}</a></li>)
+  }
+```
+[리액트 - 리스트와 키](https://ko.reactjs.org/docs/lists-and-keys.html)를 참고하자. 리액트는 각각의 요소들, 특히 리스트의 요소들이 동일한 요소인지를 파악해서 렌더링한다. 효율적인 렌더링과 관리를 위해 리스트에 키를 삽입하게 된다.  
+
+이제 App()컴포넌트와 Nav(props)컴포넌트가 연결되었다.  
+
+```js
+//Nav의 사용자 정의 태그.
+function Nav(props){
+  //리스트 초기화
+  const lis = [];
+
+  //App()컴포넌트로 부터 전달받은 props를 lis에 push
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}><a href={'/read/'+t.id}>{t.title}</a></li>)
+  }
+
+  //출력값
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+//상위 컴포넌트
+function App(){
+  const topics =[
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ]
+
+  //Nav 컴포넌트를 호출하여 topics 리스트를 props로 넘겨줌.
+  return (
+    <div className="App">
+      <Nav topics={topics}></Nav>
+    </div>
+  )
+}
+```
+
+## 6. 이벤트
+리액트에서의 이벤트는 HTML에서의 이벤트와 달리 카멜케이스를 사용한다. onclick이 아닌 onClick를 사용하며, 이벤트의 내용으로 콜백함수를 넘겨준다.  
+
+아래는 기존의 코드이다.  
+
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/">{props.title}</a></h1>
+  </header>
+}
+
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}><a href={'/read/'+t.id}>{t.title}</a></li>)
+  }
+
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+function App(){
+  const topics =[
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ]
+
+  return (
+    <div>
+      <Header title="WEB"></Header>
+      <Nav topics={topics}></Nav>
+      <Article title="Welcome" body="Hello, WEB"></Article>
+    </div>
+  );
+}
+```
+
+App()컴포넌트에 `<Header />` 태그에 이벤트를 만들고 props로 함수를 전달하여 보자  
+onChangeMode 이벤트는 클릭시마다 객체의 MODE가 'update', 'create' 등으로 변경된다.
+
+```js
+function App(){
+  ...
+  return (
+    <div>
+      <!--아래와 같이 이벤트를 추가함-->
+      <Header title="WEB" onChangeMode={function(){
+        alert('Header');
+      }}></Header>
+      ...
+    </div>
+  );
+}
+```
+
+Header() 컴포넌트에도 이벤트를 추가하고 event객체를 파라미터로 주입한다. 이벤트 객체는 이벤트 상황을 제어할 여러가지 정보와 기능을 가지고 있다.  
+`event.preventDeaault();` 를 이용해 기본동작을 방지하면, 클릭시 자동으로 리로드되는 일을 방지할 수 있다.   
+이후 App() 컴포넌트에 있는 onChageMode() 이벤트를 가져오면 된다.  
+
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/" onClick={function(event){
+      event.preventDefault();
+      props.onChangeMode();
+  }}>{props.title}</a></h1>
+  </header>
+}
+```
+
+이를 이용해 <Nav />태그를 수정하여 보자. 각 객체의 id를 onChangeMode의 파라미터로 받아 아래와 같이 코드를 작성할 수 있다.  
+
+function이라는 키워드 대신 Arrow Function을 사용하였다. 콜백 함수로 사용할 때에는 Arrow Function이 유용하다.
+
+```js
+function App(){
+  ...
+  return (
+    <div>
+      ...
+      <Nav topics={topics} onChangeMode={(id)=>{
+        alert(id);
+      }}></Nav>
+      ...
+    </div>
+  );
+}
+```
+
+이번엔 Nav(props)에 onClick이벤트를 넣어보자.  
+가독성을 위해 push 메서드의 내용을 줄바꿈한 후 들여쓰기 하였다.  
+App() 컴포넌트에서와 마찬가지로 Arrow Fuction을 사용하였으며, Arrow Fuction에서 파라미터가 하나인 경우에는 괄호를 생략할 수 있다.  
+
+```js
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode();
+      }}>{t.title}</a>
+    </li>)
+  }
+  ...
+}
+```
+
+이때 onChangeMode();에 파라미터로 id값을 넘겨주어야 한다. 이를 위해 아래와 같이 코드를 수정한다.  
+
+```js
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(event.target.id);
+      }}>{t.title}</a>
+    </li>)
+  }
+  ...
+}
+```
+
+상위 컴포넌트의 이벤트에 파라미터를 넘겨주기 위해
+1) 태그에 파라미터로 넘겨줄 id라는 어트리뷰트를 만들어주었다.  
+2) 이후 `prop.onChangeMode(event.target)`라는 코드를 작성하였는데, 이때 target 프로퍼티는 이벤트를 발생시킨 태그, 즉 `<a id={t.id} />` 태그를 의미한다.  
+3) 결과적으로 event.target.id라는 태그를 통해 {t.id}라는 인스턴스를 App() 컴포넌트 이벤트에 매개변수로 입력할 수 있다.
+
+아래는 완성된 코드이다. [화살표 함수](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/Arrow_functions)의 사용법을 적용하였다.   
+
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/" onClick={event=>{
+      event.preventDefault();
+      props.onChangeMode();
+  }}>{props.title}</a></h1>
+  </header>
+}
+
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(event.target.id);
+      }}>{t.title}</a>
+    </li>)
+  }
+
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+function App(){
+  const topics =[
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ]
+
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        alert('Header');
+      }}></Header>
+      <Nav topics={topics} onChangeMode={id=>{
+        alert(id);
+      }}></Nav>
+      <Article title="Welcome" body="Hello, WEB"></Article>
+    </div>
+  );
+}
+```
+
+## 7. STATE
+컴포넌트에 props를 인풋으로 넣으면 return값이 렌더링을 했다.  
+
+return값에 영향을 미치는 또 다른 요인으로는 state가 있다.  
+
+props가 외부의 컴포넌트와 주고 받는 값이라면, state는 컴포넌트 내부에서 사용되는 값이라는 점에서 차이가 있다.  
+
+이를 이용해 지금까지 작성한 태그의 Article값이 변경되도록 작성하여 보자. 아래는 기존의 태그이다.  
+
+```js
+function App(){
+  ...
+  return (
+    <div>
+      ...
+      <Article title="Welcome" body="Hello, WEB"></Article>
+    </div>
+  );
+}
+```
+
+App() 컴포넌트에 mode라는 상수를 선언하고 이에 관한 if문을 만든다.  
+
+```js
+function App(){
+  const mode = "WELCOME"
+  if(mode === 'WELCOME'){
+
+  } else if (mode === 'READ'){
+
+  }
+  ...
+  return (
+    <div>
+      ...
+      <Article title="Welcome" body="Hello, WEB"></Article>
+    </div>
+  );
+}
+```
+
+이후 return값에 있는 내용을 if문으로 전달받고, return값은 if문의 결과값을 전달받는다.  
+본 예시에서는 결과값의 전달을 위해 content라는 변수를 선언하였다.  
+
+```js
+function App(){
+  const mode = "WELCOME"
+  ...
+  let content = null;
+  if(mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if (mode === 'READ'){
+    content = <Article title="Read" body="Hello, Read"></Article>
+  }
+  ...
+  return (
+    <div>
+      ...
+      {content}
+    </div>
+  );
+}
+```
+
+이제 Header을 클릭하거나 Nav를 클릭함에 따라 mode가 바뀌도록 설정하여보자.
+
+```js
+function App(){
+  ...
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        mode = "WELCOME";
+      }}></Header>
+      <Nav topics={topics} onChangeMode={id=>{
+        mode = "READ";
+      }}></Nav>
+      {content}
+    </div>
+  );
+}
+```
+
+...실행이 되지 않는다.   
+클릭을 하여도 컴포넌트가 다시 실행되는 것이 아니기 때문에 결과값에 변화가 없다.  
+App() 컴포넌트 내부의 mode 데이터가 변경되기 위해서는 useState라는 HOOK을 사용해야 한다.  
+
+Hook이란 연동(Hook into)하는 기능에 특화되어 리액트의 16.8버전(2018년 후반)에 추가된 기능이다. 기존 리액트는 Class를 이용해 프로그래밍을 사용하였다. this 키워드와 고차원 컴포넌트를 이용해 state를 렌더링해왔다. Hook이란 함수형 프로그래밍을 따르며, this키워드를 대체한다. 최상위 계층에서 호출되는 Hook을 이용해 고차원 컴포넌트를 효과적으로 추상화할 수 있다.
+
+```js
+import {useState} from 'react'
+```
+
+이제 useState 함수를 이용해서 변수값을 상태로 만들 수 있다.
+
+```js
+function App(){
+  const _mode = useState('WELCOME');
+  ...
+}
+```
+mode변수의 앞에 언더바(_)를 붙여주었다. 이는 관습적으로 해당 변수가 블록 스코프 내부에서만 private하게 사용됨을 의미하며, mode변수와 _mode변수를 구분짓기 위해 사용해보았다. 콘솔창에 _mode를 찍어보자.
+
+```js
+_mode (2) ['WELCOME', f]
+```
+위에서 보듯 useState는 배열을 리턴한다. 배열의 0번 인덱스는 상태의 값을 읽을때 사용하며, 1번 인덱스는 상태의 값을 변경할 때 사용할 함수이다. 이를 이용하여 state값을 가진 mode 변수와 state값을 변경시킬 setMode 변수를 만들 수 있다.
+
+```js
+function App(){
+  const _mode = useState('WELCOME');
+  const mode = _mode[0];
+  const setMode = _mode[1];
+  ...
+}
+```
+
+위의 예시는 실제로는 아래와 같이 사용한다.
+
+```js
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  ...
+}
+```
+useState의 0번 인덱스 상태는 mode에, 1번 인덱스 함수는 setMode에 할당되었다.
+
+이제 앞서 작성했던 '클릭시 모드가 변경'되기 위해서는 setMode에 할당된 함수를 이용한다.
+
+```js
+function App(){
+  ...
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        setMode("WELCOME");
+      }}></Header>
+      <Nav topics={topics} onChangeMode={id=>{
+        setMode("READ");
+      }}></Nav>
+      {content}
+    </div>
+  );
+}
+```
+Nav를 클릭하면 mode변수값이 변경되며 App()컴포넌트가 다시 실행되고, mode변수값에 따른 값을 렌더링해준다.  
+
+이제 mode가 "READ"일 때 출력되는 값을 변경하여 보자. "READ"일 때 출력되는 값은 App()컴포넌트의 `else if (mode === 'READ'){content = <Article title="Read" body="Hello, Read"></Article>}`에 의해 결정된다. body 태그에 출력되는 값을 id에 따라 적절하게 바뀌도록 하면 되는 것이다.  
+
+
+body에 들어갈 내용도 state를 이용하여 변경하여 보자. 편의상 id의 변수명을 바꾸었다.  
+Nav() 컴포넌트에서 전달받는 id값은 idProp으로 변경하였다.  
+useState를 통해 만들어지는 id는 idState로 지정하고 초깃값은 null로 하였다.  
+
+이제 setId 함수를 이용하면 Nav()로 부터 넘겨받은 prop이 idState의 값이 된다.
+
+```js
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  const [idState, setId] = useState(null);
+  ...
+    return (
+    <div>
+    ...
+      <Nav topics={topics} onChangeMode={idProp=>{
+        setMode("READ");
+        setId(idProp)
+      }}></Nav>
+      {content}
+    </div>
+  );
+  ...
+}
+```
+
+이제 idState와 topics 배열에 담겨있는 객체를 비교하여 같은 id를 갖는 값을 찾아 body태그로 넘겨주면 된다. for문을 이용해 title과 body변수를 할당하고, 이를 title과 body인스턴스에 {title}, {body}로 넘겨준다.  
+`else if (mode === 'READ'){content = <Article title="Read" body="Hello, Read"></Article>}` 부분이 for문과 중괄호를 이용하여 아래와 같이 바뀐다.   
+
+```js
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  const [idState, setId] = useState(null);
+  const topics =[
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ]
+  let content = null;
+
+  if(mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if (mode === 'READ'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
+  }
+  ...
+}
+```
+
+이제 실행해보자....는 안 된다. 왜 일까?  
+id값이 생성되는 Nav()컴포넌트를 보자.   
+
+```js
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(event.target.id);
+      }}>{t.title}</a>
+    </li>)
+  }
+  ...
+}
+```
+App()컴포넌트의 topics 배열에 있는 id프로퍼티는 숫자형이었다.  
+해당 프로퍼티의 값이 Nav()컴포넌트의 태그인 `<a id={t.id} />`로 전달되면서 숫자형의 값이 문자형이 된다.   
+태그의 인스턴스는 문자형을 값으로 지닌다. 해당 문자값이 `props.onChangeMode(event.target.id);`를 통해 App()컴포넌트의 `idProp`로 넘어간다. 해당 문제를 해결하기 위해 `idProp`으로 넘기기 전에 숫자형으로 변경하여 주자.
+
+```js
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(Number(event.target.id));
+      }}>{t.title}</a>
+    </li>)
+  }
+  ...
+}
+```
+
+최종적으로 만들어진 코드는 아래와 같다.
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/" onClick={event=>{
+      event.preventDefault();
+      props.onChangeMode();
+  }}>{props.title}</a></h1>
+  </header>
+}
+
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(Number(event.target.id));
+      }}>{t.title}</a>
+    </li>)
+  }
+
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  const [idState, setId] = useState(null);
+  const topics =[
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ]
+  let content = null;
+
+  if(mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if (mode === 'READ'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
+  }
+
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        alert('Header');
+      }}></Header>
+      <Nav topics={topics} onChangeMode={idProp=>{
+        setMode("READ");
+        setId(idProp)
+      }}></Nav>
+      {content}
+    </div>
+  );
+}
+```
