@@ -1,5 +1,7 @@
 # React 2022 개정판 - 생활코딩
 [React 2022 개정판](https://www.youtube.com/watch?v=AoMv0SIjZL8&list=PLuHgQVnccGMCOGstdDZvH41x0Vtvwyxu7)은 기존 버전에서 예시를 가다듬고 10개의 강좌로 통합한 버전이다. 또한 기존 버전과 달리 최신 트렌드에 맞게 함수형 프로그래밍을 진행한다. 클래스를 이용한 객체지향 프로그래밍을 원한다면 [기존 React 강좌](https://www.youtube.com/watch?v=XMb0w3KMw00&list=PLuHgQVnccGMCRv6f8H9K5Xwsdyg4sFSdi)를 공부하자.
+
+문서로 된 경우 패스트 캠퍼트의 벨로퍼트님의 문서를 참조하자. [벨로퍼트와 함께하는 모던 리액트](https://react.vlpt.us/)
   
 
 ## 1. 수업 소개
@@ -794,6 +796,305 @@ function App(){
         setId(idProp)
       }}></Nav>
       {content}
+    </div>
+  );
+}
+```
+
+## 8. CREATE
+폼을 이용해 새로운 topics 타이틀과 바디를 추가할 것이다.  
+
+먼저 CREAT 페이지로 이동할 수 있는 링크를 추가해보자. a태그를 이용하였다. `<a href="/create">Create</a>`
+```js
+function App(){
+...
+  return (
+    <div>
+      <Header></Header>
+      <Nav></Nav>
+      {content}
+      <a href="/create">Create</a>
+    </div>
+  );
+}
+```
+해당 a태그를 클릭할 시 링크가 변경되는 것이 아니라 mode가 변경되도록 아래와 같이 수정하자.  
+```js
+<a href="/create" onClick={event=>{
+  event.preventDefault();
+  setMode('CREATE');
+}}>Create</a>
+```
+
+이제 mode 부분에 'CREATE'를 추가하자.   
+```js
+function App(){
+  if(mode === 'WELCOME'){} 
+  else if (mode === 'READ'){}
+  else if (mode === 'CREATE'){
+    content = <Create></Create>
+  }
+```
+mode가 CREATE일 때 <Create> 컴포넌트가 실행되도록 만들었다.  
+
+이제 Create() 컴포넌트를 작성해보자.  
+
+```js
+function Create(){
+  return <article>
+    <h2>Create</h2>
+  </article>
+
+}
+```
+
+입력을 받을 예정이므로 article에 폼태그를 추가한다.  
+
+form태그의 여러 타입에 대해서는 [HTML Input 요소의 타입들(types)](http://jun.hansung.ac.kr/cwp/htmls/HTML%20Input%20Types.html)를 참조하자.
+
+폼 태그에 input type="text"를 title을 한 줄로 받자.  
+textarea로 body를 여러줄로 받자.  
+input type="submit"으로 create 버튼을 생성하자.  
+
+```js
+function Create(){
+  return <article>
+    <h2>Create</h2>
+    <form>
+      <p><input type="text" name="title" placeholder="title" /></p>
+      <p><textarea name="body" placeholer="body"></textarea></p>
+      <p><input type="submit" value="Create"></input></p>
+    </form>
+  </article>
+}
+```
+
+Create 버튼을 누르면 이벤트가 발생하도록 App() 컴포넌트에 onCreate 이벤트를 작성하자.  
+
+```js
+function App(){
+  else if (mode === 'CREATE'){
+    content = <Create onCreate={(title, body)=>{
+
+    }}></Create>
+  }
+}
+```
+
+onCreate 이벤트에서 title, body를 props로 넘겨받기 위해 Create()컴포넌트의 <form> 태그를 수정하자. submit버튼이 발생되면 실행되는 onSubmit 이벤트를 이용한다. 이때 event.target은 이벤트가 발생된 객체, 즉 form 태그를 의미한다.  
+form tag에 입력된 밸류값을 가져오기 위해 `event.target.title.value`를 하는 것이 좋다.  
+
+```js
+function Create(){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+    }}>
+    </form>
+  </article>
+}
+```
+그리고 props를 이용하여 App() 컴포넌트의 onCreate()로 밸류값을 전달한다.  
+
+
+```js
+function Create(props){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onCreate(title, body);
+    }}>
+    </form>
+  </article>
+}
+
+function App(){
+  else if (mode === 'CREATE'){
+    content = <Create onCreate={(title, body)=>{
+
+    }}></Create>
+  }
+}
+```
+
+이제 Create로 topics를 변경하기 위해서는 topics를 state로 변경해야 한다. App()컴포넌트의 topisc 부분을 아래와 같이 변경하자.
+
+```js
+function App(){
+  const [topics, setTopics] =useState([
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ])
+}
+```
+
+한편 새로운 id를 추가하기 위해 [nextId, setNextId] 변수를 추가하였다. 기본값은 4로 지정하였다. 
+```js
+function App(){
+  const [nextId, setNextId] = useState(4);
+```
+
+이후 해당 state를 변경하는 인터페이스를 만들어보자.(props로 넘겨받은 변수에 언더바를 추가하였다.)  
+```js
+function App(){
+  else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+    }}></Create>
+  }
+}
+```
+
+해당 newTopic을 Topics에 어떻게 추가할 수 있을까? state는 Immutable한 값이다. 이에 대해서는 [생활코딩 Immutability](https://opentutorials.org/module/4075)를 참조하자. 반면 범 객체(object, array)는 Mutable하다.   
+
+State는 항상 Immutable한 상태를 유지하는 것이 좋다. 따라서 State값을 수정할 때에는 setValue를 사용하여야 하며, setValue로 범객체를 사용할 때에는 Immutable한 특성을 유지하기 위해 깊은 복사를 해야한다. 또한 본 예시에 사용된 예 말고도 concat을 사용할 수도 있다. [세오토리](https://seo-tory.tistory.com/53) 블로그를 참조하자. 본 예시에서는 Topics 배열을 깊은 복사 후, 내용을 수정하고, setValue를 이용할 것이다.
+
+```js
+function App(){
+  else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+      const newTopics = [...topics] //topics를 깊은 복사로 넘겨받음.
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+    }}></Create>
+  }
+}
+```
+이제 newTopics값이 Topics 값을 교체하게 된다.   
+원리를 간단하게 설명해보면, 원시객체(primitive)의 예시를 들어보자. id가 1이었다. 이를 setId(2)로 바꾸면 1과 2는 값(value)도 다르고, 저장된 위치(reference)도 다르다. [jeaseong 블로그 참조](https://velog.io/@jeaseong/%EC%9B%90%EC%8B%9C-%ED%83%80%EC%9E%85%EA%B3%BC-%EA%B0%9D%EC%B2%B4) 때문에 React는 setId(2)와 함께 컴포넌트를 다시 실행하게 된다.  
+
+반면 범객체를 보자. Topics 배열이 있다. 새로운 topic값을 Topics객체에 추가하고 setTopics(Topics)를 실행하면, 기존 Topics와 새로운 Topics는 같은 위치(reference)에 저장되어 있다. 따라서 setTopics(Topics)를 실행해도 React는 컴포넌트를 다시 실행하지 않는다. `newTopics=[...Topics]`의 걑은 복사를 통해 새로운 reference를 갖는 배열을 만들고, setTopics(newTopics)를 실행하면 비로소 React는 컴포넌트를 다시 실행하게 된다.   
+
+아래의 예시와 같이 깊은 복사와 push 대신 concat을 사용할 수 있다. concat은 값이 추가된 새로운 배열을 반환하는 함수이다.
+
+```js
+function App(){
+  else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+      setTopics(topics.concat(newTopic));
+    }}></Create>
+  }
+}
+```
+
+마지막으로 해당 글이 추가되었는지 상세페이지로 이동하자. 이때 setId를 실행한 후, nextId값을 1 더해준다.   
+```js
+function App(){
+  else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+      const newTopics = [...topics] //topics를 깊은 복사로 넘겨받음.
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
+    }}></Create>
+  }
+}
+```
+위 부분에서 처럼 Create 컴포넌트와 관련된 내용이 다른 부분과 구별되어 표시되는 점이 state를 사용했을 때의 이점이라 할 수 있다. 완성된 코드는 아래와 같다.
+
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/" onClick={event=>{
+      event.preventDefault();
+      props.onChangeMode();
+  }}>{props.title}</a></h1>
+  </header>
+}
+
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(Number(event.target.id));
+      }}>{t.title}</a>
+    </li>)
+  }
+
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+function Create(props){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onCreate(title, body);
+    }}>
+    </form>
+  </article>
+}
+
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  const [idState, setId] = useState(null);
+  const [nextId, setNextId] = useState(4);
+  const [topics, setTopics] =useState([
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ])
+  let content = null;
+
+  if(mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if (mode === 'READ'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
+  } else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+      const newTopics = [...topics] //topics를 깊은 복사로 넘겨받음.
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
+    }}></Create>
+  }
+
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        alert('Header');
+      }}></Header>
+      <Nav topics={topics} onChangeMode={idProp=>{
+        setMode("READ");
+        setId(idProp)
+      }}></Nav>
+      {content}
+      <a href="/create" onClick={event=>{
+        event.preventDefault();
+        setMode('CREATE');
+      }}>Create</a>
     </div>
   );
 }
