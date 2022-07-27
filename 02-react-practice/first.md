@@ -1266,12 +1266,35 @@ setTitle, setBody를 이용하며 props의 title값과 body값을 변경하도�
       }}></textarea></p>
 ```
 
+이제 props의 값으로 updatedTopics를 만들어 기존 Topics를 교체하도록 코드를 짜자.
+이때 id는 READ 모드의 id를 의미한다. UPDATE모드는 READ 모드를 거쳐서 들어오기 때문.  
 
 
+```js
+function App(){
+  ...
+  if(mode === 'WELCOME'){
+  ...
+  } else if (mode === 'UPDATE){
+    ...
+    content = <Update title={title} body={body} onUpdate={(title, body) =>{
+      const newTopics = [...topics];
+      const updatedTopic = {id:id title:title, body:body};
+      for(let i=0; i<newTopics.length; i++){
+        if(newTopics[i].id === id){
+          newTopics[i] = updatedTopic;
+          break;
+        }
+      }
+      setTopics(newTopics);
+      setMode('READ');
+    }}></Update>
+  }
+```
+이제 Update 버튼을 클릭하면 Topics 내용이 변경되고 현재 id의 READ모드가 실행된다.  
 
 
-
-완성된 코드는 아래와 같다.
+완성된 코드는 아래와 같다.  
 
 ```js
 function Header(props){
@@ -1333,7 +1356,7 @@ function Update(props){
         setTitle(event.target.value)
       }}/></p>
       <p><textarea name="body" placeholer="body" value={body} onChange={event=>{
-      setBody(event.target.value)
+        setBody(event.target.value)
       }}></textarea></p>
       <p><input type="submit" value="Update"></input></p>
     </form>
@@ -1387,7 +1410,18 @@ function App(){
         body = topics[i].body;
       }
 
-    content = <Update title={title1} body={body1} onUpdate={(title, body) => }></Update>
+    content = <Update title={title} body={body} onUpdate={(title, body) =>{
+      const newTopics = [...topics];
+      const updatedTopic = {id:id title:title, body:body};
+      for(let i=0; i<newTopics.length; i++){
+        if(newTopics[i].id === id){
+          newTopics[i] = updatedTopic;
+          break;
+        }
+      }
+      setTopics(newTopics);
+      setMode('READ');
+    }}></Update>
   }
 
   return (
@@ -1410,4 +1444,251 @@ function App(){
     </div>
   );
 }
+```
+
+## 10. Delete
+만들어진 태그를 삭제하도록 구현해보자. Update에서 사용한 contextControl를 사용하여 만들어보자.  
+이때 변수에 할당되는 jsx 태그는 하나의 태그로 묶여 있어야 한다. 이때 이름없는 태그를 사용할 수도 있다. 이름없는 태그로 묶는 것을 Fragment라고 한다.
+아래는 잘못된 예시이다.
+```js
+return(
+  <li>hi</li>
+  <li>bye</li>
+)
+```
+위의 예시는 컴파일 오류가 일어난다. 아래의 예시들과 같이 하나의 태그로 묶여있어야 한다. 
+
+```js
+return(
+  <ol>
+    <li>hi</li>
+    <li>bye</li>
+  </ol>
+)
+
+return(
+  <div>
+    <li>hi</li>
+    <li>bye</li>
+  </dv>
+)
+
+return(
+  <>
+    <li>hi</li>
+    <li>bye</li>
+  </>
+)
+```
+
+이를 이용해 READ모드 일 때의 contextControl 변수를 수정해보자. Delete의 기본 로직은, Delete 버튼을 누르면 본 아티클의 id를 제외한 나머지 id들의 값으로 새로운 newTopics를 만들어 State를 업데이트 하는 것이다. 따라서 비어있는 newTopics 리스트를 초기화하면서 시작된다. 아래는 READ모드에서의 코드이다. Delete를 실행한 후에는 Welcome 모드로 전환하도록 하였다.   
+```js
+  } else if (mode === 'READ'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
+    {/*Update 및 Delete모드 구현 */}
+    contextControl = <>
+      <li> <a href={"/update/"+id} onClick={event=>{
+        event.preventDefault();
+        setMode('UPDATE')
+      }}>Update</a> </li>
+      <li><input type="button" value="Delete" onClick={()=>{
+        const newTopics = [];
+        for(let i = 0; i < topics.length; i++){
+          if(topics[i].id !== id){
+            newTopics.push(topics[i]);
+          }
+        }
+        setTopitcs(newTopics);
+        setMode('WELCOME')
+      }}/></li>
+      </>
+  } 
+```
+
+
+아래는 완성된 코드이다.
+(오류 수정 및 컴파일 완료)
+
+
+```js
+import logo from './logo.svg';
+import './App.css';
+import {useState} from 'react';
+
+function Article(props){
+  return <article>
+    <h2>{props.title}</h2>
+    {props.body}
+  </article>
+}
+function Header(props){
+  return <header>
+    <h1><a href="/" onClick={event=>{
+      event.preventDefault();
+      props.onChangeMode();
+  }}>{props.title}</a></h1>
+  </header>
+}
+
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = props.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(Number(event.target.id));
+      }}>{t.title}</a>
+    </li>)
+  }
+
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+function Create(props){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onCreate(title, body);
+    }}>      
+      <p><input type="text" name="title" placeholder="title" /></p>
+      <p><textarea name="body" placeholer="body"></textarea></p>
+      <p><input type="submit" value="Create"></input></p>
+    </form>
+  </article>
+}
+
+function Update(props){
+  const [title, setTitle] = useState(props.title);
+  const [body, setBody] = useState(props.body);
+  return <article>
+    <h2>Update</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onUpdate(title, body);
+    }}>      
+      <p><input type="text" name="title" placeholder="title" value={title} onChange={event=>{
+        setTitle(event.target.value)
+      }}/></p>
+      <p><textarea name="body" placeholer="body" value={body} onChange={event=>{
+        setBody(event.target.value)
+      }}></textarea></p>
+      <p><input type="submit" value="Update"></input></p>
+    </form>
+  </article>
+}
+
+
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  const [id, setId] = useState(null);
+  const [nextId, setNextId] = useState(4);
+  const [topics, setTopics] =useState([
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ])
+  let content = null;
+  let contextControl = null;
+  if(mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if (mode === 'READ'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === id){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
+    contextControl = <>
+      <li> <a href={"/update/"+id} onClick={event=>{
+        event.preventDefault();
+        setMode('UPDATE')
+      }}>Update</a> </li>
+      <li><input type="button" value="Delete" onClick={()=>{
+        const newTopics = [];
+        for(let i = 0; i < topics.length; i++){
+          if(topics[i].id !== id){
+            newTopics.push(topics[i]);
+          }
+        }
+        setTopics(newTopics);
+        setMode('WELCOME')
+      }}/></li>
+      </>
+  } else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+      const newTopics = [...topics] //topics를 깊은 복사로 넘겨받음.
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
+    }}></Create>
+  } else if (mode === 'UPDATE'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === id){
+        title = topics[i].title;
+        body = topics[i].body;
+      }}
+
+    content = <Update title={title} body={body} onUpdate={(title, body) =>{
+      const newTopics = [...topics];
+      const updatedTopic = {id:id, title:title, body:body};
+      for(let i=0; i<newTopics.length; i++){
+        if(newTopics[i].id === id){
+          newTopics[i] = updatedTopic;
+          break;
+        }
+      }
+      setTopics(newTopics);
+      setMode('READ');
+    }}></Update>
+  }
+
+
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        alert('Header');
+      }}></Header>
+      <Nav topics={topics} onChangeMode={idProp=>{
+        setMode("READ");
+        setId(idProp)
+      }}></Nav>
+      {content}
+      <ul>
+        <li> <a href="/create" onClick={event=>{
+          event.preventDefault();
+          setMode('CREATE');
+        }}>Create</a> </li>
+        {contextControl}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
 ```
