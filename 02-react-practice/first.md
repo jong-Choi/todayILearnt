@@ -1041,7 +1041,10 @@ function Create(props){
       const title = event.target.title.value;
       const body = event.target.body.value;
       props.onCreate(title, body);
-    }}>
+    }}>      
+      <p><input type="text" name="title" placeholder="title" /></p>
+      <p><textarea name="body" placeholer="body"></textarea></p>
+      <p><input type="submit" value="Create"></input></p>
     </form>
   </article>
 }
@@ -1095,6 +1098,315 @@ function App(){
         event.preventDefault();
         setMode('CREATE');
       }}>Create</a>
+    </div>
+  );
+}
+```
+
+## 9.UPDATE
+업데이트는 Create와 Read를 하이브리드해서 구현하게 된다.   
+리액트의 특징은 DOM객체의 일부를 수정하는 것이 아니라, DOM객체 자체를 새롭게 교체해서 이를 리로드하는 데에 있다. 이를 이용해 보다 파일관리가 쉬워지고 안정적인 구조를 만들 수 있게 된다. Update는 난이도 높지만 그 만큼 리액트의 핵심 기능이다.
+
+return의 create 링크 옆에 update 링크를 추가하자. 이를 <ul> 태그로 리스트화하여 구분하였다. 
+```js
+function App(){
+...
+  return (
+    <div>
+      ...
+      <ul>
+        <li> <a href="/create" onClick={event=>{
+          event.preventDefault();
+          setMode('CREATE');
+        }}>Create</a> </li>
+        <li> <a href="/update">Update</a> </li>
+      </ul>
+    </div>
+  );
+}
+```
+
+사실 이 해당 update는 특정 글에 들어가야만 보인다. 따라서 mode가 Read일 때에만 노출되도록 아래와 같이 수정하였다. 
+
+```js
+function App(){
+  ...
+  let content = null;
+  //새로운 변수 contextControl 선언
+  let contextControl = null; 
+  if(mode === 'WELCOME'){} 
+  else if (mode === 'READ'){
+    ...
+    content = <Article title={title} body={body}></Article>
+    //Mode가 Read일 때 contextControl에 태그 표시
+    contextControl = <li> <a href="/update">Update</a> </li>
+  } else if (mode === 'CREATE'){}
+...
+
+  return (
+    <div>
+      ...
+      <ul>
+        <li> <a href="/create" onClick={event=>{
+          event.preventDefault();
+          setMode('CREATE');
+        }}>Create</a> </li>
+        {/* contextControl 태그를 Create태그 밑에 출력 */}
+        {contextControl}
+      </ul>
+    </div>
+  );
+}
+}
+```
+
+각 아티클의 id를 다음과 같이 a태그의 링크로 추가해준다.
+`    contextControl = <li> <a href={"/update/"+id}>Update</a> </li>`
+
+해당 태그가 클릭되었을 때 모드를 변경하도록 이벤트를 작성해보자.
+```js
+    contextControl = <li> <a href={"/update/"+id} onClick={event=>{
+      event.preventDefault();
+      setMode('UPDATE')
+    }}>Update</a> </li>
+```
+mode가 업데이트이면 Update()컴포넌트를 호출하도록 App() 컴포넌트에 추가해준다.
+
+```js
+} else if (mode === 'UPDATE){
+    content = <Update></Update>
+  }
+```
+
+Update() 컴포넌트의 기본 구조는 Create()컴포넌트에서 따온다.
+
+Create() 컴포넌트에서 props로 onUpdate를 전달하고, 버튼명 일부를 변경하자.
+```js
+function Update(props){
+  return <article>
+    <h2>Update</h2>
+    <form onSubmit={event=>{
+      ...
+      props.onUpdate(title, body);
+    }}>      
+      ...
+      <p><input type="submit" value="Update"></input></p>
+    </form>
+  </article>
+}
+```
+
+```js
+App()
+...
+  } else if (mode === 'UPDATE){
+    content = <Update onUpdate={(title, body) => }></Update>
+  }
+...
+```
+
+Update 컴포넌트의 폼태그 내부가 title과 body에 기존의 값을 기본값으로 가지고 있어야 한다. 
+
+```js
+  } else if (mode === 'UPDATE){
+    content = <Update title={} body={} onUpdate={(title, body) => }></Update>
+  }
+```
+
+기존 READ 모드일 때의 함수를 복사하여 아래와 같이 하였다. 구분을 위해 편의상 1을 붙여서 변수를 선언했다.
+
+```js
+  } else if (mode === 'UPDATE){
+    let title1, body1 = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+
+    content = <Update title={title1} body={body1} onUpdate={(title, body) => }></Update>
+  }
+```
+
+Update() 컴포넌트의 태그에 Value값으로 props를 넘기면 내용이 출력된다.
+```js
+function Upadete(){
+  ...
+      <p><input type="text" name="title" placeholder="title" value={props.title} /></p>
+      <p><textarea name="body" placeholer="body" value={props.body}></textarea></p>
+}
+```
+그런데... 출력은 되는데 변화를 시킬 수가 없다.  
+
+해당 props.title와 props.body를 state로 변경하면 Update컴포넌트 내부에서 얼마든지 수정 가능하다.  
+먼저 state를 추가하자
+
+```js
+function Update(props){
+  const [title, setTitle] = useState(props.title);
+  const [body, setBody] = useState(props.body);
+  ...
+      <p><input type="text" name="title" placeholder="title" value={title} /></p>
+      <p><textarea name="body" placeholer="body" value={body}></textarea></p>
+}
+```
+
+이제 onChange 이벤트를 추가하자. jsx에서의 onChange는 값을 입력할 때마다 이벤트가 호출된다.
+`      <p><input type="text" name="title" placeholder="title" value={title} onChange=(event=>{console.log(event.target.value);/></p>`
+위 태그를 테스트하면 값을 입력할 때마다 이벤트가 실행되며 console창에 출력된다.
+
+setTitle, setBody를 이용하며 props의 title값과 body값을 변경하도록 이벤트를 실행하자.
+
+```js
+      <p><input type="text" name="title" placeholder="title" value={title} onChange={event=>{
+        setTitle(event.target.value)
+      }}/></p>
+      <p><textarea name="body" placeholer="body" value={body} onChange={event=>{
+      setBody(event.target.value)
+      }}></textarea></p>
+```
+
+
+
+
+
+
+완성된 코드는 아래와 같다.
+
+```js
+function Header(props){
+  return <header>
+    <h1><a href="/" onClick={event=>{
+      event.preventDefault();
+      props.onChangeMode();
+  }}>{props.title}</a></h1>
+  </header>
+}
+
+function Nav(props){
+  const lis = [];
+  for(let i=0; i<props.topics.length; i++){
+    let t = propes.topics[i];
+    lis.push(<li key={t.id}>
+      <a id={t.id} href={'/read/'+t.id} onClick={event=>{
+        event.preventDefault();
+        props.onChangeMode(Number(event.target.id));
+      }}>{t.title}</a>
+    </li>)
+  }
+
+  return <nav>
+    <ol>
+      {lis}
+    </ol>
+  </nav>
+}
+
+function Create(props){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onCreate(title, body);
+    }}>      
+      <p><input type="text" name="title" placeholder="title" /></p>
+      <p><textarea name="body" placeholer="body"></textarea></p>
+      <p><input type="submit" value="Create"></input></p>
+    </form>
+  </article>
+}
+
+function Update(props){
+  const [title, setTitle] = useState(props.title);
+  const [body, setBody] = useState(props.body);
+  return <article>
+    <h2>Update</h2>
+    <form onSubmit={event=>{
+      event.preventDefault();
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onUpdate(title, body);
+    }}>      
+      <p><input type="text" name="title" placeholder="title" value={title} onChange={event=>{
+        setTitle(event.target.value)
+      }}/></p>
+      <p><textarea name="body" placeholer="body" value={body} onChange={event=>{
+      setBody(event.target.value)
+      }}></textarea></p>
+      <p><input type="submit" value="Update"></input></p>
+    </form>
+  </article>
+}
+
+
+function App(){
+  const [mode, setMode] = useState('WELCOME');
+  const [idState, setId] = useState(null);
+  const [nextId, setNextId] = useState(4);
+  const [topics, setTopics] =useState([
+      {id: 1, title:'html', body:'html is ...'},
+      {id: 2, title:'css', body:'css is ...'},
+      {id: 3, title:'javascript', body:'javascript is ...'},
+  ])
+  let content = null;
+  let contextControl = null;
+  if(mode === 'WELCOME'){
+    content = <Article title="Welcome" body="Hello, WEB"></Article>
+  } else if (mode === 'READ'){
+    let title = null;
+    let body = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+    content = <Article title={title} body={body}></Article>
+    contextControl = <li> <a href={"/update/"+id} onClick={event=>{
+      event.preventDefault();
+      setMode('UPDATE')
+    }}>Update</a> </li>
+  } else if (mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      const newTopic = {id:nextId, title:_title, body:_body}
+      const newTopics = [...topics] //topics를 깊은 복사로 넘겨받음.
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
+    }}></Create>
+  } else if (mode === 'UPDATE){
+    let title1 = null;
+    let body1 = null;
+    for(let i=0; i<topics.length; i++){
+      if(topics[i].id === idState){
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+
+    content = <Update title={title1} body={body1} onUpdate={(title, body) => }></Update>
+  }
+
+  return (
+    <div>
+      <Header title="WEB" onChangeMode={()=>{
+        alert('Header');
+      }}></Header>
+      <Nav topics={topics} onChangeMode={idProp=>{
+        setMode("READ");
+        setId(idProp)
+      }}></Nav>
+      {content}
+      <ul>
+        <li> <a href="/create" onClick={event=>{
+          event.preventDefault();
+          setMode('CREATE');
+        }}>Create</a> </li>
+        {contextControl}
+      </ul>
     </div>
   );
 }
