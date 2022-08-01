@@ -9,8 +9,12 @@ let input = fs.readFileSync(filePath).toString().split(' ');
 
 ////// 문제를 푸는 란입니다. answer를 정의한 후 그 아래에 답을 입력하세요.//////
 function solution(input) {
-    let answer;
-    
+    let answer = 1;
+    a= b= c= 3
+    a = b
+    a= 1
+    console.log(a)
+    console.log(b)
     
     
 
