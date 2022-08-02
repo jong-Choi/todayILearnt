@@ -1,3 +1,25 @@
+- [CSS](#css)
+  * [1 기본 문법](#1------)
+    + [선택자(selector)](#----selector-)
+      - [가상 클래스 셀렉터 (Pseudo-Class Selector)](#------------pseudo-class-selector-)
+      - [가상 요소 셀렉터](#---------)
+    + [크기 단위(unit)](#------unit-)
+    + [색상](#--)
+  * [박스 모델](#-----)
+  * [display, visibility, opacity](#display--visibility--opacity)
+  * [backgorund](#backgorund)
+    + [background Shorthand](#background-shorthand)
+  * [font](#font)
+    + [font Shorthand](#font-shorthand)
+  * [line, text-align ,](#line--text-align--)
+  * [position 프로퍼티](#position-----)
+  * [Float (이미지와 텍스트를 정렬하기)](#float-----------------)
+  * [스타일의 상속](#-------)
+  * [그 밖에](#----)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # CSS
 렌더링의 방법을 결정하는 언어이다.
 https://poiemaweb.com/css3-syntax 의 내용을 따라 정리한다.
@@ -132,9 +154,9 @@ p:first-child { color: red; }
 
 
 
-div:not(:nth-of-type(3n+1)) div 중 3의배수 빼고 다 선택   
-input[type="text"]:valid  정합성 검증에 성공한 input 또는 form에 대하여 선택   
-input[type="text"]:invalid  
+`div:not(:nth-of-type(3n+1))` div 중 3의배수 빼고 다 선택   
+`input[type="text"]:valid`  정합성 검증에 성공한 input 또는 form에 대하여 선택   
+`input[type="text"]:invalid`  
 
 `
 <input type="text" value="010-1111-2222" pattern="^\d{3}-\d{3,4}-\d{4}$" required>
@@ -375,7 +397,7 @@ p {
 }
 ```
 ## display, visibility, opacity
-### display
+- display
 HTML의 각각의 요소는 기본값으로 block 혹은 inline의 특성이 있다. 이를 display 프로퍼티를 이용하여 레이아웃을 정의할 수 있다.  
 display:의 프로퍼티 값
 block, inline, inline-block, none
@@ -445,14 +467,14 @@ inline 레벨 요소 내에 block 레벨 요소를 포함할 수 없다. inline 
 inline-block 레벨 요소는 한 줄로 표현되는(inline의 특성을 가진) 블록 요소(width, height, margin 프로퍼티를 지정할 수 있는 요소)이다. inline-block레벨 요소의 뒤에 공백이 있는 경우 4px(space)가 자동 지정되기에 인라인블록을 여러개 사용할 때 필요에 따라 수정해야 한다. 
 
 
-### visibility 
+- visibility 
 visible(기본값), hidden, collapse(테이블 요소의 행과 열을 보이지 않게), none(브라우저에 따라 collapse와 같은 역할)
 
 display="None" : 아에 렌더링이 되지 않음
 visibility="hidden" : 공간은 차지 하지만 시각적으로 보이지 않음
 
 
-### opacity
+- opacity
 0.0 ~ 1.0의 값을 입력하며 0.0은 투명, 1.0은 불투명을 의미한다.
 
 
