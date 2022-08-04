@@ -704,3 +704,299 @@ sticky: 노말플로우를 따르다가, 스크롤이 움직임에 따라 fixed�
 
 ## 그 밖에
 이 밖에 css에는 그림자, 그라데이션, 애니메이션, 트랜지션 등의 요소가 있다.
+
+---
+# 플렉스 구조
+## 컨테이너
+상위 컨테이너에 'display: flex;'를 주면 기존에 float를 쓰는 방식에 비해 간단하게 레이아웃을 구성할 수 있다.
+
+```css
+  .flex-container {
+   display: flex;
+
+  /* 부모 요소가 인라인인 경우 inline-flex
+  display: inline-flex; */
+  }
+```
+최상위 컨테이너에 'display: flex;'를 주면 하위의 요소들은 자동적으로 '플렉스 아이템'이 된다.  
+
+<br>
+
+### Flexbox container 속성
+
+#### flex-flow
+`flex-flow: <flex-direction> || <flex-wrap>;`  
+
+
+`flex-direction: row||row-reverse||column||column-reverse`
+```css
+.flex-container {
+  flex-direction: row;
+}
+```
+<br>
+
+`flex-wrap: nowrap;` 플렉스 아이템을 컨테이너의 width에 맞게 축소한다.   
+`overflow: auto;` nowrap와 함께 사용시 넘치는 부분은 가로 스크롤로 확인하게 만든다.  
+  
+`flex-wrap: wrap;` 컨테이너의 width를 넘기면 플렉스 아이템을 줄바꿈한다.
+
+
+
+
+#### justify-content
+```css
+.flex-container {
+  justify-content: flex-start||flex-end||center||space-between||space-around
+}
+```
+flex-direction과 가로정렬은 같지만 순서를 바꾸진 않는다는 점에서 차이가 있다.  
+`justify-content:space-between;`은 첫번째 플렉스 아이템과 마지막 플렉스 아이템을 끝에 배치하고 나머지를 사이에 균등분배하지만,   
+`justify-content:space-around;`은 양 끝에서부터 각 요소의 좌우여백이 동일하게 만들어진다. 아래의 그림을 참고하자.  
+![space-around](../src/flexbox-justify-content-space-around.png)
+
+
+#### align-items
+justify-content가 수평정렬이라면 align-items는 수직 정렬이다. 각 아이템의 높이가 다를 때에 어떻게 정렬되는지를 결정한다.
+```css
+.flex-container {
+  align-items: flex-start||flex-end||center||baseline
+}
+```
+
+#### align-content
+여러개의 행이 있을 때에, 첫번째 행과 마지막 행, 그리고 그 사이의 행 들이 어떻게 배치될지를 결정한다. 기본값은 첫번째 행이 만들이 진 후, 그 이후에는 일정 간격을 띄어 생성되는 `align-content: stretch;`이다.  
+
+```css
+.flex-container {
+  align-content: stretch(기본값)||flex-start||flex-end||center||space-between||space-around
+}
+```
+
+# 정렬
+
+## 수평정렬
+인라인 요소는 부모 요소에 아래와 같이 한다.
+```css
+.container {
+  text-align: center;
+}
+```
+
+블록 요소는 블록 요소에 margin auto를 준다.
+```css
+.item {
+  width: 200px;
+  margin: 20px auto;
+}
+```
+
+블록 요소 여러개를 수평으로 배치하려면 인라인 블록으로 변경해야 한다. 이때 넓이의 자동 변경을 막기 위해 명시적으로 넓이를 주었다. 
+```css
+.container {
+  text-align: center;
+}
+.item {
+  width: 150px;
+  display: inline-block;
+}
+```
+
+## 수직정렬
+인라인 요소는 부모 요소의 패딩값으로 요소를 수직정렬한다. (이왕이면 플렉스 박스를 이용하는 편이 낫다.)   
+```css
+.container {
+  padding: 50px;
+}
+```
+이왕이면 플렉스 박스를 이용하는 편이 낫다. `justify-content: center;`로 쉽게 인라인 컨텐츠를 정렬할 수 있다.
+```css
+.container {
+  display: flex;
+  justify-content: center;
+}
+```
+
+블록 요소는 부모 요소의 위치를 기준으로 블록 요소의 위치를 변경해야 한다. 
+```css 
+.parent {
+  position: relative;
+}
+.child {
+  position: absolute;
+  top: 50%;
+  height: 100px;
+  /*요소의 높이(100px)의 반 만큼 위로 이동*/
+  margin-top: -50px;
+}
+```
+```css
+.parent {
+  position: relative;
+}
+.child {
+  position: absolute;
+  top: 50%;
+  /*요소의 높이의 반(50%) 만큼 위로 이동*/
+  transform: translateY(-50%);
+}
+```
+
+마찬가지로 블록요소도 플렉스 박스를 쓰는 편이 낫다.  
+```css
+.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+
+
+# 부트스트랩
+(https://getbootstrap.kr/)에서 한글 문서를 확인할 수 있다.  
+
+## 빠른 시작
+`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">`   
+해당 코드를 `<head>`태그에 넣는다.
+
+`<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>`    
+해당 코드를 `<body>` 최하단에 넣는다.  
+
+## 부트스트랩과 그리드 구조
+### 컨테이너
+부트스트랩 최상단을 결정하는 컴포넌트이다. 보통 한 번만 사용한다.  
+크기에 따라 `container`, `container-sm`, `-md`, `-lg`, `-xl`, `-xxl`, `-fluid`로 나뉜다. 뷰포트의 크기가 컴포넌트에서 설정한 크키보다 작은 경우 항상 100%를 유지한다.   
+
+기본 `container`는 가로 뷰포트 576px 이하에서는 `width: 100%`를 가지고, 이후에는 Small(576px 이상), Medium(≥768px), Large(≥992px), X-Large(≥1200px), XX-Large(≥1400px)에 맞추어 적응형으로 움직이게 된다.  
+
+위에 붙는 제어자(-modifier)는 반응형에서 적응형으로 전환되는 중단점을 의미한다. 가령 `container-lg`는 Large(≥992px)보다 뷰포트가 작을 때에는 반응형이다가 992px부터 960px, 1140px, 1320px의 적응형으로 크기가 결정된다.  
+
+무작정 반응형으로 하기 보다는 중단점에 맞추어 적절한 반응형 크기를 결정해두면 레이아웃을 구성하기가 쉬워진다.  
+
+### 기본 구조
+```css
+<div class="container">
+  <div class="row">
+    <div class="col">
+      Column
+    </div>
+    <div class="col">
+      Column
+    </div>
+    <div class="col">
+      Column
+    </div>
+  </div>
+</div>
+```
+row가 꼭 있어야 한다. column은 row를 12등분하여 나누어 가진다. 12등분은 2, 3, 4, 6의 최소 공배수이다.  
+
+col-4, col-8 과 같이 적절한 비율로 나눌 수 있다.  
+col-sm-2 과 같이 특정 중단점에 대해서만 나눌 수도 있다.
+비어 있는 공간을 없애기 위해서 제어자 없이 'col'를 쓸 수 있다. 비어있는 공간을 분배받는다.
+
+
+### 정렬
+그리드는 flex box를 기초로 한다.   
+수직 정렬은 아래와 같다.  
+```css
+<div class="row align-items-start">
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+  </div>
+  <div class="row align-items-center">
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+  </div>
+  <div class="row align-items-end">
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+    <div class="col">
+      One of three columns
+    </div>
+  </div>
+  ```
+
+align은 자식요소에도 셀프로 적용이 된다.
+```css
+<div class="container">
+  <div class="row">
+    <div class="col align-self-start">
+      One of three columns
+    </div>
+    <div class="col align-self-center">
+      One of three columns
+    </div>
+    <div class="col align-self-end">
+      One of three columns
+    </div>
+  </div>
+</div>
+```
+
+수평정렬은 아래와 같다.
+```css
+  <div class="row justify-content-start">
+    <div class="col-4">
+      One of two columns
+    </div>
+    <div class="col-4">
+      One of two columns
+    </div>
+  </div>
+```
+`justify-content-start||justify-content-center||justify-content-end||justify-content-around||justify-content-between||justify-content-evenly`
+
+### 오프셋
+`offset-`은 제어자로 지정한 칸 만큼 오른쪽으로 이동한다.
+```css
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 offset-md-4"></div>
+  </div>
+```
+
+float의 형태를 만들 수도 있다. 이때 글씨 크기가 그림보다 적은 경우에 clearfix를 쓴다.
+```css
+<div class="clearfix">
+  <img src="..." class="col-md-6 float-md-end mb-3 ms-md-3" alt="...">
+
+  <p>
+    A paragraph of placeholder text. We're using it here to show the use of the clearfix class. We're adding quite a few meaningless phrases here to demonstrate how the columns interact here with the floated image.
+  </p>
+
+  <p>
+    As you can see the paragraphs gracefully wrap around the floated image. Now imagine how this would look with some actual content in here, rather than just this boring placeholder text that goes on and on, but actually conveys no tangible information at. It simply takes up space and should not really be read.
+  </p>
+
+  <p>
+    And yet, here you are, still persevering in reading this placeholder text, hoping for some more insights, or some hidden easter egg of content. A joke, perhaps. Unfortunately, there's none of that here.
+  </p>
+</div>
+```
+
+### 여백 주기
+m은 마진, p는 패딩을 의미한다.  
+이후 바로 뒤의 글자는 방향을 의미한다.  
+(t, b, s, e, x, y)   
+제어자는 `$spacer`에 대한 크기를 비율로 받는다.
+
