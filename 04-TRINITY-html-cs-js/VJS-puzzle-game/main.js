@@ -83,7 +83,7 @@ container.addEventListener('dragstart', (e)=>{ //dragEvent이벤트를 인수로
     const obj = e.target;
     dragged.el = obj;
     dragged.class = obj.className;
-    dragged.index = [...obj.parentNode.children].indexOf(obj)   //유사배열객체를 배열로 카피함.
+    dragged.index = [...obj.parentNode.children].indexOf(obj);   //유사배열객체를 배열로 카피함.
 })
 container.addEventListener('dragover', (e)=>{ 
     e.preventDefault() //드롭이 잘 작동하도록 드래그 오버 제외. 
@@ -94,7 +94,7 @@ container.addEventListener('drop', (e)=>{
     let originPlace;
     let isLast = false;
 
-    if(obj.className === dragged.class){
+    if(obj.className !== dragged.class){
 
         if(dragged.el.nextSibling){
             originPlace = dragged.el.nextSibling
@@ -104,7 +104,7 @@ container.addEventListener('drop', (e)=>{
         }
 
         const droppedIndex = [...obj.parentNode.children].indexOf(obj);
-        dragged.index > droppedIndex ? obj.before(dragged.el) : obj.after(dragged.ed); //42분
+        dragged.index > droppedIndex ? obj.before(dragged.el) : obj.after(dragged.el); //42분
         isLast ? originPlace.after(obj) : originPlace.before(obj)
     }
     checkStatus()
