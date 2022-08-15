@@ -1,0 +1,291 @@
+@charset "utf-8";
+@import url("base.css");
+@import url("layout.css");
+@import url("global.css");
+@import url("selectbox.css");
+
+
+em{font-style:normal;}
+
+div.main_search_area {width:838px; height:90px; position:relative; padding-left:106px; z-index:50;}
+
+p.global_btn {width:46px; height:12px; margin-left:548px;}
+
+dl.main_search {width:343px; height:44px;}
+dl.main_search dt {float:left; width:133px;}
+/* dl.main_search dt p {padding:9px 0 0 56px;} */
+dl.main_search dt span {display:block;padding:3px 0 0 46px;}/* 20090927 Validation 오류 있어서 수정함(이경민)  */
+dl.main_search dd {float:left; }
+dl.main_search dd.search {width:431px; padding-top:1px;}
+dl.main_search dd.search_btn {width:64px; padding-top:1px;}
+dl.main_search dd.detail_btn {padding-top:21px;}
+
+
+
+div.search_box {width:425px; height:30px; border:3px solid #616161; vertical-align:middle; background:url('/home/images/common/search_select_bg.gif') no-repeat left top;}
+
+div.search_select {width:84px; font-size:12px; color:#616161; vertical-align:middle; padding:8px 8px 0 8px; float:left;}
+div.search_select a, div.search_select a:visited {color:#616161; text-decoration:none;}
+div.search_select a:hover {color:#616161; text-decoration:underline;}
+div.search_select span {float:left; vertical-align:middle;}
+div.search_select img {float:right; margin-top:3px;}
+
+div.in_search_txt {padding:7px 0 0 17px;}
+div.in_search_txt input {border:0; width:313px; height:16px; vertical-align:middle; font-size:12px; color:#616161; font-weight:bold; padding-left:17px;}
+div.in_search_txt img {vertical-align:middle;}
+
+div.inline_auto_box{left:239px;display:none;}
+
+
+
+
+div.global_search_area {width:742px; height:52px; padding-left:178px; position:relative; z-index:100; }
+
+
+div.work_list_input {float:left; height:122px; padding-right:1px;} 
+div.work_list_pic {/*width:173px;*/ padding-right:2px; height:122px; float:left; }
+div.work_list_pic img {vertical-align:top;}
+div.work_list_pic input {vertical-align:top; margin-right:1px;}
+div.work_list_cont { height:122px; float:left; position:relative;}
+
+
+dl.cont_search {/*width:549px;*/ width:100%; height:30px;}
+dl.cont_search dt {float:left; /*width:139px; height:30px;*/ /*padding-top:8px;*/ padding:8px 10px 0 0;}
+dl.cont_search dt img {vertical-align:middle;}
+dl.cont_search dd {float:left; }
+dl.cont_search dd.search {width:340px; padding-top:1px;}
+dl.cont_search dd.search_btn {width:70px; padding-top:1px;}
+
+
+div.cont_search_box {width:326px; height:26px; border:2px solid #DEDEDE; vertical-align:middle; background:url('/home/images/search/select_bg.gif') no-repeat left top;}
+
+div.cont_search_select {width:64px; font-size:11px; color:#858484; vertical-align:middle; padding:5px 7px 0 8px; float:left;}
+div.cont_search_select a, div.search_select a:visited {color:#858484; text-decoration:none;}
+div.cont_search_select a:hover {color:#858484; text-decoration:underline;}
+div.cont_search_select span {float:left; vertical-align:middle;}
+div.cont_search_select img {float:right; margin:3px 5px 0 0;}
+
+div.cont_in_search_txt {padding:7px 0 0 17px;}
+div.cont_in_search_txt input {border:0; width:224px; height:16px; vertical-align:middle; font-size:12px; color:#616161; font-weight:bold; padding-left:17px;}
+div.cont_in_search_txt img {vertical-align:middle;}
+
+
+/* 국내 강의 */
+.kLecture{background:url(/home/images/main/bg_lbox_2.gif) repeat-y 0 0;width:926px;}
+.kLecture .lbox {zoom:1;background:url(/home/images/main/bg_lbox_3.gif) repeat-x 0 bottom;padding:0 3px 0 3px;}
+.kLecture .lhead{background:url(/home/images/main/bg_lbox_1.gif) repeat-x 0 0;padding-top:3px;}
+.kLecture .lhead .lhtop{position:relative;height:218px;}
+.kLecture .lhead .lhtop a{position:absolute;left:583px;bottom:50px;z-index:50;display:block;width:78px;height:12px;background:url(/home/images/main/blank.gif);}
+.kLecture .lhead .lhtop a span{display:none;}
+.kLecture .lhead .lht2 a{left:523px;bottom:44px;}
+.kLecture .lhead .lhtab{position:relative;border-bottom:4px solid #525252;padding-left:33px;margin:-26px 0 13px 0;height:26px;}
+.kLecture .lhead .lhtab li{float:left;}
+.kLecture .lscrap{text-align:right;padding-right:37px; margin:10px 0 12px 0;}
+.kLecture .lscrap a{padding-left:16px;color:#ea6408;font-weight:bold;}
+.kLecture .lscrap .s1{background:url(/home/images/main/ic_lscrap_1.gif) no-repeat 0 0;}
+.kLecture .lscrap .s2{background:url(/home/images/main/ic_lscrap_2.gif) no-repeat 0 0;margin-left:12px;}
+/* 강의검색 */
+.kLecture .lsearch{zoom:1;width:570px;margin:0 auto 22px auto;}
+.kLecture .lsearch:after{content:".";clear:both;display:block;height:0;visibility:hidden;}
+.kLecture .lsearch .s1{float:left;padding-right:9px;}
+.kLecture .lsearch .s1 img{margin-top:6px;}
+.kLecture .lsearch .s2{float:left;border:2px solid #dedede;width:326px;height:26px;}
+.kLecture .lsearch .s2 strong{float:left;display:block;width:65px;height:14px;padding:2px 0 0 9px;margin-top:6px;background:#fff url(/home/images/main/bt_search_dd.gif) no-repeat 48px -6px;border-right:1px solid #c1c1c1;cursor:pointer;font-size:11px;color:#858484;}
+.kLecture .lsearch .s2 input{float:left;border:0;padding:7px 0 0 10px;height:17px;width:240px;font-weight:bold;}
+.kLecture .lsearch .s3{float:left;margin:-1px 0 0 4px;}
+/* 사업유형 */
+.kLecture .ltype{border:2px solid #b3b3b3;background:#fbfbfb url(/home/images/main/ti_ltype.gif) no-repeat 21px 15px;width:740px;margin:0 auto 33px auto;padding:16px 0 14px 110px;}
+.kLecture .ltype strong{display:none;}
+.kLecture .ltype a{font-size:11px;letter-spacing:-1px;color:#7a7a7a;padding:0 0 0 25px;}
+.kLecture .ltype a em{letter-spacing:0;color:#f9801c;}
+.kLecture .ltype a.now{font-size:12px;font-weight:bold;text-decoration:none;}
+.kLecture .lcglist li a.now{font-size:12px;font-weight:bold;text-decoration:none;}
+.kLecture .lcglist li a.now2{font-size:12px;font-weight:bold;text-decoration:none;color:#f9801c;} 
+/* 대학종류 */
+.kLecture .lcglist{zoom:1;border:3px solid #e7e7e7;margin:6px 33px 45px 33px;padding:17px 0 12px 0;}
+.kLecture .lcglist:after{content:".";clear:both;display:block;height:0;visibility:hidden;}
+.kLecture .lcglist li{float:left;padding:0 0 8px 40px;/*width:220px;*/ width:170px; }
+.kLecture .lcglist li a{color:#7a7a7a;font-size:11px;}
+.kLecture .lcglist li a em{color:#f9801c;}
+.kLecture .lcglist .stand{text-align:right; padding:0 14px 0 0; background:#F6F6F6; height:36px; margin-bottom:20px;}
+/* 대학별 가나다순 추가 시작(130607)*/
+.kLecture .lcglist .stand p.first{ float:left; padding: 11px 4px 0 40px; font-size:14px; display:block; font-weight:bold; color:#2b2b2b;}
+.kLecture .lcglist .stand p { float:left; padding: 11px 4px 0 9px; font-size:14px; display:block; font-weight:bold; color:#2b2b2b;}
+.kLecture .lcglist .stand p.empty { float:left; padding: 11px 4px 0 9px; font-size:14px; display:block; font-weight:bold; color:#a6a6a6;}
+.kLecture .lcglist .stand p a.now {font-size:14px; font-weight:bold;text-decoration:none;color:#f9801c;}
+/* 대학별 가나다순 추가  끝*/
+.kLecture .lcglist .tit{float:left; padding:12px 9px 0 0;}
+.kLecture .lcglist .jSelect{position:relative; float:left; padding:6px 0 0 0;}
+.kLecture .lcglist .btn{float:left; padding:8px 0 0 7px;}
+
+/* 20121214 추가_대학리스트 */
+.kLecture .lcglist .univListBox p{ font-size:14px; display:block;margin:15px 40px 10px 40px;padding-top:15px;border-top:1px solid #ededed ;font-weight:bold; color:#2b2b2b}
+.kLecture .lcglist .univListBox p.first-child{font-size:14px;padding-top:0; border-top:none}
+.kLecture .lcglist .univListBox ul{clear:both; overflow:hidden;}
+
+
+.kLecture .lcglist div.open_top_select07 {width:96px; border:1px solid #B0B0B0; position:absolute; left:0; top:25px; background:#fff; overflow-y:hidden; height:50px; margin-top:1px;}
+.kLecture .lcglist div.open_top_select07 ul li {font-size:11px; color:#616161; width:85px; text-align:left;}
+.kLecture .lcglist div.open_top_select07 ul li.selected {
+  background-color: #fff4df;
+}
+.kLecture .lcglist div.open_top_select07 ul li.current {
+  background-color: #fff4df;
+}
+.kLecture .lcglist div.open_top_select07 ul li {
+	list-style-type:none;
+	display:block;
+	/*width:100%;*/
+	margin:0;
+	height:16px;
+	padding:5px 0 0 10px;
+	cursor:pointer;
+}
+/* 검색결과 */
+.kLecture .lschrs{color:#7a7a7a;border-bottom:1px solid #efefef;height:32px;}
+.kLecture .lschrs .aa{float:left;padding-left:30px;}
+.kLecture .lschrs .aa strong{color:#ff6600;}
+.kLecture .lschrs .aa em{font-weight:bold;}
+.kLecture .lschrs .aa span{color:#030303;}
+.kLecture .lschrs .bb{float:right;padding-right:40px;font-weight:bold;}
+.kLecture .lschrs .bb a{font-size:11px;}
+.kLecture .lschrs .bb em{color:#e4e4e4;padding:0 5px 0 7px;}
+/* 검색결과 목록 */
+.kLecture .lschlist{padding:3px 33px 100px 33px;}
+.kLecture .lschlist .srbox{zoom:1;border-bottom:1px solid #ebebeb;padding:1px 0 11px 0;margin:-28px 0 10px 0;_margin-top:-42px;width:850px;z-index:0;}
+.kLecture .lschlist .srbox:after{content:".";clear:both;display:block;height:0;visibility:hidden;}
+.kLecture .lschlist .sel{float:left;width:21px;_width:25px;}
+.kLecture .lschlist .sel span {color:#EA6408; font-weight:bold;}/* 2009-10-09 추가 - jhk*/
+.kLecture .lschlist dl{float:right;_line-height:15px;}
+.kLecture .lschlist dt{font-weight:bold;color:#f97f1b;height:22px;}
+.kLecture .lschlist dt a{color:#f97f1b;text-decoration:underline;}
+.kLecture .lschlist dd.aa li{height:15px;color:#7a7a7a;}
+.kLecture .lschlist dd.aa li em{color:#f9801c;}
+.kLecture .lschlist dd.aa .a1{float:left;width:305px;}
+.kLecture .lschlist dd.aa .a2{float:left;width:305px;}
+.kLecture .lschlist dd.bb{clear:both;color:#7a7a7a; padding-top:5px; width:825px}
+.kLecture .lschlist .mybtn{float:right;}
+.kLecture .lschlist .mybtn img{margin-bottom:4px;}
+.kLecture .lschlist .mybtn .bt{width:68px;height:30px;}
+:root .kLecture .lschlist .srbox{margin-top:5px;}
+:root .kLecture .lschlist dl{width:760px;}
+/* 강의목록 */
+.kLecture .lschlist .mybtn .lsslist{position:absolute;border:1px solid #cdcdcd;padding:6px;background-color:#fff;margin:11px 0 0 -182px;_margin-top:-6px;width:235px;}
+.kLecture .lschlist .mybtn .lsslist .a1{position:relative;color:#ea6408;border-bottom:1px solid #e0e0e0;margin-bottom:5px;height:16px;padding-top:1px;}
+.kLecture .lschlist .mybtn .lsslist .close{position:absolute;top:-2px;right:0;display:block;width:15px;height:14px;background:url(/home/images/main/bt_close_x.gif) no-repeat 0 0;}
+.kLecture .lschlist .mybtn .lsslist .close span{display:none;}
+.kLecture .lschlist .mybtn .lsslist .a2{margin:0 4px 0 8px;padding-top:7px;overflow:auto;height:180px;position:relative;z-index:100;}
+.kLecture .lschlist .mybtn .lsslist .a2{scrollbar-face-color:#fff;scrollbar-highlight-color:#d7d7d7;scrollbar-3dlight-color:#fff;scrollbar-shadow-color:#d7d7d7;scrollbar-darkshadow-color:#f5f5f5;scrollbar-track-color:#f5f5f5;scrollbar-arrow-color:#d7d7d7;}
+.kLecture .lschlist .mybtn .lsslist .a2 li{padding-bottom:6px;font-size:11px;color:#808080;}
+.kLecture .lschlist .mybtn .lsslist .a2 li a{color:#808080;}
+.kLecture .lschlist .mybtn .lsslist .a2 li img{margin-right:11px;}
+
+
+
+
+/* 2009-12-02 kjs 국내대학 강의 상단 */
+div.interior{background:url(/home/images/search/bg_8page_top.jpg) 0 0 no-repeat; height:155px; border-top:3px solid #ebebeb;}
+div.interior div.tab{border-bottom:4px solid #525252; padding-top:122px;}
+div.interior div.tab ul{margin-left:33px;}
+div.interior div.tab ul li{float:left;}
+div.interior div.tab ul li.etc img{margin:8px 0 0 30px;}
+
+/* 해외공개 강의 상단 */
+div.overseas{background:url(/home/images/search/bg_10page_top.jpg) 0 0 no-repeat; height:152px; border-top:3px solid #ebebeb;}
+div.overseas div.tab{border-bottom:4px solid #525252; padding-top:122px;}
+div.overseas div.tab ul{margin-left:33px;}
+div.overseas div.tab ul li{float:left;} 
+ 
+/* 미리보는 대학강의_학과별보기_20120517 khw */
+.kLecture .dtype{zoom:1; border:2px solid #b3b3b3;  background:#fbfbfb url(/home/images/previewLecture/ti_dtype.gif) no-repeat 21px 19px; width:740px; height: auto; margin:0 auto 33px auto; padding:16px 0 14px 100px;}
+.kLecture .dtype:after{content:".";clear:both;display:block;height:0;visibility:hidden;}
+.kLecture .dtype strong{display:none;}
+.kLecture .dtype a{float:left; font-size:11px;letter-spacing:-1px; line-height:22px;color:#7a7a7a; padding:0 10px 0 20px; width:110px;}
+.kLecture .dtype a em{letter-spacing:0;color:#f9801c;}
+.kLecture .dtype a.now{ font-size:12px;font-weight:bold;text-decoration:none;}
+
+/* 영어스크립트 페이지_20130321 khw 
+div.enScriptTop{height:152px; border-top:3px solid #ebebeb; background:url(/home/images/search/enScriptImg.jpg)}
+div.enScriptTop div.tab{border-bottom:4px solid #525252; padding-top:122px;}
+div.enScriptTop div.tab ul{margin-left:30px;}
+div.enScriptTop div.tab ul li{float:left;}
+div.enScriptList{ width: 840px;padding:15px 0 0 45px;}
+div.enScriptList ul{ overflow:hidden;padding:30px 0 20px 0;border-bottom:1px dotted #747474;}
+div.enScriptList ul.last-child{border-bottom:none}
+div.enScriptList ul li{ float:left;width:240px;margin-left:40px;}
+div.enScriptList ul li dl{width:185px; text-align: center;}
+div.enScriptList ul li dl dt{ line-height:18px;margin-bottom:5px; font-weight:bold;color:#4a4a4a}
+div.enScriptList ul li dl dd{ line-height:17px;margin-bottom:5px;color:#666}
+div.enScriptList ul li dl dd.PDFdown{padding-top:15px;}
+div.enScriptList ul li dl dd.PDFdown img{ vertical-align:middle}
+ 
+*/
+ 
+/* 영어스크립트 페이지_20150119 khw */
+div.enScriptTop{height:148px; border-top:3px solid #ebebeb; background:url(/home/images/oes/engScriptImg.jpg) no-repeat 0 0}
+div.enScriptTop div.tab{border-bottom:4px solid #525252; padding-top:121px;}
+div.enScriptTop div.tab ul{margin-left:28px;}
+div.enScriptTop div.tab ul li{float:left;}
+
+div.enScriptCont{overflow:hidden;padding:45px 25px 30px 25px;}
+div.enScriptCont .enScriptList { float:left;margin-left:20px;}
+div.enScriptCont .enScriptList ul{ overflow:hidden;border-bottom:1px dotted #747474;padding:0 25px 20px 25px;margin-bottom:30px; }
+div.enScriptCont .enScriptList ul.last-child{border-bottom:none; margin-bottom:0}
+div.enScriptCont .enScriptList ul li{ float:left;width:183px;margin-right:43px;}
+div.enScriptCont .enScriptList ul li.last-child{margin-right:0;}
+div.enScriptCont .enScriptList ul li dl{width:185px; text-align: center;}
+div.enScriptCont .enScriptList ul li dl dt{ line-height:18px;margin-bottom:5px; font-weight:bold;color:#4a4a4a}
+div.enScriptCont .enScriptList ul li dl dd{ line-height:17px;margin-bottom:5px;color:#666}
+div.enScriptCont .enScriptList ul li dl dd.PDFdown{padding-top:15px;}
+div.enScriptCont .enScriptList ul li dl dd.PDFdown img{ vertical-align:middle}
+
+div.enScriptCont .topPhoto{ position:relative;padding:10px;margin-bottom:30px; background:url(/home/images/oes/topPhotoBg.gif) no-repeat 0 0}
+div.enScriptCont .topPhoto .rightFacebook{ position:absolute; top:20px; right:20px;}
+div.enScriptCont .topPhoto .arrLeft{ position:absolute; top:130px; left:20px}
+div.enScriptCont .topPhoto .arrRight{ position:absolute;top:130px; right:20px}
+div.enScriptCont .topPhoto .textRight{ position:absolute;top:303px; right:10px; color:#878787 ; font-size:12px; }
+
+div.enScriptCont .contTab{overflow: hidden;margin-bottom:30px;}
+div.enScriptCont .contTab ul{height:35px; border-bottom:1px solid #d7d7d7}
+div.enScriptCont .contTab ul li{ float:left; height:34px; border-top:1px solid #d7d7d7; border-left:1px solid #d7d7d7;border-right:1px solid #d7d7d7;color:#878787 ; font-size:13px; background:#f5f5f5 url(/home/images/oes/arrTab2.png) no-repeat 90% 50%}
+div.enScriptCont .contTab ul li a{ float:left;padding:10px 35px; text-decoration:none;color:#878787}
+div.enScriptCont .contTab ul li a:hover{ text-decoration:none;color:#444}
+div.enScriptCont .contTab ul li.on{ height:33px;border-top:3px solid #e56533; color:#4a4a4a;background:#fff url(/home/images/oes/arrTab1.png) no-repeat 90% 50%}
+div.enScriptCont .contTab ul li.on a{ text-decoration:none;color:#4a4a4a}
+
+
+div.enScriptCont .OESPeopleList{ overflow:hidden}
+div.enScriptCont .OESPeopleList dl{float:left;width:180px; height:210px; margin-right:50px;margin-bottom:30px; }
+div.enScriptCont .OESPeopleList dl.last-child{margin-right:0;}
+div.enScriptCont .OESPeopleList dl dt{padding:20px;background:#efefef }
+div.enScriptCont .OESPeopleList dl dd{ height:10px;padding:8px 10px 12px 10px; color:#fff;background:#8f8f8d }
+div.enScriptCont .OESPeopleList dl dd a{ color:#fff; text-decoration:none  }
+div.enScriptCont .OESPeopleList dl dd a:hover{ color:#fff; text-decoration:underline }
+div.enScriptCont .OESPeopleList dl dd .info1{ float:left; font-size:16px; }
+div.enScriptCont .OESPeopleList dl dd .info2{ float:right; font-size:11px }
+
+div.enScriptCont  dl.OESpeople{ overflow:hidden;padding:20px;margin-bottom:45px; background:#efefef; position: absolute; z-index: 0 }
+div.enScriptCont  dl.OESpeople dt{ float:left; width:140px; height:140px;margin-right:20px; background:#e5e4e9}
+div.enScriptCont  dl.OESpeople dd{ position:relative; float:left;width:668px;height:140px;background:#dedede}
+div.enScriptCont  dl.OESpeople dd ul{margin:20px}
+div.enScriptCont  dl.OESpeople dd ul li{ line-height:14px; color:#666; font-size:12px;}
+div.enScriptCont  dl.OESpeople dd ul li.name{margin-bottom:10px; font-size:14px;  font-weight:bold; color:#333}
+div.enScriptCont  dl.OESpeople dd ul li.intro{margin-bottom:10px; margin-top:10px; font-size:13px; font-weight:bold; color:#333}
+div.enScriptCont  dl.OESpeople dd .rightFacebook2{ position:absolute; top:15px; right:15px;}
+
+div.enScriptCont .listyStyle2 { margin-left:0;}
+div.enScriptCont .listyStyle2 ul{padding:0 0 20px 0}
+
+div.enScriptCont div.rightMenu{float:right; margin-bottom:23px;}
+div.enScriptCont div.rightMenu select{height:24px;
+    width:110px;
+	border:1px solid #ccc; 
+	font-size:11px; 
+	font-family:NanumGothic;
+	color:#333; 
+	background-image:none;
+}
+
+ 
+  
+ 

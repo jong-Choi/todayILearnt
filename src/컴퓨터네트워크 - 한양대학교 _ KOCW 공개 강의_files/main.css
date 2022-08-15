@@ -1,0 +1,269 @@
+@charset "utf-8";
+
+
+/* 
+===============================================================================================
+1.	버  전 : main.css
+2.	작성자 :  lhs
+3.	작성일 : 2017-09-26
+4.	참  고 : KOCW Main 리뉴얼
+===============================================================================================
+*/
+
+
+/* font */
+@font-face{
+    font-family:NS;
+    src:url(NanumSquareR.eot);
+    src:local('※'), url(NanumSquareR.woff) format('woff');
+}
+
+/* layout */
+/*
+#divWrapper{min-width:1482px;font-family:NanumGothic, sans-serif;letter-spacing:-0.5px}
+#divHeader{position:relative;height:373px;background:url(../../images/main17/mainVisual.jpg) no-repeat 50% 0 #1c1c38;z-index:200}
+#mainContent{position:relative}
+#footerW{letter-spacing:normal}
+*/
+
+/* information */
+.information{height:115px;background:url(../../images/main17/infoBg.gif) no-repeat 50% 0 #63615f;font-family:NS, sans-serif}
+.information .closeBox{height:27px;background:#383838}
+.closeBox > div{width:1040px;margin:0 auto;text-align:right;font-size:12px;letter-spacing:-0.1px;line-height:27px}
+.closeBox > div span input[type="checkbox"]{margin-right:5px;border:1px solid #9f9f9f;background:#6e6e6e;vertical-align:-3px}
+.closeBox > div span label{padding-right:9px;background:url(../../images/main17/infoBar.gif) no-repeat 100% 1px;color:#e9e9e9}
+.closeBox > div .close{padding-right:19px;margin-left:9px;background:url(../../images/main17/infoClose.png) no-repeat 100% 2px;color:#e9e9e9;text-decoration:none}
+.information .infoList{position:relative;width:811px;padding-left:229px;margin:0 auto}
+.infoList .infoTitle{position:absolute;top:33px;left:134px;color:#e8e8e8;font-size:18px;letter-spacing:-0.3px}
+.infoList > ul{position:relative;height:88px}
+.infoList > ul > li > ul{display:none;position:absolute;top:0;left:0;width:100%}
+.infoList > ul > li > ul > li{margin-top:9px;padding:0 72px 0 23px;background:url(../../images/main17/infoBullet.png) no-repeat 0 3px;}
+.infoList > ul > li > ul > li:first-child{margin-top:23px}
+.infoList > ul > li > ul > li a{display:block;height:18px;color:#ffffff;font-size:14px;letter-spacing:-0.2px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;line-height:18px}
+.infoList > ul > li > ul > li a:hover{text-decoration:underline}
+.infoList > ul > li > a.navi{position:absolute;bottom:20px;right:0;z-index:10}
+
+/* info On */
+.infoList > ul > li.on > ul{display:block}
+
+/* header */
+.header{width:1040px;margin:0 auto}
+.header .logo{float:left}
+
+/* globalMenu */
+#globalMenu{float:right}
+#globalMenu > ul > li{position:relative;float:left;margin-left:9px}
+#globalMenu > ul > li > a{display:block;height:48px;width:63px;padding:15px 0 0 0;background:#161636;color:#fff;font-size:13px;font-weight:600;text-decoration:none;line-height:17px;text-align:center}
+#globalMenu > ul > li.global4 > a{width:51px;padding:15px 0 0 12px;text-align:left}
+#globalMenu > ul > li div{display:none;position:absolute;top:63px;right:0;background:#2d2d55}
+#globalMenu > ul > li.on div{display:block}
+#globalMenu > ul > li.on > a{color:#f27525}
+/* 로그인 */
+.global1 div{width:540px;padding:6px 14px;color:#ffffff;font-size:12px}
+.global1 div label{float:left;margin-right:7px}
+.global1 div input[type="text"]{float:left;width:89px;height:15px;padding:1px 5px;background:#fff;border:none;margin-right:10px;font-family:NanumGothic, sans-serif}
+.global1 div input[type="password"]{float:left;width:89px;height:15px;padding:1px 5px;background:#fff;border:none}
+.global1 div input[type="submit"]{float:left;height:17px;margin-left:14px;border:none;background:none;color:#fff;font-size:12px;cursor:pointer}
+.global1 div .findId{float:left}
+.global1 div .findId li{float:left;padding-left:15px;margin-left:6px;background:url(../../images/common/loginBar.png) no-repeat 0 50%;}
+.global1 div .findId li a{color:#ffffff}
+.global1 div .findId li:first-child{padding-left:0;margin-left:15px}
+.global1 div .close{position:absolute;top:9px;right:15px}
+/* 서비스 도움말 */
+.global3 div{min-width:66px;min-height:86px;padding:12px 8px}
+.global3 div ul li{margin-top:2px}
+.global3 div ul li:first-child{margin-top:0}
+.global3 div ul li a{color:#ffffff;font-size:12px;white-space:nowrap}
+/* 대학 담당자 */
+.global4 div{min-width:69px;min-height:74px;padding:18px 8px}
+.global4 div ul li{margin-top:2px}
+.global4 div ul li:first-child{margin-top:0}
+.global4 div ul li a{color:#ffffff;font-size:12px;white-space:nowrap}
+
+/* 주메뉴 *//*
+#topMenu{position:absolute;bottom:0;left:0;width:100%;height:75px;background:url(../../images/main17/topMenuBg.png);z-index:100}
+#topMenu > div{width:1040px;margin:0 auto}
+#topMenu > div > ul{float:left;font-family:NS, sans-serif}
+#topMenu > div > ul > li{position:relative;float:left;margin-left:73px}
+#topMenu > div > ul > li:first-child{margin-left:30px}
+#topMenu > div > ul > li > a{display:block;height:75px;color:#fff;font-size:20px;line-height:75px;text-decoration:none}
+#topMenu > div > ul > li.aboutKocw > a{height:auto;padding-top:26px}
+#topMenu > div > ul > li > a img{vertical-align:middle}
+#topMenu > div > ul > li div{display:none;position:absolute;top:75px;left:-40px;width:128px;padding:21px 10px 25px 10px;background:#2d2d55;text-align:center}
+#topMenu > div > ul > li div ul li{margin-top:20px}
+#topMenu > div > ul > li div ul li:first-child{margin-top:0}
+#topMenu > div > ul > li div ul li a{color:#ffffff;font-family:NanumGothic, sans-serif;font-size:16px}
+*/
+
+/* 통합검색 */
+/*
+#search{float:right;padding-top:13px}
+#search .searchTxt{float:left;width:309px;height:19px;padding:15px 14px;background:#fff;color:#424242;font-family:NanumGothic, sans-serif;font-size:14px;border:none}
+#search .searchBtn{float:left}
+*/
+
+/* 전공강의 */
+.major{position:relative;width:1040px;height:180px;margin:0 auto;overflow:hidden}
+.major h2{position:absolute;top:0;left:0;width:63px;height:63px}
+.major ul{float:right;margin-top:53px}
+.major ul li{float:left;min-width:50px;text-align:center}
+.major ul li.major1{margin-right:92px}
+.major ul li.major2{margin-right:98px}
+.major ul li.major3{margin-right:98px}
+.major ul li.major4{margin-right:93px}
+.major ul li.major5{width:62px;margin-right:98px}
+.major ul li.major6{margin-right:96px}
+.major ul li a{display:block;padding-top:65px;color:#4b4b4b;font-size:14px;text-decoration:none}
+.major ul li a:hover{text-decoration:underline}
+.major ul li.major1 a{background:url(../../images/main17/major1.png) no-repeat 50% 4px}
+.major ul li.major2 a{background:url(../../images/main17/major2.png) no-repeat 50% 5px}
+.major ul li.major3 a{background:url(../../images/main17/major3.png) no-repeat 50% 3px}
+.major ul li.major4 a{background:url(../../images/main17/major4.png) no-repeat 50% 0}
+.major ul li.major5 a{background:url(../../images/main17/major5.png) no-repeat 50% 9px}
+.major ul li.major6 a{background:url(../../images/main17/major6.png) no-repeat 54% 1px}
+.major ul li.major7 a{background:url(../../images/main17/major7.png) no-repeat 50% 1px}
+
+/* 테마강의 */
+.theme{padding:30px 0 32px 0;background:#ececec}
+.theme > div{position:relative;width:1040px;margin:0 auto}
+.theme > div h2{position:absolute;top:-10px;left:0;width:68px;height:63px}
+.theme > div ul{padding-left:109px;margin-top:-29px;overflow:hidden}
+.theme > div ul li{float:left;height:45px;width:186px;margin-top:29px}
+.theme > div ul li a{display:block;padding-left:64px;color:#4b4b4b;font-size:14px;line-height:45px;text-decoration:none}
+.theme > div ul li a:hover{text-decoration:underline}
+.theme > div ul li.theme1 .new{display:inline-block;width:19px;height:21px;margin-left:4px;text-indent:-9999px;background:url(../../images/main17/new.png) no-repeat;vertical-align:middle;}
+.theme > div ul li.theme1 a{background:url(../../images/main17/theme1.png) no-repeat 0 0}
+.theme > div ul li.theme1 a:hover{background:url(../../images/main17/theme1.png) no-repeat 0 -45px}
+.theme > div ul li.theme2 a{background:url(../../images/main17/theme2.png) no-repeat 0 0}
+.theme > div ul li.theme2 a:hover{background:url(../../images/main17/theme2.png) no-repeat 0 -45px}
+.theme > div ul li.theme3 a{background:url(../../images/main17/theme3.png) no-repeat 0 0}
+.theme > div ul li.theme3 a:hover{background:url(../../images/main17/theme3.png) no-repeat 0 -45px}
+.theme > div ul li.theme4 a{background:url(../../images/main17/theme4.png) no-repeat 0 0}
+.theme > div ul li.theme4 a:hover{background:url(../../images/main17/theme4.png) no-repeat 0 -45px}
+.theme > div ul li.theme5 a{background:url(../../images/main17/theme5.png) no-repeat 0 0}
+.theme > div ul li.theme5 a:hover{background:url(../../images/main17/theme5.png) no-repeat 0 -45px}
+.theme > div ul li.theme6 a{background:url(../../images/main17/theme6.png) no-repeat 0 0}
+.theme > div ul li.theme6 a:hover{background:url(../../images/main17/theme6.png) no-repeat 0 -45px}
+.theme > div ul li.theme7 a{background:url(../../images/main17/theme7.png) no-repeat 0 0}
+.theme > div ul li.theme7 a:hover{background:url(../../images/main17/theme7.png) no-repeat 0 -45px}
+.theme > div ul li.theme8 a{background:url(../../images/main17/theme8.png) no-repeat 0 0}
+.theme > div ul li.theme8 a:hover{background:url(../../images/main17/theme8.png) no-repeat 0 -45px}
+.theme > div ul li.theme9 a{background:url(../../images/main17/theme9.png) no-repeat 0 0}
+.theme > div ul li.theme9 a:hover{background:url(../../images/main17/theme9.png) no-repeat 0 -45px}
+.theme > div ul li.theme10 a{background:url(../../images/main17/theme10.png) no-repeat 0 0}
+.theme > div ul li.theme10 a:hover{background:url(../../images/main17/theme10.png) no-repeat 0 -45px}
+.theme > div ul li.theme11 a{background:url(../../images/main17/theme11.png) no-repeat 0 0}
+.theme > div ul li.theme11 a:hover{background:url(../../images/main17/theme11.png) no-repeat 0 -45px}
+.theme > div ul li.theme12 a{background:url(../../images/main17/theme12.png) no-repeat 0 0}
+.theme > div ul li.theme12 a:hover{background:url(../../images/main17/theme12.png) no-repeat 0 -45px}
+
+/* 뉴스레터 신청 */
+.newsLetter{position:relative;width:1040px;margin:0 auto}
+.newsLetter form{position:absolute;top:-259px;right:-224px;width:183px;height:201px;background:url(../../images/main17/newsLetterBg.png) no-repeat 0 0}
+.newsLetter form p{width:140px;margin:69px auto 0 auto;color:#ffffff;font-size:12px;font-weight:600;line-height:16px}
+.newsLetter form p span{color:#ee8f3b}
+.newsLetter form .newsTxt{display:block;width:130px;height:16px;padding:2px 5px;margin:11px auto 0 auto;border:1px solid #939393;background:#fff;color:#959595;font-size:12px}
+.newsLetter form .newsBtn{display:block;width:59px;margin:10px auto 0 auto}
+.newsLetter form .close{position:absolute;top:26px;right:21px}
+
+/* 인기강의 */
+.popular{width:1040px;height:381px;margin:0 auto;overflow:hidden}
+.popular h2{height:29px;margin:37px 0 32px 0;color:#161636;font-family:NS, sans-serif;font-size:25px;text-align:center;line-height:29px}
+.popular ul li{position:relative;float:left;width:250px;height:207px;margin-left:13px}
+.popular ul li:first-child{margin-left:0}
+.popular ul li a{text-decoration:none}
+.popular ul li a .thumbnail{display:block;position:relative;height:145px}
+.popular ul li a .thumbnail img{width:250px;height:145px}
+.popular ul li a .thumbnail span{display:none;position:absolute;top:0;left:0;width:250px;height:145px;background:url(../../images/main17/thumbnailCover.png)}
+.popular ul li a .lectureInfo{display:block;height:62px;padding:0 11px;background:#1e1e2e;color:#fff;overflow:hidden}
+.popular ul li a .lectureInfo .title{display:block;height:20px;margin:10px 0 2px 0;font-size:16px;font-weight:600;line-height:20px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.popular ul li a .lectureInfo .lecturer{display:block;height:16px;font-size:12px;line-height:16px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.popular ul li a .mark{position:absolute;top:0;left:12px;width:44px;height:44px}
+.popular ul li a .hoverBox{display:none;position:absolute;top:0;left:0;width:242px;height:199px;border:4px solid #f36523;background:url(../../images/main17/playBg1.png) no-repeat 50% 69px}
+.popular ul li a:hover .hoverBox{display:block}
+.popular ul li a:hover .thumbnail span{display:block}
+
+/* 최신강의 */
+.newest{height:423px;background:#161636}
+.newest > div{width:1040px;margin:0 auto}
+.newest > div h2{position:relative;top:-15px;height:29px;padding:59px 0 11px 40px;margin-bottom:29px;background:url(../../images/main17/newBg.png) no-repeat 50% 0;color:#ffffff;font-family:NS, sans-serif;font-size:25px;text-align:center;line-height:29px}
+.newest > div ul li{float:left;width:330px;margin-left:25px}
+.newest > div ul li:first-child{margin-left:0}
+.newest > div ul li a{display:block;text-decoration:none}
+.newest > div ul li a .thumbnail{display:block;position:relative;height:183px;margin-bottom:26px}
+.newest > div ul li a .thumbnail img{width:330px;height:183px}
+.newest > div ul li a .thumbnail .hoverBox{display:none;position:absolute;top:0;left:0;width:322px;height:175px;border:4px solid #f33823;background:url(../../images/main17/playBg2.png) no-repeat 50% 58px}
+.newest > div ul li a .lectureInfo{display:block;position:relative;padding-left:36px;font-family:NS, sans-serif}
+.newest > div ul li a .lectureInfo .num{position:absolute;top:0;left:0;color:#ffffff;font-size:48px;line-height:48px}
+.newest > div ul li a .lectureInfo .title{display:block;margin-bottom:2px;color:#ffffff;font-size:22px;line-height:26px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.newest > div ul li a .lectureInfo .lecturer{display:block;color:#f36523;font-size:14px;line-height:18px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.newest > div ul li a:hover .thumbnail .hoverBox{display:block}
+
+/* 추천강의 */
+.recommend{height:332px;width:1040px;margin:0 auto}
+.recommend h2{height:24px;padding:33px 0 18px 14px;margin-bottom:28px;border-bottom:1px solid #d3d3d3;color:#3c3c3c;font-family:NS, sans-serif;font-size:20px;line-height:24px}
+.recommend ul li{float:left;width:50%;margin-bottom:24px}
+.recommend ul li a{position:relative;display:block;height:85px;padding:0 0 0 170px;margin-right:20px;overflow:hidden;text-decoration:none}
+.recommend ul li a img{position:absolute;top:0;left:0;width:145px;height:83px;border:1px solid #c2c2c2}
+.recommend ul li a .title{display:block;height:20px;margin:18px 0 7px 0;color:#0b0b0b;font-size:16px;line-height:20px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.recommend ul li a:hover .title{text-decoration:underline}
+.recommend ul li a .lecturer{display:block;height:18px;color:#4b4b4b;font-size:14px;line-height:18px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+
+/* 내가 본 강의 */
+.myLecture{padding-bottom:36px;background:#efefef}
+.myLecture > div{width:1040px;margin:0 auto}
+.myLecture > div h2{height:24px;padding:31px 0 17px 44px;margin-bottom:28px;border-bottom:1px solid #d3d3d3;color:#3c3c3c;font-family:NS, sans-serif;font-size:20px;line-height:24px}
+.myLecture > div ul{padding:0 30px;margin-top:-16px;overflow:hidden}
+.myLecture > div ul li{float:left;width:50%;margin-top:16px}
+.myLecture > div ul li a{display:block;position:relative;height:85px;padding:0 0 0 175px;margin-right:20px;overflow:hidden;text-decoration:none}
+.myLecture > div ul li a img{position:absolute;top:0;left:0;width:145px;height:83px;border:1px solid #c2c2c2}
+.myLecture > div ul li a .title{display:block;height:20px;margin:19px 0 10px 0;color:#0b0b0b;font-size:16px;line-height:20px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.myLecture > div ul li a:hover .title{text-decoration:underline}
+.myLecture > div ul li a .lecturer{display:block;height:18px;color:#4b4b4b;font-size:14px;line-height:18px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+
+/* 배너 */
+.banner{height:92px;border-top:1px solid #e1e1e1}
+.banner div{width:1040px;margin:0 auto;overflow:hidden}
+.banner div ul{margin-top:25px;overflow:hidden}
+.banner div ul li{float:left;margin-left:24px}
+.banner div ul li:first-child{margin-left:0}
+
+/* footerW - bottomMenu */
+#footerW .bottomMenu{height:214px;background:#606060}
+.bottomMenu > div{width:1040px;margin:0 auto}
+.bottomMenu > div > ul{padding-top:31px}
+.bottomMenu > div > ul > li{float:left;margin-left:46px}
+.bottomMenu > div > ul > li:first-child{margin-left:0}
+.bottomMenu > div > ul > li.bottomMn5{float:right;width:205px;padding-left:42px;margin-left:0;background:url(../../images/common/bottomMnBar.gif) no-repeat 0 10px}
+.bottomMenu > div > ul > li span{display:inline-block;padding-top:15px;background:url(../../images/common/bottomMenuBg.gif) no-repeat 0 0;color:#ffffff;font-size:16px;font-weight:600}
+.bottomMenu > div > ul > li ul li{margin-top:7px;font-size:13px}
+.bottomMenu > div > ul > li ul li:first-child{margin-top:24px}
+.bottomMenu > div > ul > li ul li a{color:#b5b5b5}
+.bottomMenu > div > ul > li .sns li{margin-top:12px}
+.bottomMenu > div > ul > li .sns li:first-child{margin-top:21px}
+.bottomMenu > div > ul > li .sns li a{display:block;padding:4px 5px 4px 32px;color:#b5b5b5;font-size:12px}
+.bottomMenu > div > ul > li .sns li.sns1 a{background:url(../../images/common/sns1.png) no-repeat 0 0}
+.bottomMenu > div > ul > li .sns li.sns2 a{background:url(../../images/common/sns2.png) no-repeat 0 0}
+.bottomMenu > div > ul > li .sns li.sns3 a{background:url(../../images/common/sns3.png) no-repeat 0 0}
+
+/* footerW - footer */
+.footer{height:156px;background:#373737}
+.footer > div{position:relative;width:857px;padding:35px 0 0 183px;margin:0 auto}
+.footer > div .footerLogo{position:absolute;top:55px;left:12px}
+.footer > div .footerMenu{margin-bottom:17px;overflow:hidden}
+.footer > div .footerMenu li{float:left;margin-left:24px}
+.footer > div .footerMenu li:first-child{margin-left:0}
+.footer > div .footerMenu li a{color:#b1b1b1;font-size:13px}
+.footer > div .footerMenu li.privacy a{color:#f86e2b}
+.footer > div address{color:#777777;font-size:11px}
+.footer > div .copyright{color:#777777;font-size:11px}
+.footer > div .Csc{position:absolute;top:30px;right:0;border:1px solid #2c2b2b}
+.footer > div .Csc dl{position:relative;height:52px;padding:19px 0 16px 81px}
+.footer > div .Csc dl dt{position:absolute;top:13px;left:25px;padding-top:45px;background:url(../../images/common/cscBg.png) no-repeat 0 0;color:#c0c0c0;font-size:12px}
+.footer > div .Csc dl dd{padding:0 28px 0 13px;border-left:1px solid #2c2b2b}
+.footer > div .Csc dl dd .tel{display:block;height:22px;margin:3px 0 7px 0;color:#ffffff;font-size:18px;font-weight:600;line-height:22px}
+.footer > div .Csc dl dd .hours{margin-bottom:4px;color:#b1b1b1;font-size:13px}
+
+
+
+

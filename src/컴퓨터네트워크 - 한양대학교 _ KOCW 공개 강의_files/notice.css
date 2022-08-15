@@ -1,0 +1,47 @@
+@charset "utf-8";
+@import url("base.css");
+@import url("layout.css");
+@import url("global.css");
+@import url("selectbox.css");
+@import url("check_radio.css");
+
+div.tc1 {width:700px; height:30px; margin-left:70px; padding:0 0 0 0; TEXT-ALIGN:center; font-size:14pt; font-weight:800;}
+div.tc2 {width:700px; height:80px; margin: 3px 0 0 70px; padding:0 0 0 0; TEXT-ALIGN:center; font-size:18pt; font-weight:900; letter-spacing:6px; line-height:22px;}
+div.tc3 {width:700px; height:170px; margin-left:90px; padding:0 0 0 0; TEXT-ALIGN:left; font-size:12px;}
+div.tc4 {width:700px; height:150px; margin-left:90px; padding:0 0 0 0; TEXT-ALIGN:center; font-size:12px;}
+
+div.sc_list {width:840px; margin:40px 0 0 9px; }
+.sc_list ul {width:840px; overflow:hidden;}
+.sc_list ul li{float:left; display:inline; width:278px; height:230px;  border-bottom:1px dotted #747474;}
+.sc_list ul li.l{float:left; display:inline; width:278px; height:270px;  border-bottom:1px dotted #747474;}
+.sc_list ul li.last{border-bottom:none 0;}
+.sc_list ul li dl dt{font-weight:800; TEXT-ALIGN:center; margin-top:10px;}
+.sc_list ul li dl dd{TEXT-ALIGN:center; margin-top:2px;}
+.sc_list ul li dd a{margin-left: 4px;}
+.sc_list ul li dl div{ TEXT-ALIGN:center;}
+.sc_list ul li dl img{aligin:cneter;}
+
+div.oes {width:700px; margin:100px 0 0 110px}
+
+
+div.n_list {width:840px;}
+.n_list ul {width:840px; overflow:hidden;}
+.n_list ul li{margin-bottom:30px; padding-bottom:20px; border-bottom:1px solid #ededed; }
+.n_list ul li.last{border-bottom:none 0;}
+.n_list ul li dl dt{ font-size:13px; font-weight:800; TEXT-ALIGN:left; margin:2px 0 8px 0;}
+.n_list ul li dl dd{ TEXT-ALIGN:left; margin:10px 0 0 0;}
+.n_list div{margin-left:13px;}
+
+
+table.notice_tb {width:800px;}
+table.notice_tb th {border:1px solid #dfdfdf; height:32px; font-size:12px; font-weight:800; color:#6C6C6C; TEXT-ALIGN:center;}
+table.notice_tb th.b {border:1px solid #dfdfdf; height:32px; font-size:12px; font-weight:800; color:#6C6C6C; TEXT-ALIGN:center; background:#f9f9f9;}
+table.notice_tb td {border:1px solid #dfdfdf; font-size:12px; color:#4A4A4A; TEXT-ALIGN:left; padding:3px 0 0 3px;}
+table.notice_tb td.c {border:1px solid #dfdfdf; font-size:12px; color:#4A4A4A; TEXT-ALIGN:center; padding:3px 0 0 3px;}
+_table.notice_tb td a, table.notice_tb td a:visited {color:#4A4A4A; text-decoration:none;}
+table.notice_tb td a:hover {color:#4A4A4A; text-decoration:underline;}
+
+
+
+
+ 

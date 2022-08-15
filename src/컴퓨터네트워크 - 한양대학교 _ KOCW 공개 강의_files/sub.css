@@ -1,0 +1,160 @@
+@charset "utf-8";
+
+
+/* 
+===============================================================================================
+1.	버  전 : sub.css
+2.	작성자 :  lhs
+3.	작성일 : 2017-09-26
+4.	참  고 : KOCW 리뉴얼 / sub 레이아웃에 쓰이는 css 입니다
+===============================================================================================
+*/
+
+
+/* font */
+@font-face{
+    font-family:NS;
+    src:url(NanumSquareR.eot);
+    src:local('※'), url(NanumSquareR.woff) format('woff');
+}
+
+/* layout */
+#divWrapper{min-width:930px;font-family:NanumGothic, sans-serif;letter-spacing:-0.5px}
+#divHeader{position:relative;height:194px;background:url(../../images/common/subVisual.jpg) no-repeat 50% 0 #1c1c38;z-index:200}
+#container{width: 931px;margin: 0 auto;font-family: NanumGothic,'나눔고딕',ng,Dotum,"굴림",Gulim,"Trebuchet MS",arial,Verdana;}
+#footerW{margin-top:33px;letter-spacing:normal}
+
+/* header */
+.header{width:930px;margin:0 auto}
+.header .logo{float:left}
+
+/* globalMenu */
+#globalMenu{position:relative;float:right;z-index:110}
+#globalMenu > ul > li{position:relative;float:left;margin-left:9px}
+#globalMenu > ul > li > a{display:block;height:48px;width:63px;padding:15px 0 0 0;background:#161636;color:#fff;font-size:13px;font-weight:600;text-decoration:none;line-height:17px;text-align:center}
+#globalMenu > ul > li.global4 > a{width:51px;padding:15px 0 0 12px;text-align:left}
+#globalMenu > ul > li div{display:none;position:absolute;top:63px;right:0;background:#2d2d55}
+#globalMenu > ul > li.on div{display:block}
+#globalMenu > ul > li.on > a{color:#f27525}
+/* 로그인 */
+.global1 div{width:540px;padding:6px 14px;color:#ffffff;font-size:12px}
+.global1 div label{float:left;margin-right:7px}
+.global1 div input[type="text"]{float:left;width:89px;height:15px;padding:1px 5px;background:#fff;border:none;margin-right:10px;font-family:NanumGothic, sans-serif}
+.global1 div input[type="password"]{float:left;width:89px;height:15px;padding:1px 5px;background:#fff;border:none}
+.global1 div input[type="submit"]{float:left;height:17px;margin-left:14px;border:none;background:none;color:#fff;font-size:12px;cursor:pointer}
+.global1 div .findId{float:left}
+.global1 div .findId li{float:left;padding-left:15px;margin-left:6px;background:url(../../images/common/loginBar.png) no-repeat 0 50%;}
+.global1 div .findId li a{color:#ffffff}
+.global1 div .findId li:first-child{padding-left:0;margin-left:15px}
+.global1 div .close{position:absolute;top:9px;right:15px}
+/* 서비스 도움말 */
+.global3 div{min-width:66px;min-height:86px;padding:12px 8px}
+.global3 div ul li{margin-top:2px}
+.global3 div ul li:first-child{margin-top:0}
+.global3 div ul li a{color:#ffffff;font-size:12px;white-space:nowrap}
+/* 대학 담당자 */
+.global4 div{min-width:69px;min-height:74px;padding:18px 8px}
+.global4 div ul li{margin-top:2px}
+.global4 div ul li:first-child{margin-top:0}
+.global4 div ul li a{color:#ffffff;font-size:12px;white-space:nowrap}
+
+/* 주메뉴 */
+#topMenu{position:absolute;bottom:0;left:0;width:100%;height:59px;background:url(../../images/main17/topMenuBg.png);z-index:100}
+#topMenu > div{width:930px;margin:0 auto}
+#topMenu > div > ul{float:left;font-family:NS, sans-serif}
+#topMenu > div > ul > li{position:relative;float:left;margin-left:73px}
+#topMenu > div > ul > li:first-child{margin-left:30px}
+#topMenu > div > ul > li > a{display:block;height:59px;color:#fff;font-size:17px;line-height:59px;text-decoration:none}
+#topMenu > div > ul > li.aboutKocw > a{height:auto;padding-top:19px}
+#topMenu > div > ul > li > a img{vertical-align:middle}
+#topMenu > div > ul > li div{display:none;position:absolute;top:59px;left:-40px;width:128px;padding:21px 10px 25px 10px;background:#2d2d55;text-align:center}
+#topMenu > div > ul > li div ul li{margin-top:20px}
+#topMenu > div > ul > li div ul li:first-child{margin-top:0}
+#topMenu > div > ul > li div ul li a{color:#ffffff;font-family:NanumGothic, sans-serif;font-size:16px}
+
+/* 통합검색 */
+#search{float:right;padding-top:13px}
+#search form{position:relative;width:238px;height:18px;padding:9px 42px 10px 12px;background:#fff}
+#search .searchTxt{width:100%;color:#424242;font-family:NanumGothic, sans-serif;font-size:14px;border:none;padding: 0;}
+#search .searchBtn{position:absolute;top:8px;right:11px}
+#search{position:relative}
+#search > form{float:left}
+#search > div.search{float:left;margin-left:14px}
+#search > div.search select{color:#2f2f2f}
+#search > div.search > a{display:inline-block;margin-top:10px;color:#fff;font-size:14px}
+#search > div.search > a:hover{text-decoration:none}
+#search > div.search form{display:none;position:absolute;top:59px;right:0;width:870px;height:auto;padding:69px 24px 29px 34px;background-color:#fff;border:1px solid #ccc}
+#search > div.search form .searchWord > div{margin-bottom:14px;overflow:hidden}
+#search > div.search form .searchWord > div select{float:left;width:125px;height:35px;border:1px solid #d1d0cf;font-size:14px;color:#2f2f2f;line-height:29px}
+#search > div.search form .searchWord > div input{float:left;width:579px;height:33px;margin:0 10px 0 9px;padding:0 10px;border:1px solid #d1d0cf;font-size:14px;}
+#search > div.search form .searchOption{overflow:hidden}
+#search > div.search form .searchOption > dl{margin-bottom:9px;overflow:hidden}
+#search > div.search form .searchOption > dl.optionRadio{margin:12px 0 15px}
+#search > div.search form .searchOption > dl.optionRadio > dt{line-height:19px}
+#search > div.search form .searchOption > dl > dt{float:left;width:126px;padding-left:10px;color:#2f2f2f;font-size:14px;line-height:35px}
+#search > div.search form .searchOption > dl > dd{float:left}
+#search > div.search form .searchOption > dl > dd select{border:1px solid #ccc;width:240px;height:35px;line-height:29px;font-size:14px}
+#search > div.search form .searchOption > dl.optionRadio ul li{float:left;margin-left:35px}
+#search > div.search form .searchOption > dl.optionRadio ul li:first-child{margin-right:25px;margin-left:0;}
+#search > div.search form .searchOption > dl.optionRadio ul li label{color:#2f2f2f;font-size:14px}
+#search > div.search form .searchOption > dl.optionRadio ul li input{vertical-align:middle}
+#search > div.search form .searchOption > div > dl{float:left;overflow:hidden}
+#search > div.search form .searchOption > div > dl.pageSelect{margin-left:75px}
+#search > div.search form .searchOption > div > dl dt{float:left;line-height:35px;color:#2f2f2f;font-size:14px}
+#search > div.search form .searchOption > div > dl.sort dt{width:126px;padding-left:10px}
+#search > div.search form .searchOption > div > dl.pageSelect dt{width:93px}
+#search > div.search form .searchOption > div > dl dd{float:left}
+#search > div.search form .searchOption > div > dl dd select{height:35px;border:1px solid #ccc;line-height:29px;font-size:14px}
+#search > div.search form .searchOption > div > dl.sort dd select{width:175px;float:left}
+#search > div.search form .searchOption > div > dl.sort dd select:first-child{margin-right:10px}
+#search > div.search form .searchOption > div > dl.pageSelect dd select{width:190px}
+#search > div.search form .detailSearch{margin-top:7px;text-align:right}
+#search > div.search form .detailSearch input{width:107px;height:37px;border:1px solid #e54a03;background-color:#f36523;font-size:15px;font-weight:600;color:#fff}
+#search > div.search .searchClose{position:absolute;top:30px;right:30px}
+#search > div.search .searchClose img{vertical-align:top}
+
+/* subContainer */
+.subContainer{width:931px;min-height:550px;margin:30px auto 0}
+.subContainer:after{content:"";display:block;clear:both;*zoom:1;}
+
+/* footerW - bottomMenu */
+#footerW .bottomMenu{height:214px;background:#606060}
+.bottomMenu > div{width:930px;margin:0 auto}
+.bottomMenu > div > ul{padding-top:31px}
+.bottomMenu > div > ul > li{float:left;margin-left:41px}
+.bottomMenu > div > ul > li:first-child{margin-left:0}
+.bottomMenu > div > ul > li.bottomMn5{float:right;width:205px;padding-left:42px;margin-left:0;background:url(../../images/common/bottomMnBar.gif) no-repeat 0 10px}
+.bottomMenu > div > ul > li span{display:inline-block;padding-top:15px;background:url(../../images/common/bottomMenuBg.gif) no-repeat 0 0;color:#ffffff;font-size:16px;font-weight:600}
+.bottomMenu > div > ul > li ul li{margin-top:7px;font-size:13px}
+.bottomMenu > div > ul > li ul li:first-child{margin-top:24px}
+.bottomMenu > div > ul > li ul li a{color:#b5b5b5}
+.bottomMenu > div > ul > li .sns li{margin-top:12px}
+.bottomMenu > div > ul > li .sns li:first-child{margin-top:21px}
+.bottomMenu > div > ul > li .sns li a{display:block;padding:4px 5px 4px 32px;color:#b5b5b5;font-size:12px}
+.bottomMenu > div > ul > li .sns li.sns1 a{background:url(../../images/common/sns1.png) no-repeat 0 0}
+.bottomMenu > div > ul > li .sns li.sns2 a{background:url(../../images/common/sns2.png) no-repeat 0 0}
+.bottomMenu > div > ul > li .sns li.sns3 a{background:url(../../images/common/sns3.png) no-repeat 0 0}
+
+/* footerW - footer */
+.footer{height:196px;background:#373737}
+.footer > div{position:relative;width:1040px;padding:35px 0 0 0;margin:0 auto}
+.footer > div .footerLogo{position:absolute;top:80px;left:0}
+.footer > div .footerMenu{margin-bottom:27px;overflow:hidden}
+.footer > div .footerMenu li{float:left;margin-left:24px}
+.footer > div .footerMenu li:first-child{margin-left:0}
+.footer > div .footerMenu li a{color:#b1b1b1;font-size:13px}
+.footer > div .footerMenu li.privacy a{color:#f86e2b}
+.footer > div address{margin-left:135px;color:#777777;font-size:11px}
+.footer > div .copyright{margin-left:135px;color:#777777;font-size:11px}
+.footer > div .Csc{position:absolute;top:30px;right:246px;border:1px solid #2c2b2b}
+.footer > div .Csc dl{position:relative;height:52px;padding:19px 0 16px 81px}
+.footer > div .Csc dl dt{position:absolute;top:13px;left:25px;padding-top:45px;background:url(../../images/common/cscBg.png) no-repeat 0 0;color:#c0c0c0;font-size:12px}
+.footer > div .Csc dl dd{padding:0 28px 0 13px;border-left:1px solid #2c2b2b}
+.footer > div .Csc dl dd .tel{display:block;height:22px;margin:3px 0 7px 0;color:#ffffff;font-size:18px;font-weight:600;line-height:22px}
+.footer > div .Csc dl dd .hours{margin-bottom:4px;color:#b1b1b1;font-size:13px}
+.footer .footerLink{position:absolute;right:0;top:53px;}
+.footer .footerLink > ul{overflow:hidden;} 
+.footer .footerLink > ul > li{float:left;margin-left:30px;}
+.footer .footerLink > ul > li:first-child{margin-left:0;margin-top:4px;}
+.footer .footerLink > ul > li > a > img{vertical-align:middle}
+
