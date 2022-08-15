@@ -1,0 +1,23 @@
+/* 페이지 넘버 공용 */
+.paging_area { clear:both; width:auto; border:0; }
+.paging_area { margin:27px 0 20px; width:auto; text-align:center; }
+.paging_area input { margin:0; margin-top:3px; padding:0; vertical-align:top; }
+.paging_area input.prev { padding-right:10px; }
+.paging_area input.next { padding-left:10px; }
+.paging_area a { display:-moz-inline-box; display:inline-block; vertical-align:middle; text-align:center; }
+.paging_area a.num { padding:3px; width:14px; color:#f16a0c; font:11px/14px Dotum; color:#666666; text-align:center; }
+.paging_area a.current { padding:2px; width:14px; color:#ff8600; border:1px solid #c7c7c7; font:bold 11px/14px Dotum; text-align:center; background-color:#f5f5f5; }
+/* .paging_area a:hover { padding:2px; width:14px; color:#ff8600; border:1px solid #c7c7c7; text-decoration:none; background-color:#f5f5f5; } */
+.paging_area a:hover { padding:2px; color:#ff8600; border:1px solid #c7c7c7; text-decoration:none; background-color:#f5f5f5; }
+
+
+.paging_area2 { clear:both; width:auto; border:0; }
+.paging_area2 { width:auto; text-align:center; }
+.paging_area2 input { margin:0; margin-top:3px; padding:0; vertical-align:top; }
+.paging_area2 input.prev { padding-right:10px; }
+.paging_area2 input.next { padding-left:10px; }
+.paging_area2 a { display:-moz-inline-box; display:inline-block; vertical-align:middle; text-align:center; }
+.paging_area2 a.num { padding:3px; width:14px; color:#f16a0c; font:11px/14px Dotum; color:#666666; text-align:center; }
+.paging_area2 a.current { padding:2px; width:14px; color:#ff8600; border:1px solid #c7c7c7; font:bold 11px/14px Dotum; text-align:center; background-color:#f5f5f5; }
+/* .paging_area2 a:hover { padding:2px; width:14px; color:#ff8600; border:1px solid #c7c7c7; text-decoration:none; background-color:#f5f5f5; } */
+.paging_area2 a:hover { padding:2px; color:#ff8600; border:1px solid #c7c7c7; text-decoration:none; background-color:#f5f5f5; }

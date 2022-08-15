@@ -1,7 +1,7 @@
 https://hcn1519.github.io/articles/2018-03/networkbasic1
 클로바 노트 써서 녹취록 해 
 https://velog.io/@injoon2019/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%95%9C%EC%96%91%EB%8C%80-%EC%BB%B4%ED%93%A8%ED%84%B0-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%EC%9D%B4%EC%84%9D%EB%B3%B5-%EA%B5%90%EC%88%98%EB%8B%98-2015%EB%85%84-6.-%EC%A0%84%EC%86%A1%EA%B3%84%EC%B8%B52  
-
+https://leechamin.tistory.com/482
 
 # 컴퓨터 네트워크 (한양대학교 이석복 교수님)
 

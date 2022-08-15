@@ -1,0 +1,143 @@
+@charset "utf-8";
+@import url("base.css");
+@import url("global.css");
+@import url("selectbox.css");
+@import url("check_radio.css");
+
+
+div.guide_cont_area {width:930px;}
+div.guide_guide_top {padding:22px 0 0 31px; width:897px; height:109px; background:url('/home/images/account/wcu_account_top_bg01.jpg') repeat-x left bottom; border:1px solid #EBEBEB;}
+dl.guide_top02 {width:100%;}
+dl.guide_top02 dt {width:168px; height:95px; float:left;}
+dl.guide_top02 dt img {vertical-align:top;}
+dl.guide_top02 dd {width:504px; float:left; padding-top:17px; padding-left:208px;}
+
+
+
+div.guide_list_area {border-bottom:1px solid #EBEBEB; border-left:1px solid #EBEBEB; border-top:1px solid #EBEBEB; width:928px; margin-top:2px; padding-left:1px;}
+div.guide_main_list {width:217px; height:332px; border-right:1px solid #EBEBEB; background:url('/home/images/guide/faq_bg.gif') repeat-y right top; float:left; padding:21px 0 0 14px;}
+
+
+
+dl.g_list_area {width:202px;}
+dl.g_list_area dd {padding-bottom:3px; width:202px; padding-top:22px; position:relative;}
+dl.g_list_area dd a.more{position:absolute; right:0; top:25px;}
+dl.g_list_area dd.top {background:url('/home/images/guide/faq_dot.gif') no-repeat left bottom; height:146px; padding:0;}
+dl.g_list_area dd.top a.more{position:absolute; right:0; top:3px;}
+
+ul.g_main_list {width:202px;}
+ul.g_main_list li {padding-bottom:2px; font-size:11px; color:#B2B2B2; font-weight:bold;}
+ul.g_main_list li a, ul.g_main_list li a:visited {color:#B2B2B2; text-decoration:none;}
+ul.g_main_list li a:hover {color:#B2B2B2; text-decoration:underline;}
+ul.g_main_list li.tit {padding-bottom:16px;}
+
+
+
+/* 2017-10 리뉴얼 이용안내 css */
+.guide{padding-bottom:45px;color:#444444;font-size:14px;letter-spacing:-0.2px;word-break:keep-all}
+
+/* Option */
+.guide .link{color:#1d69a7}
+.guide .down{display:inline-block;padding:6px 15px 8px 15px;background:#f36523;color:#ffffff;text-decoration:none}
+.guide .guideTxt1{color:#636363;line-height:21px}
+
+/* location */
+.guide .divLocation{height:18px}
+.guide .divLocation ul{float:right}
+.guide .divLocation ul li{float:left;padding-left:14px;margin-left:6px;background:url(../../images/guide/arrow.png) no-repeat 0 50%;color:#444444;font-size:12px;line-height:18px}
+.guide .divLocation ul li:first-child{padding-left:0;margin-left:0;background:none}
+.guide .divLocation ul li a{color:#444444}
+
+/* tabMenu */
+.guide .guideTab{height:35px;margin-bottom:20px;border-bottom:1px solid #b9b9b9}
+.guide .guideTab ul li{float:left;height:34px;margin-right:-1px;border:1px solid #b9b9b9;border-bottom:none;font-size:17px}
+.guide .guideTab ul li:first-child{margin-left:0 !important;border-left:1px solid #b9b9b9}
+.guide .guideTab ul li.selected{margin-left:1px;border:1px solid #f36523}
+.guide .guideTab ul li a{display:block;padding:0 32px;background:#e0e0e0;color:#494949;line-height:34px;text-decoration:none}
+.guide .guideTab ul li.selected a{background:#f36523;color:#fffefe;font-weight:600}
+
+/* TextBox */
+.guide .textBox1{position:relative;padding:49px 100px 55px 334px;margin-bottom:36px;background:url(../../images/guide/textBoxBg1.gif) no-repeat 0 0 #f1f1f1;color:#494949;font-size:16px;letter-spacing:-0.5px}
+.guide .textBox1 img{position:absolute;top:37px;left:160px}
+.guide .textBox2{position:relative;padding:49px 100px 55px 284px;margin-bottom:36px;background:url(../../images/guide/textBoxBg2.gif) no-repeat 0 0 #f1f1f1;color:#494949;font-size:16px;letter-spacing:-0.5px}
+.guide .textBox2 img{position:absolute;top:37px;left:161px}
+.guide .textBox3{position:relative;padding:49px 100px 55px 301px;margin-bottom:36px;background:url(../../images/guide/textBoxBg3.gif) no-repeat 0 0 #f1f1f1;color:#494949;font-size:16px;letter-spacing:-0.5px}
+.guide .textBox3 img{position:absolute;top:37px;left:170px}
+
+/* Title */
+.guide .guideTitle{padding-left:23px;margin-bottom:14px;background:url(../../images/guide/bullet1.png) no-repeat 0 4px;color:#444444;font-weight:600;font-size:19px;line-height:23px}
+.guide .guideTitle2{display:block;margin-bottom:12px;color:#303030;font-size:17px}
+.guide .guideTitle2 span{color:#e95611}
+.guide .guideTitle3{display:block;padding-left:10px;margin-bottom:13px;background:url(../../images/guide/bullet2.png) no-repeat 0 7px}
+
+/* Content Area */
+.guide .guideContent{padding-left:23px;margin-bottom:44px}
+
+/* List */
+.guide .bannerList li{margin-top:20px}
+.guide .bannerList li:first-child{margin-top:18px}
+.guide .bannerList li img{margin-right:20px;vertical-align:middle}
+
+/* 모바일앱 바로 다운 */
+.guide .appGuide{position:relative;padding:32px 19px 36px 19px;margin-bottom:30px;border:1px solid #e7e7e7;background:#fafafa}
+.guide .appGuide .appStore{margin-right:20px;vertical-align:middle}
+.guide .appGuide .down{margin-left:18px}
+.guide .appGuide .qrCode{position:absolute;top:27px;right:203px}
+.guide .appGuide .qrCode img{margin-left:18px;vertical-align:middle}
+
+/* KOCW 활용 가이드 */
+.guide .pdfGuide{padding-left:23px;margin-bottom:53px}
+.guide .pdfGuide > p{margin-bottom:17px;font-size:15px}
+.guide .pdfGuide ul{overflow:hidden}
+.guide .pdfGuide ul li{position:relative;float:left;width:285px;height:238px;margin-left:20px;border:1px solid #e3e3e3;background:#f4f4f4;text-align:center}
+.guide .pdfGuide ul li:first-child{margin-left:0}
+.guide .pdfGuide ul li .pdfTitle{position:relative;display:block;padding:134px 0 18px;font-size:16px;z-index:10}
+.guide .pdfGuide ul li.pdf1 .pdfTitle{background:url(../../images/guide/pdfGuideIco1.png) no-repeat 50% 23px}
+.guide .pdfGuide ul li.pdf2 .pdfTitle{background:url(../../images/guide/pdfGuideIco2.png) no-repeat 50% 23px}
+.guide .pdfGuide ul li a{position:relative;color:#444;z-index:10}
+.guide .pdfGuide ul li .fileName{display:inline-block;padding-left:23px;margin-right:15px;background:url(../../images/guide/pdfIco.gif) no-repeat 0 50%;text-decoration:underline;line-height:17px;text-align:left;vertical-align:middle}
+.guide .pdfGuide ul li .hoverLine{display:none;position:absolute;top:0;left:0;width:282px;height:234px;border:3px solid #f36523}
+.guide .pdfGuide ul li:hover{padding:1px;border:none}
+.guide .pdfGuide ul li:hover .hoverLine{display:block}
+
+/* KOCW의 이용자별 활용법 */
+.guide .userGuide{height:280px;padding-top:41px;margin-bottom:45px;background:url(../../images/guide/userGuideBg.png) no-repeat 0 140px}
+.guide .userGuide ul{overflow:hidden}
+.guide .userGuide ul.userList1{padding-left:130px}
+.guide .userGuide ul.userList2{padding-left:10px;margin-top:82px}
+.guide .userGuide ul li{float:left;width:186px;height:95px;border:2px solid #ced6de;background:#f0f5fb;margin-left:50px;text-align:center}
+.guide .userGuide ul li:first-child{margin-left:0}
+.guide .userGuide ul li span{display:block;padding:13px 0 12px 0;color:#273f5b;font-size:15px}
+.guide .userGuide ul li p{display:inline-block;font-size:13px;line-height:16px;text-align:left}
+.guide .userGuide ul li.user1 p{padding:3px 0 3px 55px;background:url(../../images/guide/userIco1.png) no-repeat 0 0}
+.guide .userGuide ul li.user2 p{padding:2px 0 3px 44px;background:url(../../images/guide/userIco2.png) no-repeat 0 2px}
+.guide .userGuide ul li.user3 p{padding:0 0 3px 54px;background:url(../../images/guide/userIco3.png) no-repeat 0 4px}
+.guide .userGuide ul li.user4 p{padding:0 0 3px 51px;background:url(../../images/guide/userIco4.png) no-repeat 0 1px}
+.guide .userGuide ul li.user5 p{padding:3px 0 3px 60px;background:url(../../images/guide/userIco5.png) no-repeat 0 1px}
+.guide .userGuide ul li.user6 p{padding:4px 0 3px 45px;background:url(../../images/guide/userIco6.png) no-repeat 0 0}
+.guide .userGuide ul li.user7 p{padding:0 0 3px 56px;background:url(../../images/guide/userIco7.png) no-repeat 0 0}
+
+/* 연혁 */
+.guide .history{padding-left:24px}
+.guide .history .historyTab{height:32px;margin-bottom:30px}
+.guide .history .historyTab ul li{float:left;font-size:18px}
+.guide .history .historyTab ul li a{display:block;padding:0 29px 8px 31px;border-bottom:3px solid #f1f1f1;background:url(../../images/guide/bar.png) no-repeat 0 4px;color:#444;text-decoration:none}
+.guide .history .historyTab ul li:first-child a{background:none}
+.guide .history .historyTab ul li.selected a{border-bottom:3px solid #f36523}
+.guide .history .historyList{display:none}
+.guide .history .historyList ul li{position:relative;padding-left:112px;margin-top:18px;line-height:18px}
+.guide .history .historyList ul li:first-child{margin-top:0}
+.guide .history .historyList ul li span{position:absolute;top:0;left:0;color:#f36523;font-size:16px}
+.guide .history #history1{display:block}
+.guide .history #history2{}
+.guide .history #history3{}
+
+
+
+
+
+
+
+
+
+

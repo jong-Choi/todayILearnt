@@ -1,0 +1,556 @@
+@charset "utf-8";
+
+/* 
+===============================================================================================
+1.	버  전 : ocn.css
+2.	작성자 :  
+3.	작성일 : 2015.08.13 / 2015.12.03
+4.	참  고 : 기관채널에 관한 내용
+===============================================================================================
+*/
+
+/* 공개강의 기부시스템 */
+.openLectureWrap{}
+
+/* 공개강의 기부시스템 header */
+.openLectureWrap .openLectureHeader{ border-top:0px solid #3c3c3c}
+
+/* 공개강의 기부시스템 header _ login */
+.openLectureWrap .openLectureHeader .topLoginW{ height:20px; background:#3c3c3c;}
+.openLectureWrap .openLectureHeader .topLoginW .topLogin{ width:920px;padding-right:10px;margin:0 auto;text-align:right; font-weight:bold; font-size:11px; color:#FFF; }
+.openLectureWrap .openLectureHeader .topLoginW .topLogin a{padding-left:20px;color:#FFF; text-decoration:none;background:url(/home/images/ocn/imgLogout.gif) no-repeat 0 0}
+.openLectureWrap .openLectureHeader .topLoginW .topLogin a:hover{color:#FFF; text-decoration:underline}
+
+/* 공개강의 기부시스템 menu */
+.openLectureHeader .openLectureMenu{  height:50px; margin-bottom:45px; border-bottom:1px solid #4e2401}
+.openLectureHeader .openLectureMenu ul{width:930px; margin:0 auto;padding-top:18px;}
+.openLectureHeader .openLectureMenu li{ float:left;width:310px; line-height:20px;font-size:18px; font-weight:bold; text-align:center;letter-spacing:-1px; color:#444; background:url(/home/images/ocn/menuInb.gif) no-repeat 0 5px}
+.openLectureHeader .openLectureMenu li.first-child{ background:none}
+.openLectureHeader .openLectureMenu li a:link{color:#444; text-decoration:none}
+.openLectureHeader .openLectureMenu li a:hover{color:#fe6c00;text-decoration:none}
+
+.topTitle{ display:block; line-height:30px; margin-bottom:40px; border-bottom:1px solid #e5e5e5}
+.topTitle span{line-height:30px;border-bottom:2px solid #3c3c3c; font-size:24px; font-weight:bold; letter-spacing:-0.5px; color:#444}
+
+/* 공개강의 기부시스템 로그인 */
+.openLectureLoginWrap{width:930px;margin:90px auto;}
+.openLectureLoginWrap .loginTit{height:45px;text-align:center;}
+.openLectureLoginWrap .loginBox{ position:relative;width:515px; height:120px;margin-left:65px;margin-top:60px;padding:55px 0 0 275px; border:4px solid #eb8f3c; background:url(/home/images/ocn/loginImg.gif) no-repeat 60px 25px}
+.openLectureLoginWrap .loginBox span{display: block;width: 310px;height: 32px;margin-bottom: 3px;}
+.openLectureLoginWrap .loginBox label{ float:left;width:80px;margin-top:8px;}
+.openLectureLoginWrap .loginBox input{float:left;width:220px; height:28px;padding-left:3px; border:1px solid #e1e1e1; }
+.openLectureLoginWrap .loginBox .loginBtn{ position:absolute; top:55px;right:80px;}
+
+/* 공개강의 기부시스템 footer */
+.openLectureWrap .openLectureFooter{margin-top:20px;border-top:1px solid #e2e2e2; background:#eeeeee}
+.openLectureWrap .openLectureFooter .footerW{width:750px;margin:0 auto;padding:20px 0 20px 180px; font-size:11px; color:#999; background:url(/home/images/ocn/footerLogo.gif) no-repeat 80px 13px }
+.openLectureWrap .openLectureFooter .footerW address{font-style:normal}
+
+
+/* 테이블 상단 기간 검색 */
+.selectPeriod{ float:right;padding:3px 5px;border:1px solid #e1e1e1; background:#eee}
+.selectPeriod input{width:100px;height:18px; border:1px solid #ccc; color:#333;font-size:12px;  font-family: NanumGothic,"나눔고딕",ng,Dotum,"굴림",Gulim,"Trebuchet" ; background:#fff;}
+.selectPeriod img{ padding-top:2px;padding-left:3px;}
+
+/* 공개강좌 table */
+.openLectureTb{border-left:1px solid #e1e1e1; border-top:2px solid #ccc;}
+.openLectureTb th{padding:10px 0;text-align:center;	border-right:1px solid #e1e1e1;border-bottom:1px solid #e1e1e1;background:#eee}
+.openLectureTb td{padding:10px;	border-bottom:1px solid #e1e1e1;border-right:1px solid #e1e1e1; text-align:center;color:#444}
+.openLectureTb td a{ color:#444; text-decoration:none}
+.openLectureTb td a:hover{color:#333; text-decoration:underline}
+.openLectureTb td.tLeft{padding-left:15px;padding-right:15px; line-height:18px; text-align:left}
+
+/* txt 버튼 */
+a.btnTb1 {display: inline-block; height:21px;padding-left:10px;text-decoration:none;vertical-align:middle; font-weight:bold;background:url(/home/images/ocn/bt_bgb_l.gif) no-repeat 0 0;}
+a:hover.btnTb1 {text-decoration:none !important; }  
+a.btnTb1 span {display:block; height:21px; padding-right:10px; line-height:21px; color:#ffffff; font-size:11px; vertical-align:top; background:url(/home/images/ocn/bt_bgb_r.gif) no-repeat right 0;}
+
+
+a.btnTb2 {display: inline-block; height:29px;padding-left:15px;text-decoration:none;vertical-align:middle; font-weight:bold;background:url(/home/images/ocn/btn_cfm_l.gif) no-repeat 0 0;}
+a:hover.btnTb2 {text-decoration:none !important; }  
+a.btnTb2 span {display:block; height:29px; padding-right:15px; line-height:29px; color:#ffffff; font-size:13px; vertical-align:top; background:url(/home/images/ocn/btn_cfm_r.gif) no-repeat right 0;}
+
+a.btnTb3 {display: inline-block; height:21px;padding-left:10px;text-decoration:none;vertical-align:middle; font-weight:bold;background:url(/home/images/ocn/bt_bgb_l.gif) no-repeat 0 0;}
+a:hover.btnTb3 {text-decoration:none !important; }  
+a.btnTb3 span {display:block; height:21px; padding-right:15px; line-height:21px; color:#ffffff; font-size:11px; vertical-align:top; background:url(/home/images/ocn/bt_bgb_r.gif) no-repeat right 0;}
+a.btnTb3 img{ vertical-align:middle}
+
+.position1{ position:relative}
+.btnAbRight{ position:absolute; top:0; right:0}
+
+.searchWrap {
+	width:100%;
+	overflow:hidden;
+	margin:15px 0 20px 0;
+}
+
+.searchWrap table.searchTb {
+	width:100%;
+	border-top:2px solid #ccc;
+	border-bottom:2px solid #eaeaea;
+	margin-bottom:10px;
+}
+
+.searchWrap table.searchTb td {
+	line-height:26px;
+	color:#666;
+	padding:0
+	text-align:left;
+	border-bottom:1px solid #f4f4f4;
+}
+
+.searchWrap table.searchTb td select {
+	height: 20px;
+	width: 92px;
+	border:1px solid #ccc; 
+	font-size:12px; 
+	font-family:NanumGothic;
+	color:#333; 
+	
+	
+}
+
+/************************************/
+
+
+/* 기관채널 인트로 */
+.organIntroWrap{	
+	width:760px;
+	margin:80px auto ;
+}
+.organIntroWrap .organTit{
+	margin-bottom:60px; 
+	text-align:center
+}
+
+.organIntroWrap ul.style1 {
+	overflow:hidden;	
+}
+.organIntroWrap ul.style1 li{
+	float:left;
+	width:235px;
+	height:150px;
+	margin-right:10px;
+	margin-bottom:10px;	
+}
+.organIntroWrap ul li span{
+	float:left;
+	display:block;
+	padding:30px 0 0 25px ; 
+	line-height:24px; 
+	
+}
+.organIntroWrap ul li strong{ 
+	display:block;
+	font-size:14px; 
+	letter-spacing:-0.5px;
+	margin-bottom:10px;
+}
+.organIntroWrap ul li a:link{ 
+	display:block; 
+	padding-left:7px;
+	color:#222; 
+	text-decoration:none;
+}
+.organIntroWrap ul li a:hover{
+	color:#fff; 
+	text-decoration:underline
+}
+.organIntroWrap ul li.m2{ 
+	border:3px solid #d75a54;
+	background:#f57872 url(../../images/ocn/menu2.gif) no-repeat 150px 75px
+}
+.organIntroWrap ul li.m1{ 
+	border:3px solid #36b389;
+	background:#54d1a7 url(../../images/ocn/menu1.gif) no-repeat 155px 85px
+}
+.organIntroWrap ul li.m3{
+	border:3px solid #4f9ebd;
+	background:#6dbcdb url(../../images/ocn/menu3.gif) no-repeat 155px 75px
+}
+.organIntroWrap ul li.m5{ 
+	border:3px solid #4a9fa2;
+	background:#68bdc0 url(../../images/ocn/menu5.gif) no-repeat 160px 75px
+}
+.organIntroWrap ul li.m4{ 
+	border:3px solid #ce9a5e;
+	background:#ecb87c url(../../images/ocn/menu4.gif) no-repeat 150px 70px
+}
+.organIntroWrap ul li.m6{
+	border:3px solid #848484;
+	background:#9b9a9a url(../../images/ocn/menu6.gif) no-repeat 160px 55px
+}
+
+/* 공동활용센터 소개 */
+.openAPIInfo{ 
+	min-height:330px;
+   /*border: 1px solid #EBEBEB;*/
+	padding:25px 30px 25px 300px; 
+	background:url(../../images/ocn/openAPI.gif) no-repeat 5px 25px
+}
+.openAPIInfo strong{ 
+	font-size:14px;
+}
+.openAPIInfo p{
+	margin-bottom:20px; 
+	line-height:21px;
+}
+
+/* 공동활용센터 컨텐츠 */
+.openAPIContWrap{
+	padding:20px;color:#333
+}
+.openAPIContWrap h4{ 
+	line-height:21px;
+	margin-bottom:10px;
+	padding-left:10px; 
+	font-size:13px; 
+	font-weight:600; 
+	color:#666;
+	background:url(../../images/ocn/dotH4.gif) no-repeat 0 6px
+}
+/* KOCW 연계 신청 */
+.openAPICont .APIApplication{
+	padding:15px 20px;
+	margin-bottom:30px; 
+	border:1px solid #e5e5e5; 
+	background:#f5f5f5
+}
+.openAPICont .APIApplication li{ 
+	line-height:18px; 
+	margin-bottom:5px;
+}
+/* table */
+.openAPITb1{ }
+.openAPITb1 thead{
+	border:1px solid #dfd4ce;
+	background:#f5eee8;
+}
+.openAPITb1 th{
+	padding:8px ;
+	text-align:center;	
+	border-right:1px solid #dfd4ce;  
+	border-bottom:1px solid #dfd4ce;
+	font-weight:bold; 
+}
+.openAPITb1 tbody{
+	border:1px solid #dbdbdb;
+}
+.openAPITb1 td{
+	padding:8px;	
+	border-bottom:1px solid #dbdbdb;
+	border-right:1px solid #dbdbdb;
+	text-align:left;
+	color:#444
+ }
+.openAPITb1 tr.gray{ 
+	background:#f9f9f9
+}
+.openAPITb1 td.pointTxt{
+	color:#f79414; 
+	font-weight:bold
+}
+.openAPITb1.txtCenter td{ 
+	text-align:center
+}
+.openAPITb1 td.tLeft{ 
+	text-align:left
+}
+
+.openAPITb2{
+	border:1px solid #dbdbdb;
+}
+.openAPITb2 th{
+	padding:8px 15px;
+	text-align:left;	
+	border-right:1px solid #dfd4ce;  
+	border-bottom:1px solid #dfd4ce;
+	font-weight:bold; 
+	background:#f5eee8;
+}
+.openAPITb2 th .pointRed{
+	color:#FF0000
+ }
+.openAPITb2 td{
+	padding:8px 12px;	
+	border-bottom:1px solid #dbdbdb;
+	border-right:1px solid #dbdbdb;
+	text-align:left;
+	color:#444
+ }
+.openAPITb2 .tbInputStyle1{ 
+	width:60%; 
+	line-height:18px;
+	padding:3px; 
+	border:1px solid #ccc; 
+	color:#666
+}
+.openAPITb2 .tbTextareaStyle1{
+	width:100%; 
+	height:50px; 
+	line-height:18px; 
+	border:1px solid #ccc; 
+	color:#666
+}
+
+/* 콘텐츠 공동활용 신청 */
+.applicationInfoBox{
+	line-height:18px;
+	padding:20px ;
+	margin-bottom:30px; 
+	border:1px solid #e5e5e5; 
+	color:#333;
+	background:#f5f5f5
+}
+.applicationInfoBox .pTxt1{
+	margin-bottom:15px; 
+	color:#333
+}
+.applicationInfoBox .pTxt2{
+	padding-left:120px;
+	padding-top:2px; 
+	line-height:20px; 
+	background:url(../../images/ocn/appliboxBg.png) no-repeat 10px 0
+}
+.btnBox1{ 
+	display:block;
+	margin-bottom:7px; 
+	text-align:right
+}
+
+/* 내 기관관리 상단 menu */
+.openAPIMenu{  
+	height:50px; 
+	margin-bottom:30px; 
+	border-bottom:1px solid #d8d8d8
+}
+.openAPIMenu ul{
+	width:930px; 
+	margin:0 auto;
+	padding-top:18px;
+}
+.openAPIMenu li{ 
+	float:left;
+	width:310px; 
+	line-height:20px;
+	font-size:18px; 
+	font-weight:bold; 
+	text-align:center;
+	letter-spacing:-1px;
+	color:#444; 
+	background:url(../../images/openLecture/menuInb.gif) no-repeat 0 5px
+}
+.openAPIMenu li.first-child{
+	background:none
+}
+.openAPIMenu li a:link{
+	color:#444; 
+	text-decoration:none
+}
+.openAPIMenu li a:hover{
+	color:#fe6c00;
+	text-decoration:none
+}
+/* 내 기관관리 상단 login */
+.APILgoinWrap{ 
+	overflow:hidden;
+	padding:12px 20px;
+	margin-bottom:30px; 
+	border:1px solid #e5e5e5; 
+	background:#f5f5f5
+}
+.APILgoinWrap ul{ 
+	float:right;
+	color:#333;	
+}
+.APILgoinWrap ul li{ 
+	float:left;
+	margin-left:15px; 
+}
+/* LOGIN 버튼 */
+a.btnOrange {
+	display: inline-block; 
+	height:21px;
+	padding-left:13px;
+	text-decoration:none;
+	vertical-align:middle;  
+	font-size:11px; 
+	background:url(../../images/ocn/btnLoginL.gif) no-repeat 0 0
+}
+a:hover.btnOrange {
+	text-decoration:none !important; 
+}  
+a.btnOrange span {
+	display:block; 
+	height:21px; 
+	padding-right:13px; 
+	line-height:21px; 
+	color:#ffffff; 
+	font-size:11px; 
+	font-weight:bold;
+	vertical-align:top; 
+	background:url(../../images/ocn/btnLoginR.gif) no-repeat right 0;
+}
+
+
+/* 내 기관관리 그래프 높이 _오픈강좌와 차별 */
+.apiH90{ 
+	height:90px !important
+}
+.marBot20{ 
+	margin-bottom:20px !important
+}
+
+/* 공개강의 리스트 내 오픈div 20160509 */
+
+.openDivBtn1{ 
+	margin-left:5px; 
+	vertical-align:middle
+}
+.openDivStyle1{ 
+	padding:0 !important;
+	color:#666; 
+	text-align:left !important;	
+}
+.openDivStyle1 dl{
+	padding:15px 10px 10px 18px;
+	margin:10px 10px 10px 35px;
+	background:#f5f5f5 url(../../images/ocn/boxBg.png) no-repeat top left
+}
+.openDivStyle1 dl dt{
+	margin-bottom:5px; 
+	color:#111
+}
+.openDivStyle1 dl dd span{ 
+	display:block;
+	margin-bottom:5px;
+}
+
+/* 내 기관관리 대학정보공시 실적조회 */
+.divOrganTop{ 
+	margin-bottom:10px; 
+	margin-top:15px;
+}
+.divOrganTop dl{ 
+	overflow:hidden;
+	margin-bottom:3px; 
+	color:#333
+}
+.divOrganTop dt{ 
+	float:left;
+	padding-left:8px; 
+	font-weight:bold; 
+	background:url(../../images/common/list_style.gif) no-repeat 0 7px;
+}
+.divOrganTop dd{ 
+	float:left;
+	padding-left:5px;
+}
+/* 내 기관관리 대학정보공시 실적조회  오른쪽 카테고리 */
+.divOrganCategory{ 
+	overflow:hidden;
+	margin-bottom:10px
+}
+.divOrganCategory ul{ 
+	float:right
+}
+.divOrganCategory ul li{ 
+	float:left;
+	margin-left:10px;
+	padding-left:10px; 
+	font-weight:bold; 
+	background:url(../../images/ocn/inbBg.gif) no-repeat 0 50%  
+}
+.divOrganCategory ul li.first-child{ 
+	background:none
+}
+.divOrganCategory ul li a{ 
+	text-decoration:none
+}
+.divOrganCategory ul li a.organSlect{
+	color:#f6891f;
+}
+.organBotTxt{ 
+	clear:both; 
+	display:block;
+	padding-left:8px;
+	background:url(../../images/common/arrow.gif) no-repeat 0 5px
+}
+
+/* 대학공개강의 등록 절차 */
+.organGuideStepWrap{
+	padding:0 30px;
+}
+.organGuideStepWrap ul li { 
+	position:relative;
+	margin-bottom:15px;
+}
+.organGuideStepWrap ul li .abBtn{ 
+	position:absolute; 
+	top:0;left:690px
+}
+.organGuideStepWrap ul li.flowArr{ 
+	width:660px;
+	text-align:center;
+}
+.organGuideStepWrap ul li dl{
+	width:660px;
+}
+.organGuideStepWrap ul li dl dt{
+	padding:10px; 
+	border:1px solid #d25917; 
+	font-weight:bold; 
+	color:#fff; 
+	font-size:14px; 
+	text-align:center; 
+	background:#f57630 
+}
+.organGuideStepWrap ul li dl dd{
+	padding:10px 30px;
+	border:1px solid #d8d8d8; 
+	color:#333; 
+	font-size:12px;
+	background:#ebebeb
+}
+.organGuideStepWrap ul li dl dd p{
+	margin-bottom:10px;
+}
+
+/* 원격강좌현황 실적확인 테이블 상단 연도 표시 */
+.tbTopYear{ 
+	float:right;
+	margin-bottom:7px;
+	padding:5px 10px; 
+	font-size:15px; 
+	font-weight:bold; 
+	background:#efefef
+}
+
+/* 하단 버튼 */
+.openAPICont .btnArea{
+	margin:20px; 
+	text-align:center
+}
+.openAPICont .btnArea a.btnOrangeB {
+	display: inline-block; 
+	height:33px;
+	padding-left:20px;
+	text-decoration:none;
+	vertical-align:middle;  
+	font-size:11px; 
+	background:url(../../images/ocn/btnOrangeBL.gif) no-repeat 0 0
+}
+.openAPICont .btnArea a:hover.btnOrangeB {
+	text-decoration:none !important; 
+}  
+.openAPICont .btnArea a.btnOrangeB span {
+	display:block; 
+	height:33px; 
+	padding-right:20px; 
+	line-height:33px; 
+	color:#ffffff; 
+	font-size:14px; 
+	font-weight:bold;
+	vertical-align:top; 
+	background:url(../../images/ocn/btnOrangeBR.gif) no-repeat right 0;
+}
