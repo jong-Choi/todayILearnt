@@ -6,7 +6,7 @@
 ### RDT3.0 모델의 효율문제
 전체 시간 중에 네트웍을 사용하는 시간이 클 수록 네트워크의 효율이 좋다.  
   
-![ㅁㄴㅇ](,,/../../../src/network3-39.PNG)   
+![ㅁㄴㅇ](../../src/network3-39.PNG)   
   
 패킷을 하나 전송하고 하나 피드백 하나를 받는 모델의 경우, 패킷을 보내고 기다리는 시간이 길다. 
 U(Utilization)을 구해보면, (패킷의 길이/패킷을 전송하는데 걸리는 속도) / 패킷을 하나 보내고 나서 대기하는 속도+(패킷의 길이/패킷을 전송하는데 걸리는 속도)  = 0.027 수준.  
@@ -27,7 +27,7 @@ ACK는 cumulative ACK이다. ACK #11은 11번까지 받았다는 의미.
 
 **GBN 모델에서의 Sender의 행동 FSM**  
 
-![ㅁㄴㅇ](,,/../../../src/network3-44.PNG)   
+![ㅁㄴㅇ](../../src/network3-44.PNG)   
 
 - Window Size 설정,
 - **전송**: Window Size만큼 #base, #base+1, ... , #base+windowSize-1 만큼 전송, 타이머 작동. 
@@ -46,7 +46,7 @@ ACK #0 이면 #1패킷을 기다리고, 먼저 도착한 #2, #3은 버린다.
 **GBN 모델 예시**  
 
   
-![ㅁㄴㅇ](,,/../../../src/network3-45.PNG)   
+![ㅁㄴㅇ](../../src/network3-45.PNG)   
  
 
 - Time Out이 발생한 #N로 window를 되돌려서 go-back-N
@@ -70,7 +70,7 @@ Receiver는 받은 패킷에 대한 ACK를 전송한다.
 **SR 모델 예시**
  
 
-![ㅁㄴㅇ](,,/../../../src/network3-49.PNG)  
+![ㅁㄴㅇ](../../src/network3-49.PNG)  
 
 패킷 2번이 Loss 나는 경우, 2~5에서 대기.   
 0~5번 모두 ACK를 받고, 2번 패킷만 TimeOut 나는 경우,   
@@ -114,7 +114,7 @@ TCP - 세그먼트 (헤더와 데이터(메시지를 포함한))
 
 
 
-![ㅁㄴㅇ](,,/../../../src/network3-53.PNG)  
+![ㅁㄴㅇ](../../src/network3-53.PNG)  
 
 
 포트 번호 : 각 각 16비트  
@@ -128,7 +128,7 @@ Receive Window : 버퍼에 남아 있는 공간을 알려주기 위한.
 ### TCP의 동작 원리
 
  
-![ㅁㄴㅇ](,,/../../../src/network3-54.PNG)  
+![ㅁㄴㅇ](../../src/network3-54.PNG)  
 
  
 에코서버(클라이언트의 요청에 따라 클라이언트의 요청을 리스폰스로 에코하는 서버)  
@@ -156,14 +156,14 @@ b = 0.25
 - 하나의 retransmission Timer
 (GBn과 마찬가지로 타임아웃은 하나지만 SR과 마찬가지로 누락된 것만 재전송.)
 
-**TCP 재전송 시나리오**
-63페이지  
+**TCP 재전송 시나리오**  
+63페이지    
 
 
-![ㅁㄴㅇ](,,/../../../src/network3-63.PNG)   
+![ㅁㄴㅇ](../../src/network3-63.png)   
 
 
-![ㅁㄴㅇ](,,/../../../src/network3-64.PNG)   
+![ㅁㄴㅇ](../../src/network3-64.PNG)   
 
 
 세번째 시나리오가 ACK를 늦게 보내도 되는 이유. **TCP에서는 Delayed ACK를 권장한다.**   
@@ -199,9 +199,9 @@ TCP에서 Sender는 Receiver가 새로운 피드백을 보내도록 Header만 �
 #### Connection Establishment(3-way handshake)
 통신을 위해서는 두 개의 소켓이 자신들이 보낼 seq#s와 RcvWindow를 전달하고, 상대방의 seq#과 buffer 정보를 알아야 함. 이 과정dl Connection Establishment. 3-way handshake 총 3번 정보를 전달받음.  
 
-![ㅁㄴㅇ](,,/../../../src/network3-53.PNG)    
+![ㅁㄴㅇ](../../src/network3-53.PNG)    
 
-![ㅁㄴㅇ](,,/../../../src/network3-73.PNG)     
+![ㅁㄴㅇ](../../src/network3-73.PNG)     
 
 1) SYN : TCP 커넥션을 열겠다는 의사표시 - 세그먼트 해더의 syn을 1로 전달함.    
 2) SYNACK : TCP 커넥션 요청에 대한 응답 - syn을 1로, ack에 seq#x+1을   
@@ -270,7 +270,8 @@ Multiplicative Decrease 구간에서는 패킷 유실이 발생했을 때 34->17
 병목현상을 줄이기 위해서는 모든 사용자가 속도를 확 줄여야만 해결할 수 있음. 그래서 Multiplicative하게 Derease.  
 
 
-![ㅁㄴㅇ](,,/../../../src/network3-91.PNG)  
+![ㅁㄴㅇ](../../src/network3-91.PNG)  
+  
 네트워크의 최대 수용속도를 알지 못하고, 최대 수용 속도가 지속적으로 변하기 때문에, 톱니바퀴와 같은 모양으로 찾아가야함.   
 
 #### Congestion Control : 전송 속도
@@ -279,7 +280,9 @@ Sender의 limits transmission : `LastByteSent - LastByteAcked <= CongWin`
 이때 RTT(Round Trip Time)은 비교적 안정되어 있음. 따라서 Congestion Window의 변동에 영향을 받으며, Congestion Window는 네트웍의 영향을 받음.  
 
 #### 패킷 유실의 탐지와 TCP의 대응 : TAP Tahoe와 TCP Reno
-![ㅁㄴㅇ](,,/../../../src/network3-95.PNG)  
+  
+![ㅁㄴㅇ](../../src/network3-95.PNG)  
+  
 가로가 RTT, 세로가 CongWin (그림이 잘못됨)  
 
 패킷 유실이 감지되면 Thre.값을 8에서 6으로(패킷 유실이 탐지된 값의 1/2로)  
@@ -300,7 +303,7 @@ Sender의 limits transmission : `LastByteSent - LastByteAcked <= CongWin`
 <br>
 첫 Thre.는 어떻게 잡을까?... 구현하는 사람 마음. 첫 Thre.없이 진행하는 것이 현실적.  
 
-#### TCP 공정성
+#### TCP 공정성  
 Bandwidth가 R일 때.  
 TCP Connection 1이 R만큼 전송하고 있다.  
 
@@ -308,7 +311,7 @@ TCP Connection 2가 Router에 접속한다면,
 
 TCP Connection 1과 TCP Connection 2가 R/2씩 Fair하게 나눠 가질까?  
 
-![ㅁㄴㅇ](,,/../../../src/network3-103.PNG)  
+![ㅁㄴㅇ](../../src/network3-103.PNG)  
 
 TCP Connection 2가 패킷 유실이 일어날 때에 TCP Connection 1도 함께 패킷 유실이 일어나 동시에 CongWin을 절반으로 줄인다.  
 이 과정이 반복되며 두 TCP가 Fair한 위치로 수렴한다.  
