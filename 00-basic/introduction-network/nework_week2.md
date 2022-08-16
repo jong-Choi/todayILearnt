@@ -163,7 +163,7 @@ b = 0.25
 ![ㅁㄴㅇ](../../src/network3-63.png)   
 
 
-![ㅁㄴㅇ](../../src/network3-64.PNG)   
+![ㅁㄴㅇ](../../src/network3-64.png)   
 
 
 세번째 시나리오가 ACK를 늦게 보내도 되는 이유. **TCP에서는 Delayed ACK를 권장한다.**   
@@ -201,7 +201,7 @@ TCP에서 Sender는 Receiver가 새로운 피드백을 보내도록 Header만 �
 
 ![ㅁㄴㅇ](../../src/network3-53.PNG)    
 
-![ㅁㄴㅇ](../../src/network3-73.PNG)     
+![ㅁㄴㅇ](../../src/network3-73.png)     
 
 1) SYN : TCP 커넥션을 열겠다는 의사표시 - 세그먼트 해더의 syn을 1로 전달함.    
 2) SYNACK : TCP 커넥션 요청에 대한 응답 - syn을 1로, ack에 seq#x+1을   
@@ -270,7 +270,7 @@ Multiplicative Decrease 구간에서는 패킷 유실이 발생했을 때 34->17
 병목현상을 줄이기 위해서는 모든 사용자가 속도를 확 줄여야만 해결할 수 있음. 그래서 Multiplicative하게 Derease.  
 
 
-![ㅁㄴㅇ](../../src/network3-91.PNG)  
+![ㅁㄴㅇ](../../src/network3-91.png)  
   
 네트워크의 최대 수용속도를 알지 못하고, 최대 수용 속도가 지속적으로 변하기 때문에, 톱니바퀴와 같은 모양으로 찾아가야함.   
 
@@ -281,7 +281,7 @@ Sender의 limits transmission : `LastByteSent - LastByteAcked <= CongWin`
 
 #### 패킷 유실의 탐지와 TCP의 대응 : TAP Tahoe와 TCP Reno
   
-![ㅁㄴㅇ](../../src/network3-95.PNG)  
+![ㅁㄴㅇ](../../src/network3-95.png)  
   
 가로가 RTT, 세로가 CongWin (그림이 잘못됨)  
 
@@ -311,7 +311,7 @@ TCP Connection 2가 Router에 접속한다면,
 
 TCP Connection 1과 TCP Connection 2가 R/2씩 Fair하게 나눠 가질까?  
 
-![ㅁㄴㅇ](../../src/network3-103.PNG)  
+![ㅁㄴㅇ](../../src/network3-103.png)  
 
 TCP Connection 2가 패킷 유실이 일어날 때에 TCP Connection 1도 함께 패킷 유실이 일어나 동시에 CongWin을 절반으로 줄인다.  
 이 과정이 반복되며 두 TCP가 Fair한 위치로 수렴한다.  
