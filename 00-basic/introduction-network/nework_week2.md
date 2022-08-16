@@ -5,8 +5,9 @@
 
 ### RDT3.0 모델의 효율문제
 전체 시간 중에 네트웍을 사용하는 시간이 클 수록 네트워크의 효율이 좋다.  
-
-![ㅁㄴㅇ](,,/../../../src/network3-39.PNG)
+  
+![ㅁㄴㅇ](,,/../../../src/network3-39.PNG)   
+  
 패킷을 하나 전송하고 하나 피드백 하나를 받는 모델의 경우, 패킷을 보내고 기다리는 시간이 길다. 
 U(Utilization)을 구해보면, (패킷의 길이/패킷을 전송하는데 걸리는 속도) / 패킷을 하나 보내고 나서 대기하는 속도+(패킷의 길이/패킷을 전송하는데 걸리는 속도)  = 0.027 수준.  
   
@@ -24,14 +25,16 @@ ACK는 cumulative ACK이다. ACK #11은 11번까지 받았다는 의미.
 - Sender는 각 패킷에 대한 타이머를 가진다.  
 1번 패킷이 Time Out되면 1, 2, 3을 모두 재전송한다.  
 
-**GBN 모델에서의 Sender의 행동 FSM**
-![ㅁㄴㅇ](,,/../../../src/network3-44.PNG)  
+**GBN 모델에서의 Sender의 행동 FSM**  
+
+![ㅁㄴㅇ](,,/../../../src/network3-44.PNG)   
+
 - Window Size 설정,
 - **전송**: Window Size만큼 #base, #base+1, ... , #base+windowSize-1 만큼 전송, 타이머 작동. 
 - **추가전송**: 전송이 끝나면 #base+windowSize부터 추가로 전송, 타이머 작동 <br>
 - **Time Out** : #base를 Time Out이 발생한 시퀀스 번호로 하여 windowSize만큼 재전송  
 
-**GBN 모델에서의 RECEIVER의 행동 FSM**
+**GBN 모델에서의 RECEIVER의 행동 FSM**  
 RECEIVER의 행동은 상대적으로 단순하다.   
 
 - ACK#i에 대해, 
@@ -40,8 +43,11 @@ RECEIVER의 행동은 상대적으로 단순하다.
 
 ACK #0 이면 #1패킷을 기다리고, 먼저 도착한 #2, #3은 버린다.   
 
-**GBN 모델 예시**
-![ㅁㄴㅇ](,,/../../../src/network3-45.PNG)
+**GBN 모델 예시**  
+
+  
+![ㅁㄴㅇ](,,/../../../src/network3-45.PNG)   
+ 
 
 - Time Out이 발생한 #N로 window를 되돌려서 go-back-N
 - window 안에 있는 애들은 아직 cumulative ACK를 받지 않았기 때문에 재전송을 대비해 buffer에 저장해야 한다.  
@@ -62,7 +68,10 @@ Receiver는 받은 패킷에 대한 ACK를 전송한다.
 
 
 **SR 모델 예시**
-![ㅁㄴㅇ](,,/../../../src/network3-49.PNG)
+ 
+
+![ㅁㄴㅇ](,,/../../../src/network3-49.PNG)  
+
 패킷 2번이 Loss 나는 경우, 2~5에서 대기.   
 0~5번 모두 ACK를 받고, 2번 패킷만 TimeOut 나는 경우,   
 2번 재전송하고, 6,7,8,9 전송  
@@ -102,7 +111,12 @@ TCP - 세그먼트 (헤더와 데이터(메시지를 포함한))
 전송에서 중요한 부분은 헤더이다.  
 
 **TCP 세그먼트 헤더**
+
+
+
 ![ㅁㄴㅇ](,,/../../../src/network3-53.PNG)  
+
+
 포트 번호 : 각 각 16비트  
 (한 컴퓨터에서 2의 16승만큼(6만5천...)의 응용프로그램을 동시에 작동시킬 수 있다.)  
 시퀀스 넘버 :    
@@ -112,7 +126,11 @@ Receive Window : 버퍼에 남아 있는 공간을 알려주기 위한.
 등등..
 
 ### TCP의 동작 원리
+
+ 
 ![ㅁㄴㅇ](,,/../../../src/network3-54.PNG)  
+
+ 
 에코서버(클라이언트의 요청에 따라 클라이언트의 요청을 리스폰스로 에코하는 서버)  
 Seq# : 각 세그먼트의 데이터(앱의 메시지) 별 가장 앞에 있는 바이트의 번호.(메시지를 10바이트씩 쪼갰다면 0, 10, 20순으로 Seq# 진행)   
 cumulative ACKs : 현재 기다리고 있는 메시지의 번호 (ACK#10 = 10번 못 받았다.(9번까지 받았음))    
@@ -139,9 +157,15 @@ b = 0.25
 (GBn과 마찬가지로 타임아웃은 하나지만 SR과 마찬가지로 누락된 것만 재전송.)
 
 **TCP 재전송 시나리오**
-63페이지
-![ㅁㄴㅇ](,,/../../../src/network3-63.PNG) 
-![ㅁㄴㅇ](,,/../../../src/network3-64.PNG) 
+63페이지  
+
+
+![ㅁㄴㅇ](,,/../../../src/network3-63.PNG)   
+
+
+![ㅁㄴㅇ](,,/../../../src/network3-64.PNG)   
+
+
 세번째 시나리오가 ACK를 늦게 보내도 되는 이유. **TCP에서는 Delayed ACK를 권장한다.**   
 
 한편, Timer 시간이 길다. Timer가 초과되기 전에 유실된 번호를 알 수 있다. 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 세그먼트를 보냈는데 Timer가 expired되기 전에 AKC10, ACK10이 계속해서 들어온다면 10번 패킷이 유실되었을 것이라 예상할 수 있다.  
@@ -174,8 +198,11 @@ TCP에서 Sender는 Receiver가 새로운 피드백을 보내도록 Header만 �
 ### Connection Management
 #### Connection Establishment(3-way handshake)
 통신을 위해서는 두 개의 소켓이 자신들이 보낼 seq#s와 RcvWindow를 전달하고, 상대방의 seq#과 buffer 정보를 알아야 함. 이 과정dl Connection Establishment. 3-way handshake 총 3번 정보를 전달받음.  
-![ㅁㄴㅇ](,,/../../../src/network3-53.PNG)  
-![ㅁㄴㅇ](,,/../../../src/network3-73.PNG)  
+
+![ㅁㄴㅇ](,,/../../../src/network3-53.PNG)    
+
+![ㅁㄴㅇ](,,/../../../src/network3-73.PNG)     
+
 1) SYN : TCP 커넥션을 열겠다는 의사표시 - 세그먼트 해더의 syn을 1로 전달함.    
 2) SYNACK : TCP 커넥션 요청에 대한 응답 - syn을 1로, ack에 seq#x+1을   
 3) ACK : SYNACK에 대한 응답. 이 단계부터 어플리케이션 데이터 전달 가능.  
