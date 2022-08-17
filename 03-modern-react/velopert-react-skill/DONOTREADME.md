@@ -28,16 +28,59 @@
 ## 2 JSX
 
 - Webpack과 번들러  
-  import 지원함.
   `import React from 'react';`
-- 감싸인 요소와 Fragment  
-  return되는 값은 항상 하나의 엘리먼트라서 감싸줘야함.
+
+- 감싸인 요소와 Fragment
+
+```js
+function App() {
+  return (
+    <Fragment>
+      <h1>리액트 안녕!</h1>
+      <h2>잘 작동하니?</h2>
+    </Fragment>
+  );
+}
+```
+
+```js
+function App() {
+  return (
+    <>
+      <h1>리액트 안녕!</h1>
+      <h2>잘 작동하니?</h2>
+    </>
+  );
+}
+
+export default App;
+```
+
+- 자바스크립트 표현
+
+```js
+function App() {
+  const name = ‘리액트‘;
+  return (
+    <div>
+      {name === ‘리액트‘ ? (
+        <h1>리액트입니다.</h1>
+      ) : (
+        <h2>리액트가 아닙니다.</h2>
+      )}
+    </div>
+  );
+}
+```
+
 - 삼항연산자를 사용한 조건부 렌더링  
   `return <div>{name === '리액트' ? <h1>리액트입니다.</h1> : null}</div>;`
 - and(&&)를 사용한 조건부 렌더링  
   `return <div>{name === ‘리액트‘ && <h1>리액트입니다.</h1>}</div>;`
-  한줄로 이루어진 return은 괄호를 생략하여 표기하기도 한다.
-  null, undefined 등의 falsy한 값은 렌더링되지 않는다. 0은 렌더링 된다.
+
+      한줄로 이루어진 return은 괄호를 생략하여 표기하기도 한다.
+      null, undefined 등의 falsy한 값은 렌더링되지 않는다. 0은 렌더링 된다.
+
 - undefined를 렌더링하면 아래는 오류를 내뱉는다.
 
 ```js
@@ -85,7 +128,7 @@ function App() {
 }
 ```
 
-- 인라인 스타일의 값으로 객체를 넘겨줄 수도 있다.
+- 인라인 스타일에 객체를 넘겨줄 수도 있다.
 
 ```js
 function App() {
@@ -155,15 +198,7 @@ Not sure where to find Configure Default Formatter but I used File->Settings->Te
 
 ### 클래스형 컴포넌트
 
-**클래스형 컴포넌트 의미**
-`react.Component.App.render()`
-
-`class App extends React.Component` 이름이 App인 클래스를 리액트.컴포넌트의 자식 클래스로 넣어줌.  
-`render(){내용}` React에서 쓸 내용물을 담아서 render() 메서드로 만들어줌.
-
 ```js
-import React, { Component } from 'react';
-
 class App extends Component {
   render() {
     const name = 'react';
@@ -190,33 +225,23 @@ class App extends Component {
 컴포넌트 속성을 설정할 때 사용하는 요소입니다.  
 부모 요소에서 `<컴포넌트 프롭명="값" />`과 같이 어트리뷰트 처럼 사용한다.
 
-**프롭스 넘겨받는 법**
-
-1. 컴포넌트를 만들 때 상위요소에서 받아올 녀석(props)를 설정하기  
-   컴포넌트의 렌더링 부분에 props라는 매개변수를 넘겨줌.
+컴포넌트에서 프롭 설정하기
 
 ```js
-import React from ‘react‘;
-
-const MyComponent = props => {
-return <div>안녕하세요, 제 이름은 {props.name}입니다.</div>;
+const MyComponent = (props) => {
+  return <div>안녕하세요, 제 이름은 {props.name}입니다.</div>;
 };
-
-export default MyComponent;
 ```
 
-2. 상위 요소에서 어트리뷰트의 형태로 props를 넘겨주기
+App.js에서 프롭에 값 주기
 
 ```js
-import React from 'react';
-import MyComponent from './MyComponent';
-
 const App = () => {
   return <MyComponent name="React" />;
 };
-
-export default App;
 ```
+
+`안녕하세요, 제 이름은 React입니다.`
 
 #### 컴포넌트.defaultProps={}
 
@@ -345,14 +370,6 @@ class MyComponent extends Component {
 ```
 
 #### constructor와 this.state로 초깃값 설정하기
-
-**super(props)?**
-https://min9nim.github.io/2018/12/super-props/
-super()는 부모 요소의 생성자를 참조(내용을 상속)하겠는 의미.
-super(props)를 통해 react.Component를 참조하고 this를 바인딩함.
-this.props, this.state, this.setState() 모두 리액트에서 제공되는 내용들. react.Componenet.setState()
-
-참고로 최신버전에선 constructor(props) 부분 생략하고 state = {} 만 넣어도 this가 자동으로 react에 바인딩 됨.
 
 ```js
 class Counter extends Component {
@@ -542,26 +559,3 @@ export default EventPractice;
 ```
 
 https://thebook.io/080203/ch04/02/02/02/
-
-## 5 ref
-
-**ref 선언 및 사용법**
-id 대신 ref를 사용함.
-
-선언하기
-
-```js
-<input
-  ref={(ref) => {
-    this.userPassword = ref;
-  }}
-/>
-```
-
-사용하기 (유저 id처럼 사용하게 됨)
-
-```js
-handleFocus = () => {
-  this.userPassword.current.focus();
-};
-```
