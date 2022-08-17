@@ -331,3 +331,63 @@ print(array)
 
 
 ### 문자열 압축
+
+
+## STACK
+push 구현하기   
+```py
+size = 10
+stack = [0] * size
+top = -1 #top: 자료가 있는 마지막 인덱스
+
+# 함수로 구현하기
+def push(item, size):
+    global top
+    top += 1
+    if top == size:
+        print('overflow')
+    else: stack[top] = item
+push(10, size)
+print(stack)
+
+# 직접 구현하기
+top += 1
+stack[top] = 20
+print(stack)
+```
+pop 구현하기
+```
+def push(item, size):
+    global top
+    top += 1
+    if top == size:
+        print('overflow')
+    else: stack[top] = item
+
+size = 10
+stack = [0] * size
+top = -1
+
+push(10, size)
+print(stack)
+top += 1
+stack[top] = 20
+print(stack)
+
+
+def pop() :
+    global top
+    if top == -1 :
+        print('underflow')
+        return 0
+    else : 
+        top -= 1
+        return stack[top+1]
+    
+print(pop())
+
+if top > -1 : #pop
+    top -= 1
+    print(stack[top])
+```
+
