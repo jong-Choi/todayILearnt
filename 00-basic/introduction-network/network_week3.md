@@ -230,9 +230,9 @@ Network Links별(이더넷, 와이파이, 3G, 옵틱, 광케이블 등)로 MTU(m
 
 MTU를 초과한 패킷나누기 위해 Fragmentation을 진행해야 함.
 
-![네트워크레이어](../../src/networks4-59.png)
+![네트워크레이어](../../src/networks4-59.PNG)
 
-![네트워크레이어](../../src/networks4-60png.png)
+![네트워크레이어](../../src/networks4-60png.PNG)
 
 id : 기존 패킷 고유의 아이디를 공유
 fragflag : 해당 패킷의 뒤에 frag된 패킷이 있는지. (마지막 패킷의 플래그가 0)
