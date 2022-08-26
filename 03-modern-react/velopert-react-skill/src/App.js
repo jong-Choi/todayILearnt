@@ -1,9 +1,9 @@
 import React from 'react';
-import IterationSample from './IterationSample';
+import Average from './avg';
 
 class App extends React.Component {
   render() {
-    return <IterationSample />;
+    return <Average />;
   }
 }
 
