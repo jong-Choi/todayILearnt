@@ -1,0 +1,5 @@
+.TodoList {
+  min-height: 320px;
+  max-height: 513px;
+  overflow-y: auto; //벗어난 부분이 있을 때만 스크롤표시한다. 가로 또는 세로만 적용할 때에는 -y, -x
+}
