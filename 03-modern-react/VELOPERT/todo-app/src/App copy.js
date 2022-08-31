@@ -2,7 +2,6 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 import { useCallback, useState, useRef } from 'react';
-import { act } from 'react-dom/test-utils/index';
 
 /*
 TodoList만들기
@@ -62,18 +61,36 @@ function createBulkTodos() {
   return array;
 }
 
-function todoReducer(todos, action) {
-  switch (action.type) {
-    case 'INSERT':
-      //{ type: 'INSERT', todo: { id: 1, text: 'todo', checked: false }}
-      return todos.concat(action.todo);
-
-    default:
-      return todos;
-  }
-}
-
 const App = () => {
+  //todos의 리스트에 id를 부여하는 state를 만들어 TodoList컴포넌트에 Props로 전달함
+  const [todos, setTodos] = useState(createBulkTodos);
+
+  //렌더링에 필요 없는 값은 useRef를 사용하면 바닐라 자바스크립트 전역객체로 사용 가능하다.
+  //함수를 선언할 때에는 useCallback을 사용하여 성능을 최적화 한다.
+  const nextId = useRef(2501);
+  const onInsert = useCallback((text) => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    setTodos((todos) => todos.concat(todo));
+    nextId.current += 1;
+  }, []);
+
+  const onRemove111 = useCallback((id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  }, []);
+
+  const onToggle = useCallback((id) => {
+    setTodos((todos) =>
+      todos.map((todo) =>
+        // id가 다르면 그대로 두고, 같으면 todo 객체에서 checked를 토글하여 반환
+        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+      ),
+    );
+  }, []);
+
   return (
     <TodoTemplate>
       {/* onInsert라는 이벤트 핸들러를 만들어 props로 전달 */}
