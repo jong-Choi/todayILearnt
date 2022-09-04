@@ -1,8 +1,7 @@
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
-import { useCallback, useState, useRef } from 'react';
-import { act } from 'react-dom/test-utils/index';
+import { useCallback, useReducer, useRef } from 'react';
 
 /*
 TodoList만들기
@@ -65,15 +64,43 @@ function createBulkTodos() {
 function todoReducer(todos, action) {
   switch (action.type) {
     case 'INSERT':
-      //{ type: 'INSERT', todo: { id: 1, text: 'todo', checked: false }}
       return todos.concat(action.todo);
-
+    case 'REMOVE':
+      return todos.filter((todo) => todo.id !== action.id);
+    case 'TOGGLE':
+      //불변성: 기존값을 수정하지 않고, 새로운 배열과 새로운 객체를 만드는 것
+      //새로운 객체를 반환해야 리렌더링이 됨.
+      //[...배열]은 배열에 있는 값을 복사하며, 배열 안에 배열 혹은 객체가 있는 경우 작동하지 않음.
+      return todos.map((todo) =>
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo,
+      );
     default:
       return todos;
   }
 }
 
 const App = () => {
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
+  //useReducer(액션, state의초기값) 혹은 useReducer(액션, state의초기값, state초기생성함수)
+  const nextId = useRef(2501);
+
+  const onInsert = useCallback((text) => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    dispatch({ type: 'INSERT', todo });
+    nextId.current += 1;
+  }, []);
+
+  const onRemove111 = useCallback((id) => {
+    dispatch({ type: 'REMOVE', id });
+  }, []);
+
+  const onToggle = useCallback((id) => {
+    dispatch({ type: 'TOGGLE', id });
+  }, []);
   return (
     <TodoTemplate>
       {/* onInsert라는 이벤트 핸들러를 만들어 props로 전달 */}
