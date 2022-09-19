@@ -1,7 +1,7 @@
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useReducer, useRef } from 'react';
 
 /*
 TodoList만들기
@@ -61,38 +61,46 @@ function createBulkTodos() {
   return array;
 }
 
-const App = () => {
-  //todos의 리스트에 id를 부여하는 state를 만들어 TodoList컴포넌트에 Props로 전달함
-  const [todos, setTodos] = useState(createBulkTodos);
+function todoReducer(todos, action) {
+  switch (action.type) {
+    case 'INSERT':
+      return todos.concat(action.todo);
+    case 'REMOVE':
+      return todos.filter((todo) => todo.id !== action.id);
+    case 'TOGGLE':
+      //불변성: 기존값을 수정하지 않고, 새로운 배열과 새로운 객체를 만드는 것
+      //새로운 객체를 반환해야 리렌더링이 됨.
+      //[...배열]은 배열에 있는 값을 복사하며, 배열 안에 배열 혹은 객체가 있는 경우 작동하지 않음.
+      return todos.map((todo) =>
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo,
+      );
+    default:
+      return todos;
+  }
+}
 
-  //렌더링에 필요 없는 값은 useRef를 사용하면 바닐라 자바스크립트 전역객체로 사용 가능하다.
-  //함수를 선언할 때에는 useCallback을 사용하여 성능을 최적화 한다.
+const App = () => {
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
+  //useReducer(액션, state의초기값) 혹은 useReducer(액션, state의초기값, state초기생성함수)
   const nextId = useRef(2501);
+
   const onInsert = useCallback((text) => {
     const todo = {
       id: nextId.current,
       text,
       checked: false,
     };
-    setTodos((todos) => todos.concat(todo));
+    dispatch({ type: 'INSERT', todo });
     nextId.current += 1;
   }, []);
 
   const onRemove111 = useCallback((id) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    dispatch({ type: 'REMOVE', id });
   }, []);
-
-
 
   const onToggle = useCallback((id) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        // id가 다르면 그대로 두고, 같으면 todo 객체에서 checked를 토글하여 반환
-        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
-      ),
-    );
+    dispatch({ type: 'TOGGLE', id });
   }, []);
-
   return (
     <TodoTemplate>
       {/* onInsert라는 이벤트 핸들러를 만들어 props로 전달 */}

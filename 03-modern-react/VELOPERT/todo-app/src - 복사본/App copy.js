@@ -82,8 +82,6 @@ const App = () => {
     setTodos((todos) => todos.filter((todo) => todo.id !== id));
   }, []);
 
-
-
   const onToggle = useCallback((id) => {
     setTodos((todos) =>
       todos.map((todo) =>

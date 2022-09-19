@@ -1,0 +1,38 @@
+.TodoInsert {
+    display: flex;
+    background: #495057;
+    input {
+        //초기화
+        background: none;
+        outline: none;
+        border: none;
+        padding: 0.5rem;
+        font-size: 1.125rem;
+        line-height: 1.5;
+        color: white;
+        //가상요소선택자를 이용해 input태그의 palceholder선택
+        &::placeholder{
+            color: #dee2e6
+        }
+        flex: 1;
+    }
+    button {
+        background: none;
+        outline: none;
+        border: none;
+        background: #868e96;
+        color: white;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        //올려놨을 때 커서 모양 바꾸기
+        cursor: pointer;
+        //배경색 바꾸기 (가상 클래스 선택자)
+        transition: 0.1s background ease-in;
+        &:hover{
+            background: #d6dbe0;
+        }
+    }
+}
