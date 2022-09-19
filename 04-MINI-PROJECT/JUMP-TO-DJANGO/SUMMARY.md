@@ -15,6 +15,10 @@
 
 `source venv/Scripts/activate`
 
+맥에서는 
+`python3 -m venv ./venv`
+`source venv/bin/activate`
+
 진입한 가상환경을 벗어나려면 deactivate를 입력하면 된다.
 
 `deactivate`
@@ -29,6 +33,10 @@
 freeze된 requirements는
 `pip install -r requirements.txt`
 를 통해 설치한다.
+
+VSCode extensions에서 Django를 설치하면 Django HTML이 인식된다.  
+VSCode 설정에서 emmet의 키와 밸류로 django-html, html 을 입력 후 재실행하면 Django HTML에서도 emmet이 실행 가능하다.  
+.prettierignore에서 *.html을 추가해주면 prettier의 작동을 중단시킬 수 있다.  
 
 3. 프로젝트 루트 디렉토리 생성
    projects라는 폴더를 생성한다.  
