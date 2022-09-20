@@ -16,6 +16,12 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{ question.content }}</div>
             <div class="d-flex justify-content-end">
+                {% if question.modify_date %}
+                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div>{{ question.modify_date }}</div>
+                </div>
+                {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">작성자 {{ question.author.username }}</div>
                     <div>작성시간 {{ question.create_date }}</div>
@@ -28,7 +34,11 @@
                 {% if request.user == question.author %}
                 <a href="{% url 'pybo:question_modify' question.id  %}" 
                    class="btn btn-sm btn-outline-secondary">수정</a>
-                {% endif %}
+                <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{% url 'pybo:question_delete' question.id  %}">삭제</a>
+                <!-- href 속성값을 javascript:void(0)로 설정하면 해당 링크를 클릭해도 아무런 동작도 하지 않는다. -->
+                <!-- data-uri 속성은 자바스크립트에서 클릭 이벤트 발생시 this.dataset.uri와 같이 사용하여 그 값을 얻을 수 있다. -->
+                {% endif %} 
             </div>
         </div>
     </div>
@@ -43,14 +53,26 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{ answer.content }}</div>
             <div class="d-flex justify-content-end">
+                {% if answer.modify_date %}
+                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div>{{ answer.modify_date }}</div>
+                </div>
+                {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">답변자 {{ answer.author.username }}</div>
                     <div>답변시간 {{ answer.create_date}}</div>
-                    {% if answer.modify_date %}
-                    <div>수정시간 {{ answer.modify_date }}</div>
-                    {% endif %}
                 </div>
             </div>
+            <div class="my-3">
+                {% if request.user == answer.author %}
+                <a href="{% url 'pybo:answer_modify' answer.id  %}" 
+                   class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="#" class="delete btn btn-sm btn-outline-secondary"
+                data-uri="{% url 'pybo:answer_delete' answer.id %}">삭제</a>
+                {% endif %}
+            </div>
+            
         </div>
     </div>
     {% endfor %}
@@ -84,4 +106,17 @@
 </div>
 
 
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
 {% endblock %}
