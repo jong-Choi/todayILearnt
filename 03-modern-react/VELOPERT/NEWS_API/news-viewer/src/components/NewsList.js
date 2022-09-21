@@ -16,33 +16,43 @@ const NewsItemBlock = styled.div`
   }
 `;
 
-const NewsList = () => {
-  const [articles, setArticles] = useState(null);
-  const [loading, setLoading] = useState(false);
+// const NewsList = ({ category }) => {
+//   const [articles, setArticles] = useState(null);
+//   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          'https://newsapi.org/v2/top-headlines?country=kr&apiKey=00a04a8d9e9c4429aefb4798d3582e62',
-        );
-        setArticles(response.data.articles);
-      } catch (e) {
-        console.log(e);
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setLoading(true);
+//       try {
+//         const query = category === 'all' ? '' : `&category=${category}`;
+//         const response = await axios.get(
+//           `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=00a04a8d9e9c4429aefb4798d3582e62`,
+//         );
+//         setArticles(response.data.articles);
+//       } catch (e) {
+//         console.log(e);
+//       }
+//       setLoading(false);
+//     };
+//     fetchData();
+//   }, [category]);
 
-  if (loading) {
-    return <NewsItemBlock> 대기중 </NewsItemBlock>;
-  }
+//   if (loading) {
+//     return <NewsItemBlock> 대기중 </NewsItemBlock>;
+//   }
 
-  if (!articles) {
-    return null;
-  }
+//   if (!articles) {
+//     return null;
+//   }
+
+const NewsList = ({category}) => {
+  const query = category === 'all' ? '' : `&category=${category}`;
+  return axios.get(
+              `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=00a04a8d9e9c4429aefb4798d3582e62`,
+            );
+}, [category]);
+
+}
 
   return (
     <NewsItemBlock>
