@@ -75,3 +75,7 @@ urlpatterns = [
 
 
 https://wikidocs.net/71445
+
+
+`python manage.py makemigrations`
+`python manage.py migrate`
