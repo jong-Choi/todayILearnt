@@ -68,11 +68,13 @@
         {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
             {% if page_number == question_list.number %}
             <li class="page-item active" aria-current="page">
-                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                <a class="page-link" data-page="{{ page_number }}"
+           href="javascript:void(0)">{{ page_number }}</a>
             </li>
             {% else %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                <a class="page-link" data-page="{{ page_number }}"
+           href="javascript:void(0)">{{ page_number }}</a>
             </li>
             {% endif %}
         {% endif %}
@@ -80,7 +82,8 @@
         <!-- 다음페이지 -->
         {% if question_list.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ question_list.next_page_number }}">다음</a>
+            <a class="page-link" data-page="{{ question_list.next_page_number }}"
+           href="javascript:void(0)">다음</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -114,4 +117,21 @@
         두개이상의 파라미터를 전달할 때에는 아래와 같이 공백으로 구분한다
         <a href="{% url 'detail' question_id=question.id page=2 %}">
         {% endcomment %}
-
+{% block script %}
+<script type='text/javascript'>
+//data-page값을 파라미터로 받아온다. 이 값을 처리하여 javascript:void(0)으로 넘겨 href를 처리한다.
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        document.getElementById('page').value = this.dataset.page;
+        document.getElementById('searchForm').submit();
+    });
+});
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+    document.getElementById('kw').value = document.getElementById('search_kw').value;
+    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    document.getElementById('searchForm').submit();
+});
+</script>
+{% endblock %}
