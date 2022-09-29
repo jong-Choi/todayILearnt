@@ -73,5 +73,34 @@ urlpatterns = [
 ]
 ```
 
+7. 장고 관리자
+`python manage.py createsuperuser`
+`사용자 이름 (leave blank to use 'pahke'): admin`
+`이메일 주소: `
+`password: 1111`
+`y`
 
-https://wikidocs.net/71445
+8. 대량 질문 데이터 만들기
+`python manage.py shell`
+`>>> from pybo.models import Question`
+`>>> from django.utils import timezone`
+`>>> from django.contrib.auth.models import User`
+
+```
+admin = User.objects.get(pk=1)
+>>> for i in range(300):
+...     q = Question(author=admin, subject='테스트 데이터입니다:[%03d]' % i, content='내용무', create_date=timezone.now())
+...     q.save()
+...
+>>>  
+```
+
+9. 마이그레이션 만들기
+`python manage.py makemigrations`
+`python manage.py migrate`
+
+
+
+https://wikidocs.net/71806
+페이징
+그리고 기존 페이징 처리하는 부분도 ?page=1 처럼 직접 파라미터를 코딩하는 방식에서 값을 읽어 폼에 설정할 수 있도록 다음처럼 변경해야 한다.
