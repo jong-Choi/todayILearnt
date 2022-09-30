@@ -74,12 +74,13 @@ export default class App extends Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDeafult();
+    e.preventDefault();
     let newTodo = {
       id: Date.now(),
       title: this.state.value,
       completed: false,
     };
+    console.log(newTodo);
     this.setState({ todoData: [...this.state.todoData, newTodo], value: '' });
   };
 
