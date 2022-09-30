@@ -80,7 +80,6 @@ export default class App extends Component {
       title: this.state.value,
       completed: false,
     };
-    console.log(newTodo);
     this.setState({ todoData: [...this.state.todoData, newTodo], value: '' });
   };
 
