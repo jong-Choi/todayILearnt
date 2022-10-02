@@ -74,7 +74,7 @@ export default class App extends Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDeafult();
+    e.preventDefault();
     let newTodo = {
       id: Date.now(),
       title: this.state.value,
