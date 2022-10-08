@@ -1,3 +1,70 @@
+# 따라하며 배우는 리액트 A-Z
+넷플릭스 클론코딩 만들기  
+[링크](https://www.inflearn.com/course/따라하는-리액트)   
+
+### TMBD api
+(https://developers.themoviedb.org/3)  
+
+API키 8506b3753519abc3454b87370bbc859a
+
+Get Movie BY Latest : https://api.themoviedb.org/3/movie/latest?api_key=<<api_key>>&language=en-US
+
+Get Movie Detail : https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
+
+Get Movie Reviews : https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key=<<api_key>>&language=en-US&page=1
+
+Get Trending : https://api.themoviedb.org/3/trending/movie/week?api_key=<<api_key>>  
+https://api.themoviedb.org/3/trending/movie/day?api_key=<<api_key>>
+
+
+### Axios 설치
+`npm install axios --save`
+
+#### 인스턴스 생성
+api폴더 생성, 폴더 안에
+axios.js, requests.js 생성
+
+axios.js
+instance라는 변수에 axios.create로 baseURL, params로 인스턴스 생성.
+인스턴스에서 다른 부분만 requests.js에서 생성.
+
+```js
+//axios.js
+import axios from "axios";
+
+const instance = axios.create({
+    baseURL: "https://api.themoviedb.org/3",
+    params: {
+        api_key: "asdf"
+        language: "ko-KR"
+    },
+})
+```
+
+```js
+const requests= {
+    fetchnNowPlaying: "movie/now_playing",
+    fetchNetflixOriginals: "/discover/tv?with_networks=213",
+}
+
+export default requests;
+```
+
+## 넷플릭스 어플리케이션 전체 구조
+네비게이션바
+배너
+장르별 rows
+푸터
+
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
