@@ -45,10 +45,7 @@ function Auth() {
         );
       } else {
         //로그인 하기
-        data = await authService.createUserWithEmailAndPassword(
-          email,
-          password
-        );
+        data = await authService.signInWithEmailAndPassword(email, password);
       }
       console.log(data);
     } catch (error) {
@@ -75,6 +72,7 @@ function Auth() {
           value={password}
           onChange={onChange}
         />
+        {/* Auth로 보낼 밸류값(해당 밸류값에 따라 create와 log in 함수 실행이 달라짐) */}
         <input type="submit" value={newAccount ? "Create Account" : "Log in"} />
         {error}
       </form>
