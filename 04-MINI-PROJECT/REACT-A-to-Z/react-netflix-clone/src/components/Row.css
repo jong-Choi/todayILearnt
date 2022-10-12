@@ -4,6 +4,10 @@
   }
   h2 {
     padding-left: 20px;
+    color: white;
+    margin-bottom: 0px;
+    margin-top: 20px;
+    
   }
   .slider {
     position: relative;
@@ -11,6 +15,7 @@
   .slider__arrow-left {
     background-clip: content-box;
     padding: 20px 0;
+
     box-sizing: border-box;
     transition: 400ms all ease-in-out;
     cursor: pointer;
@@ -157,4 +162,5 @@
     font-size: 1.3rem !important;
     font-weight: 600 !important;
   }
+  
   
