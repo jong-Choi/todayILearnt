@@ -7,13 +7,29 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userObj, setUserObj] = useState(null);
 
+  const refreshUser = () => {
+    // setUserObj(authService.currentUser);
+    const user = authService.currentUser;
+    setUserObj({
+      uid: user.uid,
+      displayName: user.displayName,
+      updateProfile: (args) => user.updateProfile(args),
+    });
+  };
+
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setIsLoggedIn(user);
-        setUserObj(user);
+        // setIsLoggedIn(user);
+        setUserObj({
+          // 유저 객체의 크기를 줄임
+          uid: user.uid,
+          displayName: user.displayName,
+          updateProfile: (args) => user.updateProfile(args),
+        });
       } else {
-        setIsLoggedIn(false);
+        setUserObj(null);
+        // setIsLoggedIn(false);
       }
     });
     setInit(true);
@@ -22,11 +38,16 @@ function App() {
   return (
     <>
       {init ? (
-        <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+        <AppRouter
+          refreshUser={refreshUser}
+          // isLoggedIn={isLoggedIn}
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+        />
       ) : (
         "initializing..."
       )}
-      <footer>&copy;{new Date().getFullYear()} Nwitter</footer>
+      {/* <footer>&copy;{new Date().getFullYear()} Nwitter</footer> */}
     </>
   );
 }

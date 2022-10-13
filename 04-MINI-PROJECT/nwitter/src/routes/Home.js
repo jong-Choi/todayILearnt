@@ -1,11 +1,14 @@
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
+
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Nweet from "components/Nweet";
+import { v4 as uuidv4 } from "uuid";
 
 function Home({ userObj }) {
   const [nweet, setNweet] = useState("");
   const [nweets, setNweets] = useState([]);
+  const [attachment, setAttachment] = useState("");
 
   //   프로젝트의 src/index.js에서
   // <React.StrictMode> 태그로 <app/>이 감싸져있으면
@@ -18,17 +21,30 @@ function Home({ userObj }) {
         ...document.data(),
       }));
       setNweets(newArray);
+      console.log("이게 실행됨");
     });
   }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await dbService.collection("nweets").add({
+    let attachmentUrl = "";
+    if (attachment !== "") {
+      const attachmentRef = storageService
+        .ref()
+        .child(`${userObj.uid}/${uuidv4()}`);
+      const response = await attachmentRef.putString(attachment, "data_url");
+      // console.log(await response.ref.getDownloadURL);
+      attachmentUrl = await response.ref.getDownloadURL();
+    }
+    const res = await dbService.collection("nweets").add({
       text: nweet,
       createAt: Date.now(),
       creatorId: userObj.uid,
+      attachmentUrl,
     });
     setNweet("");
+    setAttachment("");
+    console.log(res);
   };
 
   const onChange = (event) => {
@@ -40,6 +56,22 @@ function Home({ userObj }) {
     setNweet(value);
   };
 
+  const onFileChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+    reader.readAsDataURL(theFile);
+  };
+
+  const onClearAttachment = () => setAttachment("");
   return (
     <>
       <form onSubmit={onSubmit}>
@@ -50,7 +82,14 @@ function Home({ userObj }) {
           placeholder="아무 말이나 지껄이세요."
           maxLength={120}
         ></input>
+        <input type="file" accept="image/*" onChange={onFileChange} />
         <input type="submit" value="Nweet" />
+        {attachment && (
+          <div>
+            <img src={attachment} width="50px" height="50px" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </div>
+        )}
       </form>
       <div>
         {nweets.map((nweet) => (
