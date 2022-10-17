@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Nav.css";
 
 function Nav() {
   const [show, setShow] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
 
   //   useEffect: 마운트 될 때에 부수적으로 실행되는 함수를 추가해준다.
   // useEffect(() => {
@@ -32,8 +35,11 @@ function Nav() {
     };
   }, []);
   const opa = position < 280 ? (position - 100) / 200 : 0.9;
-  console.log(opa);
 
+  const handleChagne = (e) => {
+    setSearchValue(e.target.value);
+    navigate(`/search?q=${e.target.value}`);
+  };
   // window.location.reload를 통해 클릭시에 새로고침 되도록.
   // &&을 통해 show의 상태가 false이면 false를 반환, true이면 nav__black를 반환
   return (
@@ -45,6 +51,13 @@ function Nav() {
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/400px-Netflix_2015_logo.svg.png"
         className="nav__logo"
         onClick={() => window.location.reload}
+      />
+      <input
+        value={searchValue}
+        onChange={handleChagne}
+        className="nav__input"
+        type="text"
+        placeholder="영화를 검색해주세요."
       />
       <img
         alt="User Logged In"
