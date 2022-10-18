@@ -1,4 +1,4 @@
-#!C:\Users\bluec\Documents\GitHub\todayILearnt\04-MINI-PROJECT\DRF-Practice\03_HelloDRF\myvenv\Scripts\python.exe
+#!C:\Users\multicampus\Desktop\jonghyun\choijonghyun\todayILearnt\04-MINI-PROJECT\DRF-Practice\03_HelloDRF-withIgnore\myvenv\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
