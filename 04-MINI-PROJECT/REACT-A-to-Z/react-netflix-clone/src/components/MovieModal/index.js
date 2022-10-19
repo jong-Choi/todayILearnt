@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 import "./MovieModal.css";
 
 function MovieModal({
@@ -13,11 +14,14 @@ function MovieModal({
 }) {
   //무작위 점수 넣어주기
   const [score, setScore] = useState(~~(Math.random() * 100));
-
+  const ref = useRef();
+  useOnClickOutside(ref, () => {
+    setModalOpen(false);
+  });
   return (
     <div className="presentation">
       <div className="wrapper-modal">
-        <div className="modal">
+        <div className="modal" ref={ref}>
           <span onClick={() => setModalOpen(false)} className="modal-close">
             X
           </span>
