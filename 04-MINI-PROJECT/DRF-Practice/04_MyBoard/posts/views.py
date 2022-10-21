@@ -50,6 +50,7 @@ def like_post(request, pk):
     return Response({"status": "ok"})
 
 
+# https://stackoverflow.com/questions/35428257/myprofile-matching-query-does-not-exist
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     permission_classes = [CustomReadOnly]
@@ -60,5 +61,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         return CommentCreateSerializer
 
     def perform_create(self, serializer):
-        profile = Profile.objects.get(user=self.request.user)
+        try:
+            profile = Profile.objects.get(user=self.request.user)
+        except Profile.DoesNotExist:
+            profile = None
         serializer.save(author=self.request.user, profile=profile)
