@@ -191,13 +191,11 @@ from rest_framework import routers
 
 router = routers.SimpleRouter()
 router.register("reviews", ReviewViewSet)
-# router.register("movies/<int:id>/reviews", ReviewViewSet)
 urlpatterns = router.urls + [
     path("actors/", Actor_list.as_view()),
     path("actors/<int:id>/", Actor_detail.as_view()),
     path("movies/", Movie_list.as_view()),
     path("movies/<int:id>/", Movie_detail.as_view()),
     path("movies/<int:pk>/reviews/", create_review),
-    # path("reviews/<int:id>/", Review_detail.as_view()),
 ]
 ```
