@@ -1,7 +1,9 @@
 <template>
     <div class="memo-app">
-        <memo-form/>
-        <memo />
+        <MemoForm @addMemo="addMemo" />
+        <ul class="memo-list">
+            <Memo />
+        </ul>
     </div>
 </template>
 <script>
@@ -24,7 +26,24 @@ export default {
       components: {
         Memo,
         MemoForm
+    },
+    methods: {
+        addMemo (payload) {
+            this.memos.push(payload)
+            this.storeMemo()
+        },
+        storeMemo(){
+            const memosToString = JSON.stringify(this.memos);
+            localStorage.setItem('memos', memosToString);
+        }
     }
-}
+} 
 </script>
+
+<style scoped>
+    .memo-list {
+        padding: 20px 0;
+        margin: 0;
+    }
+</style>
 

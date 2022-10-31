@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <app-header/>
-    <memo-app/>
+    <app-header />
+    <memo-app />
   </div>
 </template>
 
@@ -13,17 +13,18 @@ export default {
   name: 'app',
   components: {
     AppHeader,
-    MemoApp
+    MemoApp,
   }
 }
 </script>
 
 <style>
-  @import './styles/reset.css';
-  #app {
-    width: 560px;
-    margin: 0 auto;
-  }
+@import './styles/reset.css';
+
+#app {
+  width: 560px;
+  margin: 0 auto;
+}
 </style>
 
 

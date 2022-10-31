@@ -207,3 +207,147 @@ App.vue 컴포넌트의 템플릿에 `<memo-app/>`을 자동완성으로 추가�
   </div>
 </template>
 ```
+
+MemoForm에 v-model을 등록한다
+
+```html
+<template>
+  <div class="memo-form">
+    <form @submit.prevent="addMemo">
+      <fieldset>
+        <div>
+          <input class="memo-form__title-form" type="text" v-model="title" placeholder="메모의 제목을 입력해주세요.">
+          <textarea class="memo-form__content-form" v-model="content" placeholder="메모의 내용을 입력해주세요." />
+...
+      </fieldset>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+...
+  data() {
+    return {
+      title: '',
+      content: ''
+    }
+  },
+    methods : {
+      addMemo() {
+        const {title, content} = this;
+        const id = new Date().getTime();
+
+        const isEmpty = title.length <= 0 || content.length <=0;
+        if (isEmpty) {
+          return false;
+        }
+
+        this.$emit('addMemo', {id, title, content});
+      }
+
+    }
+}
+</script>
+```
+`v-model` directive는 양방향 데이터 바인딩이다. 즉 해당 엘리먼트의 초기 value로 컴포넌트의 데이터를 가져오며, 이벤트가 발생할 시, 컴포넌트의 데이터를 해당 이벤트의 value로 변경한다.  
+
+form에 prevent defaulf로 submit 이벤트를 등록하고, 메서드명은 addMemo로 한다.  
+addMemo는 제목이나 컨텐츠가 입력되지 않으면 false를 반환한다.
+
+만일 둘 다 있다면, 이벤트 $emit를 통해  ('key', value)를 전달한다. 이벤트 emit은 자식에서 부모로 데이터를 전달할 때 사용되며, 
+부모 컴포넌트는 
+```js
+data() {
+  return {
+    value: "",
+  }
+}
+methods: {
+  key(value) {
+    this.value = value;
+  }
+}
+``` 
+와 같은 형식으로 데이터를 받을 수 있다. 
+
+MemoApp.vue의 템플릿에서 v-on을 통해 addMemo 메서드를 받아온다. 해당 메서드의 인자는 MemoForm에서 넘겨준 데이터가 될 것이다. (이때 v:on이벤트명=이벤트핸들러는 아래와 같이 @이벤트명=이벤트핸들러 로 표현된다. )
+
+```js
+<MemoForm @addMemo="addMemo" />
+```
+```js
+export default {
+    name: 'MemoApp',
+    data () {
+        return {
+            memos: [],
+        };
+    },
+...
+    methods: {
+        // MemoForm에서 받은 데이터를 payload로 받는다.
+        // 해당 데이터는 기존 내부 데이터에 push한다.
+        addMemo (payload) {
+            this.memos.push(payload)
+            this.storeMemo()
+        },
+        //이후 해당 데이터를 JSON 문자열로 변환하여, localStorage에서 setItem하여 저장한다.
+        storeMemo(){
+            const memosToString = JSON.stringify(this.memos);
+            localStorage.setItem('memos', memosToString);
+        }
+    }
+} 
+</script>
+```
+잘 작동하고 있는지는 개발자 도구 -> Application -> Local Storage에서 확인할 수 있다.   
+
+이후 MemoForm.vue에 리셋 기능을 넣어준다.   
+MemoForm의 data를 초기값으로 초기화하는 메서드이다.  
+```js
+      resetFields(){
+        this.title = ''
+        this.content = ''
+      },
+      addMemo() {
+        ...
+        this.resetFields();
+      }
+```
+
+#### 메모 데이터 노출하기 (Memo.vue)
+```html
+<!-- Memo.vue -->
+<template>
+  <li class="memo-item"></li>
+</template>
+```
+
+```html
+<!-- MemoApp.vue -->
+<template>
+    <div class="memo-app">
+        <MemoForm @addMemo="addMemo" />
+        <ul class="memo-list">
+            <Memo />
+        </ul>
+    </div>
+</template>
+
+<script>...</script>
+
+<style scoped>
+    .memo-list {
+        padding: 20px 0;
+        margin: 0;
+    }
+</style>
+```
+Memo.vue에 리스트로 템플릿을 작성하고,  
+MemoApp.vue 에 ul태그로 감싸 삽입한다. 
+
+
+
+
+
