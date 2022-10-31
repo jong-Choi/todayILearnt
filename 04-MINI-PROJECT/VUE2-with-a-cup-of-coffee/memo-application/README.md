@@ -347,6 +347,210 @@ MemoForm의 data를 초기값으로 초기화하는 메서드이다.
 Memo.vue에 리스트로 템플릿을 작성하고,  
 MemoApp.vue 에 ul태그로 감싸 삽입한다. 
 
+```js
+<template>
+    <div class="memo-app">
+        <MemoForm @addMemo="addMemo" />
+        <ul class="memo-list">
+            <Memo v-for="memo in memos" :key="memo.id" :memo="memo"/>
+        </ul>
+    </div>
+</template>
+```
+v-for를 이용해 반복한다.  
+v-for는 v-bind:key 를 삽입해주어야 한다.   
+
+이제 :memo="memo"로 Memo.vue에 프롭스를 넘겨준다.
+Memo.vue에서 아래와 같이 프롭스를 받는다.
+```js
+<script>
+export default {
+  name: "Memo",
+  props: {
+    memo: {
+      type: Object
+    },
+  }
+
+}
+</script>
+```
+해당 프로퍼티를 이용해 템플릿을 작성한다.
+```js
+<template>
+  <li class="memo-item">
+    <strong>{{memo.title}}</strong>
+    <p>{{memo.content}}</p>
+    <button type="button"><i class="fas fa-times"></i></button>
+  </li>
+</template>
+```
+
+
+
+##### 삭제 구현하기
+삭제 구현을 위해서는 Memo.vue에서 온클릭 이벤트 리스너로 이벤트 타겟의 id를 받아와야 한다. 
+1. Memo컴포넌트에서 이벤트 타겟의 아이디를 MemoApp컴포넌트로 넘겨준다. 
+2. MemoApp컴포넌트는 데이터를 직접적으로 삭제하는 deleteMemo 메서드를 만든 후, 이를 Memo컴포넌트의 이벤트 리스너로 등록하여 자식으로부터 bind된 값을 받는다. 
+3. MemoApp컴포넌트에서 삭제 후 리렌더링이 이루어진다. 
+
+
+
+
+Memo.vue에 deleteMemo온클릭 이벤트 핸들러를 만들어 이벤트emit으로 부모 요소에게 id를 넘겨준다.
+```js
+<template>
+    <button type="button" @click="deleteMemo">
+    ...
+</template>
+
+<script>
+  export default {
+  ...
+  methods: {
+      deleteMemo(){
+        const id = this.memo.id;
+        this.$emit('deleteMemo', id);
+      }
+    }
+
+}
+</script>
+```
+
+MemoApp.vue에서 이벤트 핸들러를 통해 Memo.vue의 에밋을 받는다.
+
+```js
+<template>
+...
+            <Memo ...
+            @deleteMemo="deleteMemo"/>
+...
+</template>
+```
+
+```js
+...
+        deleteMemo (id) {
+            const targetIndex = this.memos.findIndex(v => v.id === id);
+            this.memos.splice(targetIndex, 1);
+            this.storeMemo();
+        }
+    }
+} 
+</script>
+```
+todos는 다음과 같이 객체 리스트로 저장된다.
+```
+[{id: 1667187298584, title: "fdfs", content: "asd"}, 
+{id: 1667197501705, title: "dfsgs", content: "dfsdgasdfasd"}]
+```
+
+deleteMemo 메서드는 해당 리스트 내부의 객체를 'v'로 받아 id값을 비교한다.  
+해당 아이디 값이 true인 값의 인덱스를 찾기 위해 해당 조건식을 Array.prototype.findIndex 메서드 안에 넣는다.    
+
+찾은 인덱스를 이용해 Array.memos.splice(시작 인덱스, 삭제할 갯수, 삽입할 값)을 사용한다. splice는 시작 인덱스에서 기존 요소를 삭제 또는 추가하여 배열의 내용을 '변경'한다.  
+
+이렇게 변경된 배열을 storeMemo()메서드로 로컬 스토리지에 저장한다. (기존 작성한 storeMemo()메서드는 window.localStorage.setItem()를 이용하여 memos 배열을 덮어씌워버린다. )  
+
+##### 수정하기
+먼저 MemoApp에 @updateMemo메서드를 작성한다.    
+해당 메서드는 자식으로부터 id와 content를 받은 후,  
+Array.prototype.findIndex()를 통해 해당하는 targetIndex를 찾고,  
+splice를 이용해 해당하는 값만 지운 후 새로 삽입해준다.  
+
+```js
+<template>
+    <div class="memo-app">
+        ...
+        <ul class="memo-list">
+            <Memo 
+            ...
+            @updateMemo="updateMemo"/>
+        </ul>
+    </div>
+</template>
+...
+<script>
+  ...
+    methods: {
+      ...
+        updateMemo(payload) {
+            const {id, content} = payload;
+            const targetIndex = this.memos.findIndex(v => v.id === id);
+            const targetMemo = this.memos[targetIndex];
+            this.memos.splice(targetIndex, 1, {...targetMemo, content});
+            this.storeMemo();
+        }
+    }
+} 
+</script>
+```
+
+이제 Memo.vue에 memoComponent에서 수정을 위한 input 필드를 추가하여 준다.  
+
+
+
+
+```html
+<template>
+  ...
+      <!-- <p>{{memo.content}}</p> -->
+    <p>
+      <template>{{memo.content}}</template>
+      <input type="text" ref="content" :value="memo.content">
+    </p>
+  ...
+</template>
+...
+<style>
+...
+  .memo-item p input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    border: 1px solid #999;
+  }
+</style>
+```
+
+ref는 dom에 직접 접근하기 위해 사용되며, 프로퍼티로는 ref.value 딱 하나만 갖는다.  
+`<template>`태그는 자바스크립트를 통해 추가되거나 삭제될 수 있는 dom 요소를 의미한다. vueJS에서 `<template>` 태그는 돔 트리에 나타나지 않는다는 점에서 자식 요소를 감싸는 데에 중요한 역할을 한다. [출처: 스택오버플로우](https://stackoverflow.com/questions/51995815/vuejs-template-vs-div-or-related-for-grouping-elements-for-conditional-rend) 특히 v-if:false가 떴을 때에 div태그는 비어있는 돔 요소로 인해 마진이 발생할 수 있으나, template태그는 완전히 사라진다.  
+
+
+이제 Memo.vue를 더블클릭을 하면 수정모드로 들어가도록 바꾸어 보자.  
+
+```html
+<!-- template -->
+    <p @dblclick="handleDblClick">
+      <template v-if="!isEditing">
+        {{memo.content}}
+      </template>
+      <input v-else
+      type="text" ref="content" :value="memo.content">
+    </p>
+<!-- script -->
+<script>
+  export default {
+  ...
+  data () {
+    return {
+      isEditing
+    }
+  },
+  methods: {
+    ...
+    handleDblClick() {
+      this.isEditing = true;
+    },
+  }
+}
+</script>
+```
+
+Memo.vue에 자동 포커스 기능을 추가해보자.  
+
+
 
 
 
