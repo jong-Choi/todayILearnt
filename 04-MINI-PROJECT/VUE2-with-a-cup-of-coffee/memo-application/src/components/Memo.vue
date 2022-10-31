@@ -6,8 +6,10 @@
       <template v-if="!isEditing">
         {{memo.content}}
       </template>
-      <input v-else
-      type="text" ref="content" :value="memo.content">
+      <input v-else 
+      type="text" 
+      ref="content" 
+      :value="memo.content">
     </p>
     <button type="button" @click="deleteMemo"><i class="fas fa-times"></i></button>
   </li>
@@ -33,10 +35,12 @@ export default {
       },
       handleDblClick() {
         this.isEditing = true;
+        this.$nextTick(() =>
+          this.$refs.content.focus()
+        );
+        
       }
-
-    }
-
+    },
 }
 </script>
 

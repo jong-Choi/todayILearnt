@@ -542,13 +542,29 @@ ref는 dom에 직접 접근하기 위해 사용되며, 프로퍼티로는 ref.va
     ...
     handleDblClick() {
       this.isEditing = true;
+      this.$refs.content.focus();
     },
   }
 }
 </script>
 ```
+더블 클릭 이벤트 핸들러로  
+isEditing이 true로 바뀌면   
+v-if가 변하면서 리렌더링 된다.  
+리렌더링 된 후, refs를 이용해 content dom에 직접 focus()한다.  
+이때, 리렌더링은 비동기적으로 이루어진다. 따라서 의도와 다르게 isEditing값을 true로 변경한 후, refs에 접근하고(돔이 감지되지 않아 undefined를 내뱉는다), 리렌더링을 한다. 이와 같이 자바스크립트는 모든 데이터 처리가 비동기적으로 이루어져 리렌더링은 순서가 보장되지 않음에 유의하자.  
+이를 우회하기 위해 라이프사이클 메서드나 await/async를 사용할 수도 있지만, vueJS에서는 this.$nextTick(콜백함수)로 우회할 수 있다.   
 
-Memo.vue에 자동 포커스 기능을 추가해보자.  
+```js
+      handleDblClick() {
+        this.isEditing = true;
+        this.$nextTick(() =>
+          this.$refs.content.focus()
+        );
+      }
+```
+
+
 
 
 
