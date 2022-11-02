@@ -84,3 +84,169 @@ function IsNumeric(input) {
 6. 인덱스 : 리프노트가 늘어가는 속도에 비해 계층이 늘어나는 속도가 4배 적다. 하지만 인덱싱은 그 자체로 비용이 발생할 수 있다.
 7. 조인 : 내부조인, 왼쪽조인, 오른쪽 조인, 합집합 조인.
 
+### 자바스크립트 딥다이브 16장 프로퍼티 어트리뷰트
+1. 내부 슬롯, 내부 메서드
+    `[[ ]]`로 감싸진 메서드와 프로퍼티는 자바스크립트엔진에서 동작하지만 개발자가 직접 접근할 수는 없다. 예외적으로 Prototype 등의 일부 내부 슬롯은 간접적으로 접근할 수 있다.   
+2. 프로퍼티 어트리뷰트
+   객체 내부에 프로퍼티를 정의할 때에, `[[Value]], [[Writable]], [[Enumerable]], [[Configurable]]`의 내부 슬롯을 자동으로 정의한다. 기본값은 true이다.   
+3. 프로퍼티 디스크럽터
+   Object.getOwnPropertyDescriptor(객체명, '프로퍼티 키값') 메서드를 호출하면 `{프로퍼티 디스크립터}`를 반환한다.
+   Object.getOwnPropertyDescriptors(객체명)은 객체의 모든 프로퍼티에 대한 프로퍼티 디스크립터를 `키값: {프로퍼티 디스크립터}`를 반환한다.
+
+4. 데이터 프로퍼티와 접근자 프로퍼티
+   firstName, lastName이라는 데이터 프로퍼티가 있고, fullName이라는 접근자 프로퍼티가 있는 person 객체가 있다. 
+```js
+const person = {
+    firstName: 'steve',
+    lastName: 'jobs',
+    get fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    },
+    get fullName(name) {
+        [this.firstName, this.lastName] = name.split(' ');
+    }
+}
+
+console.log(person.full)
+// steve jobs
+```
+
+데이터 프로퍼티의 예시는 아래와 같다
+```js
+Object.getOwnPropertyDescriptor(person, 'firstName');
+// {value: "steve", writable: true, enumerable: true, configurable: true}
+Object.getOwnPropertyDescriptor(person, 'fullName');
+// {get: f, set: f, enumerable: true, configurable: true}
+```
+접근자 프로퍼티는 getter 혹은 setter를 가질 수 있다.  
+
+prototype도 getOwnPropertyDescriptor를 통해 확인해보자. 
+아래와 같이 객체의 __proto__는 접근자 프로퍼티이며, 함수의 prototype은 데이터 프로퍼티이다. 함수의 prototype 객체는 Constructor()가 작동할 때에 프로토타입을 넘겨주기 위해 사용된다.  
+```js
+Object.getOwnPropertyDescriptor(person, 'firstName');
+// {value: "steve", writable: true, enumerable: true, configurable: true}
+Object.getOwnPropertyDescriptor(person, 'fullName');
+// {get: f, set: f, enumerable: true, configurable: true}
+```
+
+5. 프로퍼티 정의
+`Object.defineProperty(person, '프로퍼티명', {프로퍼티 디스크립터})`를 통해 프로퍼티를 재정의할 수 있다.   
+`Object.defineProperties(person, {프로퍼티명: {프로퍼티 디스크립터}})`의 형태로 여러개의 프로퍼티를 동시에 정의할 수도 있다.  
+이때 프로퍼티 디스크립터에 전달되지 않은 프로퍼티 value, get, set은 undefined를 기본값으로 정의되며, writable, enumerable, configurable은 false를 기본값으로 정의된다. 특히 configurable이 false인 경우 재정의가 불가능하여 삭제 및 프로퍼티 어트리뷰트 값의 변경이 금지됨에 유의(단, writable이 true인 경우 value값을 변경하거나 writable을 false로 바꾸는 것은 가능). 프로퍼티가 최초로 생성될 때 이들은 true로 초기화되는 것과는 상반된다.  
+
+```js
+Object.defineProperty(person, 'fullName', {
+    get() {
+        return `${this.firstName} ${this.lastName}`
+    },
+    enumerable: true
+});
+
+console.log(Object.getOwnPropertyDescriptor(person, 'fullName'));
+// {get: f, set: undefined, enumerable: true, configurable: false}
+
+delete person.fullName;
+// Uncaught TypeError: Cannat redefine property: lastName
+```
+
+6. 객체 변경 금지
+객체는 mutable하므로 값에 직접 접근하여 변경 및 삭제하거나 Object.defineProperty를 이용해 프로퍼티 어트리뷰트를 재정의할 수도 있다. 이를 방지하기 위해 아래의 메서드를 재공한다.  
+객체 변경 금지 메서드로 금지된 행위는 무시되며, strict mode에서는 에러 메세지를 내보낸다.
+
+|구분|메서드|check|프로퍼티 추가|삭제|프로퍼티 값 읽기|쓰기|프로퍼티 어트리뷰트 재정의|
+|---|---|---|---|---|---|---|---|
+|객체 확장 금지|Object.preventExtensions(객체명)|Object.isExtensible(객체명)|x|o|o|o|o|
+|객체 밀봉|Object.seal(객체명)|Object.isSealed(객체명)|x|x|o|o|x|
+|객체 동결|Object.freeze(객체명)|Object.isFrozen(객체명)|x|x|o|x|x|
+
+```js
+Object.freeze(person);
+
+delete person.fullName;
+console.log(person.fullName) // steve jobs
+```
+
+해당 변경금지 메서드는 얕은 금지만 가능하다. 중첩된 객체에도 적용하기 위해서는 재귀적으로 실행해야 한다. 아래의 재귀함수는  
+1-target이 존재하며
+2-target이 오브젝트이며
+3-target이 Frozen상태가 아닌 경우
+target을 freeze하고 target의 자식요소에 대해 재귀적으로 1~3을 반복하며 동결되지 않은 자식 객체들을 동결한다.  
+
+```js
+function deepFreeze(target) {
+    if (target && typeof target === 'object' && !Object.isFrozen(target)) {
+        Object.freeze(target);
+        Object.keys(target).forEach(key => deepFreeze(target[key]));
+    }
+    return target; //처리된 타겟을 리턴하며 함수종료
+}
+```
+이때 typeof 연산자는 피연산자의 평가전 자료형을 문자열 형태로 반환한다.  
+
+## 2022-11-02
+### 면접 대비 - 자료구조
+1. 시간 복잡도
+
+|자료 구조|접근(O(평균) \ O(최악))| 탐색 | 삽입 | 삭제 |
+|---|---|---|---|---|
+|Array|1 \ n|n \ n | n \ n | n \ n |
+|Stack|n \ n|n \ n | 1 \ 1 | 1 \ 1 |
+|Queue|n \ n|n \ n | 1 \ 1 | 1 \ 1 |
+|Doubly Linked List|n \ n|n \ n | 1 \ 1 | 1 \ 1 |
+|Hash Table|1 \ n|1 \ n | 1 \ n | 1 \ n |
+|Binary Search Tree|logn \ n|logn \ n | logn \ n | logn \ n |
+|Adelson-Velsty and Landis Tree|logn \ logn|logn \ logn | logn \ logn | logn \ logn |
+|Red-black Tree|logn \ logn|logn \ logn | logn \ logn | logn \ logn |
+
+2. 선형 자료 구조
+- 연결 리스트 : 노드를 데이터로 감싸고, 포인터로 다음 노드를 가르킴.
+  - 싱글 연결 리스트 : next 포인터만 있음.
+  - 이중 연결 리스트 : next 포인터와 prev 포인터를 가짐.
+  - 원형 이중 연결 리스트 : 마지막 포인터의 prev가 헤드 노드(연결 리스트의 가장 앞 노드)를 가리킴
+
+- 배열 : 같은 타입의 변수들로 이루어진, 크기가 정해진, 인접한 메모리의 데이터 집합. 
+  - 연결 리스트와의 차이 : 연결 리스트는 데이터의 추가와 삭제가 자유롭지만, 랜덤 접근에 O(n)만큼의 시간 복잡도. 반면 배열은 랜덤 접근은 O(1)만큼의 시간복잡도, 데이터의 추가와 삭제는 O(n)만큼의 시간 복잡도. 
+
+- 벡터 : 동적으로 요소를 할당할 수 있는 동적 배열(정해진 크긱 없음).
+  - push_back() : 가장 뒤에 데이터를 주가한다. 데이터의 갯수n이 2^k + 1개가 될 때마다 배열의 크기를 2배 늘린다. 해당 연산이 3n만큼의 시간이 걸리고, 이를 데이터의 갯수n으로 나누면(amortized) 총 3만큼의 시간이 든다. 즉 O(1)이라는 amortized 시간복잡도를 갖는다.
+
+- 스택 : 재귀함수, 웹 브라우저 방문기록 등.
+- 큐 :  CPU의 프로세스 큐, 네트워크, 너비우선 탐색 등
+
+
+3. 비선형 자료 구조
+- 그래프 : 정점(vertex)이 간선(edge)으로 다른 정점에 연결됨. 이때 정점의 입장에서 나가는 간선들을 outdegree, 들어오는 간선들을 indegree라고 하며, outdegreed, indegree를 가지고 서로 연결되어 있는가에 따라 단방향, 양방향이 결정됨.
+
+- 트리
+  - 루트는 트리당 하나 : 루트 노드가 같으면 같은 노드임.
+  - 리프 노드는 자식이 없는 노드.
+  - 최소한의 간선 갯수로 연결 됨. 따라서 (간선 수) = (노드 수 - 1)
+  - 깊이 : 루트 노드부터 목표한 노드까지의 최단거리
+  - 레벨 : 일반적으로 루트 노드의 레벨을 0으로 두어 깊이와 같은 의미. 루트 노드의 레벨을 1로 두는 경우도 있음.  
+
+- 이진 트리 : 자식 노드가 최대 2개
+- 정이진 트리 : 자식 노드가 0 또는 2개
+- 완전 이진 트리 : 왼쪽부터 채워지는 이진트리. 모두 채워져 있고 마지막 레벨은 왼쪽부터 채워진다.
+- 변질 이진 트리 : 자식 노드가 1개
+- 포화 이진 트리 : 모든 노드가 꽉 차서 마지막 레벨까지 꽉 찬 이진 트리.
+- 균형 이진 트리 : 왼쪽과 오른쪽 노드의 높이 차이가 1 이하인 이진트리. 
+
+- 이진 탐색 트리
+부모 노드에 비해 왼쪽 자식노드는 작고 오른쪽 자식노드는 크게 배치.  
+이때 삽입 순서에 따라 트리 구조가 무너질 수 있어 '균형 이진 트리' 형태를 만드는 'Adelson-Velsty and Landis Tree', 'Red-black Tree'를 만든다. AVL Tree는 데이터가 삽입될 따마다 트리의 일부를 회전시키며 균형을 잡는다. Red-black Tree는 '어떤 빨간 노드의 자식으로는 무조건 검은 노드가 두 개 온다' 등의 규칙이 있다.  
+
+- 힙
+트리 구조를 응용. 최소힙과 최대힙 등이 있다. 
+힙은 삽입, 삭제 시 logN의 시간 복잡도를 갖는다.  
+힙을 이용해 우선순위 큐를 구현한다.  
+
+- 맵
+키와 값의 조합. 이때 키는 문자열. 순서의 유무에 따라 ordered_map과 unordered_map으로 구분됨. 해시 테이블을 만들 때 사용.
+
+- 해시 테이블
+무한의 데이터를 유한의 해시 값으로 매핑한 테이블. unordered_map이 사용되며 평균적으로 O(1)의 삽입, 삭제, 탐색 시간을 가짐.
+
+- 셋
+집합. 순서 및 중복이 없는 컨테이너. 
+
+
