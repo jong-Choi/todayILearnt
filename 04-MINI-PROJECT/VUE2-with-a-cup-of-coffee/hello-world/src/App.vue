@@ -1,7 +1,10 @@
 <template>
   <div id="app">
+    <h2>이곳은 App.vue 입니다</h2>
     <img src="./assets/logo.png">
-    <router-view/>
+    <hr>
+    <h3>이곳은 HelloWorld.vue입니다</h3>
+    <p>SSAFY 여러분을 응원합니다.</p>
   </div>
 </template>
 
