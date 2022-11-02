@@ -564,7 +564,23 @@ v-if가 변하면서 리렌더링 된다.
       }
 ```
 
+수정된 데이터에 이벤트 에밋 적용하기
 
+```js
+methods: {...
+      updateMemo(e) {
+        const id = this.memo.id;
+        const content = e.target.value.trim();
+        if (content.length <= 0) {
+          return false;
+        }
+        this.$emit('updateMemo', {id, content});
+        this.isEditing = false;
+      }
+}
+```
+기존 메모 데이터의 id와 새로운 콘텐츠를 이벤트 에밋으로 넘겨준다.
+넘겨준 후 isEditing을 초기화한다. 
 
 
 
