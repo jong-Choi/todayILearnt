@@ -1,5 +1,5 @@
 ### 환경 설정
-
+노드 js 설치 (https://nodejs.org/ko/download/)
 Vue 설치하기 `npm install vue-cli -g`  
 프로젝트 설치하기 `vue init webpack-simple memo-application`  
 vue init 실행 시 설정창이 뜨며, 엔터를 치면 기본값으로 설정된다.  
@@ -565,6 +565,8 @@ v-if가 변하면서 리렌더링 된다.
 ```
 
 수정된 데이터에 이벤트 에밋 적용하기
+기존 메모 데이터의 id와 새로운 콘텐츠를 이벤트 에밋으로 넘겨준다.
+넘겨준 후 isEditing을 초기화한다. 
 
 ```js
 methods: {...
@@ -579,8 +581,233 @@ methods: {...
       }
 }
 ```
-기존 메모 데이터의 id와 새로운 콘텐츠를 이벤트 에밋으로 넘겨준다.
-넘겨준 후 isEditing을 초기화한다. 
+
+#### 서버와 API 연동하기
+##### RESTful API
+REST란 Representational State Transfer의 약자이다.  
+프로그래밍에서 자원은 컴퓨터가 관리하는 매우 정적인 개념이다.  
+반면 자원의 상태는 사용자에 의해 삭제되고 수정되고 지워지는 등 언제든지 변경될 수 있다.  
+
+RESTful 하다는 것은 '원하는 상태'의 '자원을 가져가는 것'을 의미한다.
+
+RESTful API는 다음 두 가지의 항목을 바탕으로 설계한다.  
+1. URI는 자원을 표현하는 데에 집중한다.  
+2. 자원에 대한 행위는 HTTP 메서드로 표현한다.  
+
+즉 cats/1 이라는 주소는 cats/1 이라는 자원을 나타내며,    
+나머지 CRUD는 HTTP메서드를 이용한다.  
+
+(이때 Update에는 PUT메서드와 PATCH메서드가 있다. PUT은 자원을 통째로 수정하며, PATCH는 일부분만 수정한다는 차이가 있다.)  
+
+##### HTTP 응답 코드
+**200 : OK**    
+201 : Created - 주로 POST 응답의 결과  
+204 : No content - 응답은 성공했으나 전송할 값은 없음. (delete 응답의 결과)  
+**400 : Bad Request - 요청의 내용이 잘못됨. 필수로 전달할 값이 안보내진 경우**  
+401 : Unauthorized - 로그인 등의 권한이 필요할 때에  
+403 : Forbidden - 접근 금지. (권한이 있어도 접근 못함 ㅇㅇ)  
+**404 : Not found - 요청한 자원 없음.**  
+405 : Method not allowed -  허용되지 않은 메서드 사용  
+408 : Request Timeout -  요청시간 초과. 클라이언트에서 요청을 제대로 생성하지 못해서 발생한다. 서버에서 요청시간 초과를 이유로 클라이언트와의 커넥션을 Closed할 때에 보낸다.  
+414 : Request URI too long - 요청 uri가 너무 김. (요즘 서버는 이런 에러가 적은 편이지만, 한글로 요청보낼 때 유니코드로 변환하면서 너무 길어짐. ㅇㅇ)  
+**500 : Internal Server Error. 내부 서버 오류. 서버에서 발생한 예상치 못한 에러**  
+**503 : Service Temporarily Unavailable. 서버를 일시적으로 사용할 수 없음.**  
+504 : Gateway Timeout. 요청은 보내졌으나, 게이트웨이에서(클라이언트에서 발송된 후 다시 클라이언트까지 오는 다양한 과정들에서) 문제가 생겨 타임아웃이 발생하는 경우. (408은 클라이언트에서 제시간에 리퀘스트를 발송하지 않아서 타임아웃이 발생한 경우)  
+
+
+##### Axios 설치하기
+자바스크립트의 HTTP 클라이언트 라이브러리  
+`npm install axios --save`
+
+###### Axios HTTP 메서드
+`axios.get(url[, config])` - config는 설정을 의미한다.   
+`axios.post(url[, data, config])`  
+`axios.put(url,data[, config])`  
+`axios.patch(url, data[, config])`  
+`axios.delete(url[, config])`  
+ 
+메서드는 Promise 객체를 반환하며, 자바스크립트의 then과 catch를 이용해 동작을 제어할 수 있다.  
+
+```js
+import axios from 'axios'
+
+axios.get('https://api.example.com/users/1/memos')
+  .then(response => {
+    alert('요청이 성공하였습니다.');
+  })
+  .catch(error => {
+    alert('요청이 실패하였습니다.');
+  })
+  .then(response => {
+    alert('성공과 실패에 관계없이 항상 실행됩니다.')
+  })
+```
+```js
+//ECMA 2017 async/await
+async function getUserMemo() {
+  try{
+    const response = await axios.get('https://api.example.com/user/1/memos');
+    alert('요청이 성공하였습니다.');
+  }
+  catch (error) {
+    alert('요청이 실패하였습니다.');
+  }
+  finally {
+    alert('성공과 실패에 관계없이 항상 실행됩니다.');
+  }
+}
+```
+
+Promise 객체란 비동기 작업이 실행된 후, 그 실행의 결과값을 의미하는 대리자이다.  
+pending : 비동기 작업이 이행되지도, 거부되지도 않은 Promise의 초기 상태
+fulfilled : 연산이 성공적으로 완료됨.
+rejected : 연산이 실패함
+
+Promise.prototype.catch(f(error)) : rejected케이스 일때 에러를 콜백 함수에 넘겨준다.
+Promise.prototype.then(f(resolve[, reject])) : promise의 결과에 따라 후속으로 실행되는 함수로, 최대 두 개의 인수를 받는다.   
+
+ECMA 2017에 추가된 async / await 구문을 사용할 수 있다. async / await는 promise를 동기적 문법과 비슷하게 만들어준다.  
+
+async는 함수 앞에 위치한다. 해당 함수는 항상 프라미스를 반환하게 된다.   
+```js
+async function f() {
+  return 1;
+}
+
+async function f() {
+  return Promise.resolve(1);
+}
+```
+위 두 함수의 결과는 동일하다.  
+
+await는 async함수 안에서 동작한다. promise가 처리될 때 가지 기다린 후 그 결과를 반환한다.  
+
+```js
+
+async function f() {
+
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("완료!"), 1000)
+  });
+
+  let result = await promise; // 프라미스가 이행될 때까지 기다림 (*)
+
+  alert(result); // "완료!"
+}
+
+f();
+```
+```js
+async function f() {
+  async function g() {
+    throw "This is unerror"
+  }
+  try {
+    let result = await g() //async함수는 promise를 발생하므로 이렇게 사용할 수도 있다.
+    console.log(result)
+  }
+  catch (err) {
+    console.log('에러가 발생하였습니다.', err)
+  }
+}
+
+f()
+```
+
+async는 무조건 promise를 반환한다. 반환값이 없는 경우 비어있는 promise를 반환한다.  
+await는 promise의 결과값을 반환한다. .catch()메서드가 없으므로 예외처리는 try, catch를 통해 한다.  
+(실무에서는 async, await를 더 많이 쓴다.)  
+
+Axios는 모듈을 생성하면서 다양한 옵션을 변경할 수 있다.  
+아래는 모듈의 옵션을 사용하는 예시들이다.  
+
+```js
+import axios from 'axios';
+
+// 1. defaults 설정을 사용하면 고정된 값들을 손쉽게 사용할 수 있다.
+axios.defaults.baseURL = 'https://api.example.com';
+axios.defaults.headers.common['X-Example-Key'] = 'example';
+axios.defaults.headers.post['Content-Type'] = 'application/json'l
+
+// 2. 서버에 따라 여러개의 모듈을 생성해야 할 때에는 create메서드를 이용해서 새로운 객체를 만들어 사용할 수 있다. 새로 만들어진 Axios 객체도 임포트된 모듈과 같은 역할을 한다.
+import axios from 'axios';
+
+const AuthAPI = axios.create({
+  baseURL : 'https://api.auth.com',
+});
+
+const UserAPI = axios.create({
+  baseURL: 'https://api.users.com',
+});
+
+// 3. 메서드에 따라서 엑시오스에 추가적인 옵션을 주입하는 방식이다.
+import axios from 'axios';
+
+axios.post('/user/1/memos', {
+  title: '메모 제목',
+  content: '메모의 내용입니다.',
+}, {
+  headers: {'Content-Type': 'application/json'},
+})
+```
+
+request Config에 있는 옵션들은 [이 주소](https://axios-http.com/kr/docs/req_config)를 참조하자.
+
+Axios의 응답은 아래와 같은 구조를 가지고 있다.
+
+```js
+{
+  data: {},
+  status: 200,
+  statueText: 'OK',
+  config: {}, //서버로 요청을 보냈을 때 어떤 설정을 가지고 있었는지를 의미
+  request: {},
+}
+```
+위 객체가 resolve로써 반환된다.  
+
+요청이 실패했을 경우에는 아래와 같은 Promise.reject 객체를 반환한다.  
+```js
+//서버에서 실패를 반환한 경우 error.response 속성은 아래와 같이 반환한다.
+{
+  data: {},
+  status:   ,
+  statusText: ' '
+}
+```
+
+아래는 try-catch로 resolve, reject 객체를 받는 예시이다. 
+```js
+//서버의 응답이 없는 경우 error.response 속성이 없다. 따라서 error.request를 받아야 한다.
+axios.get('/user/1/memos')
+  .then(respone => {
+    console.log(response.data);
+    console.log(response.status);
+    console.log(response.statusText);
+    console.log(response.config);
+    console.log(response.request);
+  })
+  .catch(error => {
+    if (error.response) {
+      //요청을 보냈으나 서버에서 실패로 응답한 경우
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.statusText);
+    }
+    else if (error.request) {
+      //요청은 보냈으나 서버 응답이 없어 에러가 발생한 경우, 리스폰스가 없다.
+      console.log(error.request);
+    }
+    else {
+      // 이유 없이 에러가 발생한 경우도 핸들링해야 한다.
+      console.log('Error', error.message);
+    }
+  });
+```
+
+
+
+
 
 
 
