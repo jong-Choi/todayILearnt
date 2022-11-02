@@ -252,3 +252,33 @@ function deepFreeze(target) {
 
 ### https://www.greatfrontend.com/
 프론트 엔드 문제 
+
+
+## 2022-10-31
+### Vue.js Axios의 이해
+`04-MINI-PROJECT\VUE2-with-a-cup-of-coffee\memo-application`  
+1. Promise란 비동기적으로 처리되는 연산의 결과값을 담는 객체이다. pending, resolve, reject의 값을 갖는다.
+2. async는 함수 앞에 사용하며, async f()가 반환하는 값은 항상 promise이다.
+3. await는 async f() 안에서만 사용할 수 있으며, promise를 처리한 결과 값을 반환한다.
+4. async-await 구분은 주로 try-catch 구분을 통해 사용한다. `async function f(){ try { await g(response){ 응답 처리 } } catch(error) { 에러 처리 } finally { 예외 처리 }}`
+5. Axios는 서버의 응답을 처리하여 promise를 반환하는 모듈이다. 해당 반환값을 이용해서 try-catch 등을 처리한다.
+Axios의 메서드 예시
+```js
+`axios.get(url[, config])` - config는 설정을 의미한다.   
+`axios.post(url[, data, config])`  
+`axios.put(url,data[, config])`  
+`axios.patch(url, data[, config])`  
+`axios.delete(url[, config])`  
+```
+
+Axios를 통해 만들어지는 promise의 결과값 response 객체 예시 
+```js
+{
+  data: {},
+  status: 200,
+  statueText: 'OK',
+  config: {}, //서버로 요청을 보냈을 때 어떤 설정을 가지고 있었는지를 의미
+  request: {},
+}
+```
+6. import 된 Axios모듈은 axios.defaults, axios.create() 등을 이용하여 옵션을 수정할 수 있다. 
