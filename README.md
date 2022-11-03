@@ -253,8 +253,6 @@ function deepFreeze(target) {
 ### https://www.greatfrontend.com/
 프론트 엔드 문제 
 
-
-## 2022-10-31
 ### Vue.js Axios의 이해
 `04-MINI-PROJECT\VUE2-with-a-cup-of-coffee\memo-application`  
 1. Promise란 비동기적으로 처리되는 연산의 결과값을 담는 객체이다. pending, resolve, reject의 값을 갖는다.
@@ -289,3 +287,53 @@ Axios를 통해 만들어지는 promise의 결과값 response 객체 예시
 `npm install`  
 `npm run dev`  
 
+## 2022-11-03
+### 자바스크립트 딥다이브 17장 생성자 함수에 의한 객체 생성
+생성자 함수는 `const person = new Object();`와 같은 방식으로 객체를 생성하는 것을 의미한다.  
+객체 리터럴은 
+```js
+const person = {
+  name: 'james',
+  sayHello() {
+    return '안녕하세요';
+  }
+};
+```
+와 같이 생성하는 방식이다. 
+
+객체 리터럴은 여러개의 프로퍼티를 반복적으로 기술해야 하는 문제점을 가지고 있다. 
+
+#### 생성자 함수를 통한 객체의 생성
+함수는 다음의 특징을 갖는다.
+1. 함수도 객체이다. 객체의 내부 슬롯과 내부 메서드를 가지고 있다.
+2. 추가로 함수는 `[[Call]]`, `[[Construct]]`와 같은 내부 메서드를 가지고 있다.
+3. 이를 이용하여 함수를 호출하면 Call이 실행되고, new라는 키워드와 함께 함수를 호출하면 Construct가 호출된다.
+
+`new f()`는 다음의 순서로 진행된다.
+1. this가 바인딩 된다. (바인딩이란, 어떠한 식별자가 값에 연결되는 것을 의미한다. this란 암묵적인 식별자이며, 이것이 바인딩되는 것을 의미한다. 
+일반 함수를 호출하면 this는 전역 객체를 의미하며,  
+메서드로 호출하면 this는 메서드를 가진 객체를 의미하며,  
+생성자 함수를 호출하면 this는 **생성자 함수가 생성할 인스턴스**를 의미한다.)
+2. 인스턴스를 개발자가 초기화한다. 가령 `function Cicle(radius) { this.radius = radius; }`와 같은 방식으로 받아준다.
+3. `New f()`는 **생성된 인스턴스를 반환한다**. 이때 특정 값을 return하면 인스턴스가 리턴되지 않고 해당 값이 반환된다. 따라서 **생성자 함수에는 return을 관습적으로 생략한다.**
+
+#### constructor와 non-constructor
+- constructor : 함수 선언문, 함수 표현식, 클래스
+- non-constructor: 메서드(ES6의 메서드 축약표현), 화살표 함수
+여기서 메서드란
+```js
+//1 메서드
+const obj = {
+  x(){}
+}
+
+//2. 메서드가 아닌 일반 함수로 인식됨
+const obj2 = {
+  x: function () {}
+}
+```
+
+즉 ES6에서 추가된 메서드 축약표현과 화살표함수는 non-constructor로 분류된다.  
+
+
+#### new.target 부분 추가 바람!!
