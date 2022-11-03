@@ -271,6 +271,32 @@ methods: {
 ``` 
 와 같은 형식으로 데이터를 받을 수 있다. 
 
+```
+자바스크립트의 달러는 _랑 $를 쓸 수 있다. 이때 헷갈리지 말라고 $로 붙여주는 것. 
+
+$emit은 특정 컴포넌트에서 발생하는 이벤트를 의미한다. 
+(부모에서 자식에게 직접 이벤트를 발생시키기 보다는 자식에서 에밋에서 발생되는 이벤트를 부모에서 받는 것이 좋다)
+위의 예시는 addMemo라는 이벤트가 MemoForm에 발생하는 것이다.  
+이를 부모 요소가 감지하여 @addMemo로 해당 이벤트가 발생하는지를 확인할 수 있다.  
+$emit은 $emit('이벤트명', 데이터) 로 전달할 수 있고
+@이벤트명=이벤트핸들러
+이벤트핸들러(데이터){
+}
+와 같이 받을 수 있다.  
+
+이 데이터는 넘기는 갯수가 여러개일 수 있다. 하지만
+const payload = { 데이터, 데이터, 데이터 }
+$emit('이벤트명', payload)
+
+이벤트핸들러(payload){
+  payload.데이터
+  payload.데이터
+  payload.데이터
+}
+
+와 같이 하나의 객체로 넘겨주고 받는 것이 관리하기 용이하다.  
+```
+
 MemoApp.vue의 템플릿에서 v-on을 통해 addMemo 메서드를 받아온다. 해당 메서드의 인자는 MemoForm에서 넘겨준 데이터가 될 것이다. (이때 v:on이벤트명=이벤트핸들러는 아래와 같이 @이벤트명=이벤트핸들러 로 표현된다. )
 
 ```js
@@ -805,7 +831,153 @@ axios.get('/user/1/memos')
   });
 ```
 
+`'babel-node'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는 배치 파일이 아닙니다.` 
+해당 오류 발생 시
+`npm i @babel/node -g` 로 글로벌 설치
 
+
+삭제 후 재설치
+`rm -rf node_modules`
+`yarn install`
+`yarn run dev`
+npm버전 6과 7 이후가 호환이 안되는 문제가 있음. 
+
+`localhost:8000` 에 접속하면 `API 서버가 정상적으로 실행되고 있습니다.`라는 문구가 뜬다.  
+
+#### RESTful API 연동하기
+`cd ../memo-application`  
+`npm install axios --save`  
+
+MemoApp.vue에 axios 라이브러리를 추가한 후, create메서드를 통해 baseURL을 초기화한다.  
+```js
+// .MemoApp.vue
+<script>
+...
+import axios from 'axios';
+
+const memoAPICore = axios.create({
+    baseURL: 'http://localhost:8000/api/memos'
+});
+```
+
+GET : MemoApp.vue
+MemoApp.vue는 로컬 스토리지에서 메모를 가져온다. 이를 axios의 get을 통해 받아오도록 수정한다.
+```js
+export default {
+    name: 'MemoApp',
+    ...
+    created () { 
+        // this.memos = localStorage.memos? JSON.parse(localStorage.memos) : [];  
+        memoAPICore.get('/')
+            .then(res => {
+                this.memos = res.data;
+            });
+    },
+    ...
+}
+```
+
+CREATE : MemoForm, MemoApp
+MemoForm에서 id와 관련된 부분을 삭제하고 데이터만 넘기도록 한다.  
+
+```js
+// ../MemoForm.vue
+      addMemo() {
+        const {title, content} = this;
+        // const id = new Date().getTime();
+
+        const isEmpty = title.length <= 0 || content.length <=0;
+        if (isEmpty) {
+          return false;
+        }
+
+        // this.$emit('addMemo', {id, title, content});
+        this.$emit('addMemo', {title, content});
+        this.resetFields();
+      }
+```
+
+MemoApp에서 addMemo를 post()메서드를 이용한다.  
+```js
+// ../MemoApp.vue
+        addMemo (payload) {
+            // this.memos.push(payload)
+            // this.storeMemo()
+            memoAPICore.post('/', payload)
+                .then(res=> {
+                  this.memos.push(res.data);
+                })
+        },
+```
+
+여기까지 수정 후 `yarn run dev`로 서버를 실행(localhost:8080)하여 테스트해보자. 개발자도구로 Network에 들어가면 된다. 
+status 201 최초 로드되고, ststus 204로 post되는 것을 확인할 수 있다. post된 데이터는 status 200으로 get된다.  
+
+
+DELETE : MemoApp.vue
+```js
+// ../MemoApp.vue
+        deleteMemo (id) {
+            const targetIndex = this.memos.findIndex(v => v.id === id);
+            // this.memos.splice(targetIndex, 1);
+            // this.storeMemo();
+            memoAPICore.delete(`/${id}`)
+                .then(() => {
+                    this.memos.splice(targetIndex, 1);
+                })
+        },
+```
+Delete 기능의 기본 로직은 같으며, Axios의 delete메서드를 사용한다는 점만 다르다.  
+
+UPDATE : MemoApp.vue 
+```js
+// ../MemoApp.vue
+        updateMemo(payload) {
+            const {id, content} = payload;
+            const targetIndex = this.memos.findIndex(v => v.id === id);
+            const targetMemo = this.memos[targetIndex];
+            // this.memos.splice(targetIndex, 1, {...targetMemo, content});
+            // this.storeMemo();
+            memoAPICore.put(`$${id}`, { content })
+            .then(() => {
+                this.memos.splice(targetIndex, 1, { ...targetMemo, content});
+            })
+        }
+```
+수정기능 역시 기본 로직은 같다. 수정할 대상의 인덱스를 받고, 해당 인덱스에 수정된 내용을 추가하여 splice로 반환한다.  
+
+지금까지 구현한 CRUD는 별도의 에러, 예외처리는 하고 있지 않으나 실제 서비스에서는 예외처리를 진행해야 한다.  
+
+### Vuex 적용하기
+현재의 메모 앱은 메모-메모앱-앱으로, 컴포넌트에서 부모로 데이터를 넘겨준다. 새로운 기능을 추가할 때마다 이러한 흐름이 계속해서 추가되며, 컴포넌트가 많아질수록 이러한 기능 추가가 계속해서 이루어지면서 복잡해질 것임을 알 수 있다.  
+
+컴포넌트 간 데이터의 흐름을 한 곳으로 모아야 개발의 단순함을 유지할 수 있다. 
+vuex를 통해 데이터를 만들고(action), 저장하고(store), 확인하고(view), 확인가능한 데이터를 토대로 다시 만드는 구조를 만든다면 단방향으로 처리가 가능하다.  
+
+
+`yarn add vuex --save`
+`cd ../src/store`
+`touch actions.js getters.js index.js mutaions.js states.js`
+
+```js
+// memo-application\src\store\index.js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+import state from './states.js';
+import getter from './getters.js';
+import mutations from './mutations.js';
+import actions from './actions.js';
+
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state,
+  getters,
+  mutations,
+  actions
+})
+```
 
 
 

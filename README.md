@@ -281,4 +281,11 @@ Axios를 통해 만들어지는 promise의 결과값 response 객체 예시
   request: {},
 }
 ```
-6. import 된 Axios모듈은 axios.defaults, axios.create() 등을 이용하여 옵션을 수정할 수 있다. 
+6. import 된 Axios모듈은 axios.defaults, axios.create() 등을 이용하여 옵션을 수정할 수 있다.  
+
+#### 서버 실행하기
+`...VUE2-with-a-cup-of-coffee\RESTful-api-server-master` 폴더에 예제 RESTful-api-server를 NodeJS로 구축해두었다.    
+`cd ./RESTful-api-server-master`  
+`npm install`  
+`npm run dev`  
+
