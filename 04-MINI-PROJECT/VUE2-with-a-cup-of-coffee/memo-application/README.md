@@ -959,12 +959,16 @@ vuex를 통해 데이터를 만들고(action), 저장하고(store), 확인하고
 `cd ../src/store`
 `touch actions.js getters.js index.js mutaions.js states.js`
 
+  store폴더의 index.js에서   
+  .use(Vuex)를 호출하여 vuex라이브러리를 사용한다.    
+  state, getters, mutations, actions 등을 이용하여 vue 인스턴스에 Vuex.store인스턴스의 스토어를 등록할 수 있다.  
+  
 ```js
 // memo-application\src\store\index.js
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import state from './states.js';
+import state from './states.js'; 
 import getter from './getters.js';
 import mutations from './mutations.js';
 import actions from './actions.js';
@@ -979,8 +983,97 @@ export default new Vuex.Store({
 })
 ```
 
+main.js 뷰 인스턴스 생성부에 스토어를 등록한다.  
+```js
+import Vue from "vue";
+import App from "./App.vue";
+import store from "./store"; //store를 찾아서 가져온다. 참고로 생략된 store모듈의 경로는 index.js를 기준으로 한다. index.js파일이 없으면 에러가 난다.
 
+new Vue({
+  el: "#app",
+  store, //vue의 옵션에 스토어를 가져한다.
+  render: h => h(App)
+});
+```
 
+actions.js에 스토어에 데이터를 저장하고 커밋하는 코드를 생성한다.  
+```js
+import axios from "axios";
+
+//MemoApp.vue에서 사용하던 것과 동일한 엑시오스 인스턴스
+const memoAPICore = axios.create({
+  baseURL: "http://localhost:8000/api/memos"
+});
+
+//MemoApp.vue에서 사용하던 get메서드를 fetchMemos라는 함수로 저장한다.
+export function fetchMemos({ commit }) {
+  memoAPICore.get("/").then(res => {
+    commit("FETCH_MEMOS", res.data);
+  });
+}
+
+//해당 함수를 actions의 모듈로 export한다.
+export default {
+  fetchMemos
+};
+```
+
+vuex에서 상태를 변경시키는 유일한 방법은 변이 시키는 것이다. 변이는 첫번째 인자로 현재의 상태를 받으며, 두번째 인자로 상태를 변경시킬 때 사용할 payload를 받을 수 있다.  
+
+actions의 fetchMemos 역시 변이를 통해 state를 변경시키게 된다. 아래와 같이 mutatuions.js에 fetchMemos타입과 일치하는 함수를 작성한다.  
+
+```js
+const FETCH_MEMOS = "FETCH_MEMOS";
+
+export default {
+  [FETCH_MEMOS](state, payload) {
+    state.memos = payload;
+  }
+};
+```
+
+여기서 주목할 부분은 actions.js에 사용된 commit메서드의 'FETCH_MEMOS'와 mutations.js의 'FETCH_MEMOS'가 같다는 점이다.  
+이와 같이 액션에서 커밋한 타입과 변이에서 사용하는 변이 상수의 타입을 일치시켜야 한다.  
+이를 mutations-types.js라는 새로운 파일로 만들어 관리하게 된다.  
+
+```js
+//./mutations-type.js
+export const FETCH_MEMOS = "FETCH_MEMOS";
+```
+
+```js
+//./actions.js
+import axios from "axios";
+import { FETCH_MEMOS } from "./mutations-type";
+
+//MemoApp.vue에서 사용하던 것과 동일한 엑시오스 인스턴스
+const memoAPICore = axios.create({
+  baseURL: "http://localhost:8000/api/memos"
+});
+
+export function fetchMemos({ commit }) {
+  memoAPICore.get("/").then(res => {
+    commit(FETCH_MEMOS, res.data);
+  });
+}
+
+export default {
+  fetchMemos
+};
+```
+
+```js
+//./mutations.js
+import { FETCH_MEMOS } from "./mutations-type";
+
+export default {
+  [FETCH_MEMOS](state, payload) {
+    state.memos = payload;
+  }
+};
+```
+mutations-type.js에서 변이상수를 선언한 후,
+이를 actions.js와 mutations.js에서 임포트하여 사용한다. 
 
 
 

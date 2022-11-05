@@ -13,6 +13,8 @@
 import Memo from './Memo.vue';
 import MemoForm from './MemoForm.vue';
 import axios from 'axios';
+import { mapActions } from 'vuex';
+
 
 const memoAPICore = axios.create({
     baseURL: 'http://localhost:8000/api/memos'
@@ -27,14 +29,18 @@ export default {
         };
     },
     created () { 
-        // 로컬 스토리지 관련 코드 삭제
-        // // localStorage에 할 일 목록이 있는 경우 이를 JSON 형식으로 불러온다.
-        // // 실행 초기 외부로부터 데이터가 필요한 경우에는 이와 같이 create() 메서드를 이용하여 불러온다.
-        // this.memos = localStorage.memos? JSON.parse(localStorage.memos) : [];  
-        memoAPICore.get('/')
-            .then(res => {
-                this.memos = res.data;
-            });
+        // // 로컬 스토리지 관련 코드 삭제
+        // // // localStorage에 할 일 목록이 있는 경우 이를 JSON 형식으로 불러온다.
+        // // // 실행 초기 외부로부터 데이터가 필요한 경우에는 이와 같이 create() 메서드를 이용하여 불러온다.
+        // // this.memos = localStorage.memos? JSON.parse(localStorage.memos) : [];  
+        // memoAPICore.get('/')
+        //     .then(res => {
+        //         this.memos = res.data;
+        //     });
+
+        this.fetchMemos();
+
+
     },
       components: {
         Memo,
@@ -72,7 +78,10 @@ export default {
             .then(() => {
                 this.memos.splice(targetIndex, 1, { ...targetMemo, content});
             })
-        }
+        },
+        ...mapActions([
+            'fetchMemos'
+        ])
     }
 } 
 </script>

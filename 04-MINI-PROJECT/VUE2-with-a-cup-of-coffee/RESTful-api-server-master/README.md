@@ -34,3 +34,13 @@ npm install -g sequelize-cli
 ```sh
 PORT=8000 npm run dev
 ```
+
+
+맥에서 node-pre-gyp 설치가 안되는 이슈가 있음.
+`npm --build-from-source install bcrypt` 를 통해 우회할 것 (해당 모듈의 설치 서버가 닫힌 경우 등에서 발생할 수 있는 오류)
+I managed to solve this by running the command:
+sudo apt-get install -y build-essential python and then yarn add bcrypt.
+
+You can find the instructions here:
+https://github.com/kelektiv/node.bcrypt.js/wiki/Installation-Instructions
+https://github.com/kelektiv/node.bcrypt.js
