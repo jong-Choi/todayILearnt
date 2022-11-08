@@ -70,6 +70,10 @@ class LoginSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField(
+        required=True,
+        validators=[UniqueValidator(queryset=Profile.objects.all())],  # 닉네임 중복 검증
+    )
     class Meta:
         model = Profile
         fields = ("nickname", "position", "subjects", "image")
