@@ -2,7 +2,6 @@
   <div class="post-list-page">
     <h1>포스트 게시글</h1>
     <post-list :posts="posts" />
-    {{ posts }}
   </div>
 </template>
 

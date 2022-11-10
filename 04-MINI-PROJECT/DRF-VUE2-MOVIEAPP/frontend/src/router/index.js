@@ -14,7 +14,12 @@ const routes = [
   {
     path: "/post/:postId",
     name: "PostViewPage",
-    components: PostViewPage,
+    components: {
+      default: PostViewPage,
+    },
+    props: {
+      default: true,
+    },
   },
 ];
 
