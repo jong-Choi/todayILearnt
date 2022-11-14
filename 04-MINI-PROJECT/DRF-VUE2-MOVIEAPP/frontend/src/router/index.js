@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import PostListPage from "@/pages/PostListPage";
 import PostViewPage from "@/pages/PostViewPage";
 import SignupPage from "@/pages/SignupPage";
+import SigninPage from "@/pages/SigninPage";
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
     path: "/signup",
     name: "SignupPage",
     component: SignupPage,
+  },
+  {
+    path: "/signin",
+    name: "SigninPage",
+    component: SigninPage,
   },
 ];
 
