@@ -356,3 +356,62 @@ export default {apiTMDB, apiDJANGO}
         }
     ]
 ```
+
+### 로대시 디바운스 기능
+
+https://yamyam-naengmyeon-donkats.tistory.com/60
+
+```vue
+<template>
+  <input type="text" v-model="debounceValue" @keyup="debounceMethods($event)" />
+  <input type="text" v-model="throttleValue" @keyup="throttleMethods($event)" />
+</template>
+
+<script>
+import { debounce, throttle } from "lodash";
+export default {
+  name: "App",
+  data() {
+    return {
+      debounceValue: "",
+      throttleValue: "",
+    };
+  },
+  methods: {
+    debounceMethods: debounce((event) => {
+      console.log(event.target.value);
+    }, 2000),
+    throttleMethods: throttle((event) => {
+      console.log(event.target.value);
+    }, 2000),
+  },
+};
+</script>
+```
+
+https://www.mrlatte.net/code/2020/12/15/lodash-debounce
+
+```js
+import { debounce } from 'lodash';
+...
+const onChange = () => {
+	console.log("This is a onChange");
+	debounceOnChange();
+};
+
+const debounceOnChange = debounce(() => {
+  console.log("This is a debounce function");
+}, 500);
+```
+
+`https://joshua1988.github.io/vue-camp/syntax/watch.html#watch-코드-형식`
+
+```js
+//watch에 debounce 적용하기 (Vue.js)
+import * as _ from 'lodash'
+
+watch(searchInput, _.debounce((searchInput, prevSearchInput) => {
+  ...
+}, 33);
+//watch로 감지할 데이터 프로퍼티로 값을 지정하는 함수를 debounce로 감싸기만 하면 됨
+```

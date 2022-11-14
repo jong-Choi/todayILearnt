@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import PostListPage from "@/pages/PostListPage";
 import PostViewPage from "@/pages/PostViewPage";
+import SignupPage from "@/pages/SignupPage";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,11 @@ const routes = [
     props: {
       default: true,
     },
+  },
+  {
+    path: "/signup",
+    name: "SignupPage",
+    component: SignupPage,
   },
 ];
 
