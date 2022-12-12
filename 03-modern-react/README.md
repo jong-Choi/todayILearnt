@@ -1,5 +1,12 @@
 # 리액트 치트시트
-리액트에 대한 내용을 간략하게 정리한 리드미 파일
+리액트에 대한 내용을 간략하게 정리한 리드미 파일.  
+
+코드들의 주요 출처는 아래와 같다.
+
+[벨로퍼트와 함께하는 모던 자바스크립트](https://learnjs.vlpt.us/)  
+[벨로퍼트와 함께하는 모던 리액트](https://react.vlpt.us/)  
+[리액트를 다루는 기술](https://thebook.io/080203/) [깃허브](https://github.com/gilbutITbook/080203/)  
+[PoiemaWeb](https://poiemaweb.com/)  
 
 ## DOM과 쿼리 셀렉터
 바닐라 자바스크립트의  DOM과 쿼리 셀렉터  
@@ -678,3 +685,616 @@ function Button({ children, ...rest }) {
 }
 
 export default Button;
+```
+
+### 자바스크립트의 비동기 처리
+
+#### 콜백
+1. 콜백 : 다른 함수에 인수로 넘겨주는 함수. 호출(call back)되어 실행(execute)될 목적으로 인수로 넘기는 함수이다.
+2. setTimeout(콜백함수, 지연시간ms) : 특정시간 이후 콜백함수를 실행한다. clearTimeout(함수명)을 통해 스케줄링을 취소할 수 있다.
+
+setTimeout을 통해 이전 함수의 처리 결과를 기다린 후, callback을 실행시키는 방식으로 비동기 처리를 구현할 수 있다.
+
+#### Promise
+Promise 객체란 완료가 예정된 작업의 실행 결과를 의미하는 대리자이다. ES6에서 채택되었다.  
+Promise의 콜백 함수(executor)는 기본적으로 resolve(), reject() 메서드를 가지며, 둘 중 하나를 반드시 반환해야 한다. 
+
+new Promise(콜백) - 대기(pending) 상태를 갖는다. 결과값은 undefined이다.  
+resolve(value) - 콜백(executor)이 성공적으로 이행(fulfilled)된 상태이다. 결과값으로 value를 반환한다.  
+rejected(error) - 콜백(executor)이 특정한 사유로 불이행(error)된 상태이다. Error 객체를 반환한다.  
+
+콜백만을 이용해 비동기 처리를 하면 아래와 같다.  
+```js
+function increaseAndPrint(n, callback) {
+  setTimeout(() => {
+    const increased = n + 1;
+    console.log(increased);
+    if (callback) {
+      callback(increased);
+    }
+  }, 1000);
+}
+
+increaseAndPrint(0, n => {
+  increaseAndPrint(n, n => {
+    increaseAndPrint(n, n => {
+      increaseAndPrint(n, n => {
+        increaseAndPrint(n, n => {
+          console.log('끝!');
+        });
+      });
+    });
+  });
+});
+```
+
+Promise 객체를 이용해 비동기 처리를 하면 아래와 같다.
+```js
+function increaseAndPrint(n) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const value = n + 1;
+      if (value === 5) {
+        const error = new Error();
+        error.name = 'ValueIsFiveError';
+        reject(error);
+        return;
+      }
+      console.log(value);
+      resolve(value);
+    }, 1000);
+  });
+}
+
+increaseAndPrint(0)
+  .then(n => {
+    return increaseAndPrint(n);
+  })
+  .then(n => {
+    return increaseAndPrint(n);
+  })
+  .then(n => {
+    return increaseAndPrint(n);
+  })
+  .then(n => {
+    return increaseAndPrint(n);
+  })
+  .then(n => {
+    return increaseAndPrint(n);
+  })
+  .finally(()=> {
+      console.log('끝!')
+  })
+  .catch(e => {
+    console.error(e);
+  });
+```
+Promise 객체의 resolve(value) 메서드의 반환값을 .then 인스턴스 메서드를 통해 n으로 이어 받으며 코드의 가독성이 좋아졌다.  
+또한 .catch 인스턴스 메서드를 통해 에러 발생에도 대처할 수 있게 되었다. 추가적으로 .finally 인스턴스 메서드는 결과에 관계없이 프라미스가 처리되면 실행되며, 인수를 받지 않는다.
+
+
+#### async/await
+ES8(2017)에 추가된 문법이다.
+
+1. await 키워드는 프라미스가 끝날 때까지 기다린 후 다음 작업을 수행한다.
+2. await는 async 키워드가 붙은 함수 안에서만 사용할 수 있다.
+3. 에러는 try - catch 구문으로 받을 수 있다.
+```js
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function makeError() {
+  await sleep(1000);
+  const error = new Error();
+  throw error;
+}
+
+async function process() {
+  try {
+    await makeError();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+process();
+```
+
+
+4. Promise의 정적 메서드 .all을 통해 동시에 실행할 Promise들을 등록하거나, .race를 통해 등록한 Promise들 중 가장 빨리 끝난 값 만을 가져올 수도 있다.
+```js
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const getDog = async () => {
+  await sleep(1000);
+  return '멍멍이';
+};
+
+const getRabbit = async () => {
+  await sleep(500);
+  return '토끼';
+};
+const getTurtle = async () => {
+  await sleep(3000);
+  return '거북이';
+};
+
+async function process() {
+  const dog = await getDog();
+  console.log(dog);
+  const rabbit = await getRabbit();
+  console.log(rabbit);
+  const turtle = await getTurtle();
+  console.log(turtle);
+}
+
+async function processAll() {
+  const results = await Promise.all([getDog(), getRabbit(), getTurtle()]);
+  console.log(results);
+}
+
+async function processRace() {
+  const first = await Promise.race([
+    getDog(),
+    getRabbit(),
+    getTurtle()
+  ]);
+  console.log(first);
+}
+
+process(); // dog \r rabbit \r turtle
+processAll(); // rabbit \r dog \r turtle
+processRace(); // rabbit
+```
+
+### axios
+
+#### axios 설치하기 
+`npm install axios --save`
+혹은
+`yarn add axios`
+
+#### axios의 메서드
+`axios.get(url[, config])` - config는 설정을 의미한다.   
+`axios.post(url[, data, config])`  
+`axios.put(url,data[, config])`  
+`axios.patch(url, data[, config])`
+`axios.delete(url[, config])`  
+
+#### axios의 비동기 처리
+aioxs는 promise를 반환한다. 이를 이용해 아래와 같이 비동기적으로 처리한다.  
+
+
+```js
+import axios from 'axios'
+
+axios.get('https://api.example.com/users/1/memos')
+  .then(response => {
+    alert('요청이 성공하였습니다.');
+  })
+  .catch(error => {
+    alert('요청이 실패하였습니다.');
+  })
+  .then(response => {
+    alert('성공과 실패에 관계없이 항상 실행됩니다.')
+  })
+```
+
+```js
+//ECMA 2017 async/await
+async function getUserMemo() {
+  try{
+    const response = await axios.get('https://api.example.com/user/1/memos');
+    alert('요청이 성공하였습니다.');
+  }
+  catch (error) {
+    alert('요청이 실패하였습니다.');
+  }
+  finally {
+    alert('성공과 실패에 관계없이 항상 실행됩니다.');
+  }
+}
+```
+
+#### axios의 설정 추가
+config에 axios에 설정을 추가한다.
+다양한 config 옵션들은 [이 주소](https://axios-http.com/kr/docs/req_config)를 참조하자.
+
+```js
+import axios from 'axios';
+
+// 1. defaults 설정을 사용하면 고정된 값들을 손쉽게 사용할 수 있다.
+axios.defaults.baseURL = 'https://api.example.com';
+axios.defaults.headers.common['X-Example-Key'] = 'example';
+axios.defaults.headers.post['Content-Type'] = 'application/json'l
+
+// 2. 서버에 따라 여러개의 모듈을 생성해야 할 때에는 create메서드를 이용해서 새로운 객체를 만들어 사용할 수 있다. 새로 만들어진 Axios 객체도 임포트된 모듈과 같은 역할을 한다.
+import axios from 'axios';
+
+const AuthAPI = axios.create({
+  baseURL : 'https://api.auth.com',
+});
+
+const UserAPI = axios.create({
+  baseURL: 'https://api.users.com',
+});
+
+// 3. 메서드에 따라서 엑시오스에 추가적인 옵션을 주입하는 방식이다.
+import axios from 'axios';
+
+axios.post('/user/1/memos', {
+  title: '메모 제목',
+  content: '메모의 내용입니다.',
+}, {
+  headers: {'Content-Type': 'application/json'},
+})
+```
+
+#### axios 응답 예시 
+Axios의 응답은 아래와 같은 구조를 가지고 있다.
+
+```js
+{
+  data: {},
+  status: 200,
+  statueText: 'OK',
+  config: {}, //서버로 요청을 보냈을 때 어떤 설정을 가지고 있었는지를 의미
+  request: {},
+}
+```
+위 객체가 resolve로써 반환된다.  
+
+요청이 실패했을 경우에는 아래와 같은 Promise.reject 객체를 반환한다.  
+```js
+//서버에서 실패를 반환한 경우 error.response 속성은 아래와 같이 반환한다.
+{
+  data: {},
+  status:   ,
+  statusText: ' '
+}
+```
+
+아래는 try-catch로 resolve, reject 객체를 받는 예시이다. 
+```js
+//서버의 응답이 없는 경우 error.response 속성이 없다. 따라서 error.request를 받아야 한다.
+axios.get('/user/1/memos')
+  .then(respone => {
+    console.log(response.data);
+    console.log(response.status);
+    console.log(response.statusText);
+    console.log(response.config);
+    console.log(response.request);
+  })
+  .catch(error => {
+    if (error.response) {
+      //요청을 보냈으나 서버에서 실패로 응답한 경우
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.statusText);
+    }
+    else if (error.request) {
+      //요청은 보냈으나 서버 응답이 없어 에러가 발생한 경우, 리스폰스가 없다.
+      console.log(error.request);
+    }
+    else {
+      // 이유 없이 에러가 발생한 경우도 핸들링해야 한다.
+      console.log('Error', error.message);
+    }
+  });
+```
+
+#### api.js 파일 만들기 예시
+
+[넷플릭스 클론 코딩](https://www.inflearn.com/course/%EB%94%B0%EB%9D%BC%ED%95%98%EB%8A%94-%EB%A6%AC%EC%95%A1%ED%8A%B8/)에 사용된 방법이다.
+
+1. @/api 폴더를 생성한다.
+2. ./axios.js 파일을 생성한다.
+```js
+import axios from "axios";
+
+// 같은 요청을 여러번 반복하기 위해 baseURL, Prams, Fetch(requests.js)를 나누어 저장
+
+const instance = axios.create({
+  baseURL: "https://api.themoviedb.org/3",
+  params: {
+    api_key: process.env.REACT_APP_MOVIE_DB_API_KEY,
+    language: "ko-KR",
+  },
+});
+
+export default instance;
+```
+위에서 `.env`파일을 최상위 폴더에 생성하였으며, REACT_APP_MOVIE_DB_API_KEY라는 식별자로 지정된 문자열을 process.env로 불러오는 모습이다.
+
+3. 그 밖에 주로 사용되는 url 패턴을 ./request.js 파일에 저장한다.
+```js
+//https://developers.themoviedb.org/
+const requests = {
+  fetchNowPlaying: "movie/now_playing",
+  fetchNetflixOriginals: "/discover/tv?with_networks=213",
+  fetchTrending: "/trending/all/week",
+  fetchTopRated: "/movie/top_rated",
+  fetchActionMovies: "/discover/movie?with_genres=28",
+  fetchComedyMovies: "/discover/movie?with_genres=35",
+  fetchHorrorMovies: "/discover/movie?with_genres=27",
+  fetchRomanceMovies: "/discover/movie?with_genres=10749",
+  fetchDocumentaries: "/discover/movie?with_genres=99",
+};
+
+export default requests;
+```
+
+4. 실제 사용시 아래와 같이 적용한다.
+```js
+import axios from "../api/axios.js";
+import requests from "../api/requests";
+import React, { useEffect, useState } from "react";
+
+function Row() {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    fetchMovieData();
+  });
+
+  const fetchMovieData = async () => {
+    const request = await axios.get(requests.fetchTrending);
+    setMovies(request.data.results);
+  };
+}
+
+export default Row;
+```
+@/api/axios.js 파일의 axios를 불러와 
+@/api/requests 파일의 requests.fetchTrending url과 결합하는 모습니다. axios파일에서 baseURL과 params 등을 미리 지정해두었기에 간편하게 사용이 가능하다.
+
+5. axios.js가 아닌 index.js 파일을 사용하여 아래와 같이 삽입할 수도 있다.
+```js
+import api from "@/api";
+```
+
+6. 객체 형태로 export하여 구조 분해 할당으로 여러 api를 구분하여 받을수도 있다.
+```js
+const TMDBapi = axios.create({
+  baseURL: "https://api.themoviedb.org/3",
+  params: {
+    api_key: tmdb_api_key,
+    language: "ko-KR",
+  },
+});
+
+const WEATHERapi = axios.create({
+  baseURL: "https://api.openweathermap.org/data/2.5",
+});
+
+const instance = { TMDBapi, WEATHERapi };
+
+export { TMDBapi, WEATHERapi }
+export default instance;
+```
+```js
+import { TMDBapi } from "@/api";
+```
+
+모듈의 export와 import에 대해서는 [다음](https://ko.javascript.info/import-export)을 참조하자.
+
+### context API를 활용한 전역상태관리
+#### 상태 패턴 (State Pattern)
+디자인 패턴 중 상태 패턴은 Context 클래스에서 인터페이스를 제공하여 State로 캡슐화하는 것을 의미한다.
+[참조](https://has3ong.github.io/programming/designpattern-state/)
+
+리액트에서의 Context는 전역적(global)으로 데이터를 공유하기 위해 사용되도록 디자인되었다. 즉 데이터 간의 간격과 컴포넌트 트리의 계층이 없이 데이터를 공유할 수 있다. 16.3버전부터 추가되었다.
+
+#### Context API
+context 안에 `{color: 'black'}`이라는 값을 넣어 해당 값을 전역적으로 사용하는 예제이다.
+1. createContext
+@/contexts/color.js 라는 새로운 컨텍스트 파일을 만들자.
+```js
+import { createContext } from 'react';
+
+const ColorContext = createContext({color: 'black'})
+
+export default ColorContext;
+```
+
+2. CONTEXT.Consumer
+해당 콘텍스트는 컴포넌트의 형태로 다른 컴포넌트에서 사용된다.
+이때 Function as a child 혹은 Render Props라 불리는 패턴으로 컴포넌트 안에 value를 갖는 함수가 사용된다.
+@/components/ColorBox.js
+```js
+import ColorContext from '../contexts/color';
+
+const ColorBox = () => {
+  return (
+    <ColorContext.Consumer>
+      {(value) => (
+        <div
+          style={{
+            width: '64px',
+            height: '64px',
+            background: value.color //color: 'black'
+          }}
+        />
+      )}
+    </ColorContext.Consumer>
+  )
+}
+```
+
+3. CONTEXT.Provider
+상위 컴포넌트에서 context를 수정할 수 있다. 이때 value 프로퍼티를 필수로 가지고 있어야 한다.
+
+@/App.js
+```js
+import ColorBox from './components/ColorBox';
+import ColorContext from './comtexts/color';
+
+const App = () => {
+  return (
+    <ColorContext.Provider value={{ color : 'red' }}>
+      <div>
+        <ColorBox />
+      </div>
+    </ColorContext.Provider>
+  )
+}
+
+export default App;
+```
+
+##### 동적 컨텍스트 사용하기
+Context는 함수 등 다양한 값을 지니고 있을 수 있다.  
+아래는 조금 더 복잡한 예시이다.
+
+@/contexts/color.js 
+```js
+import React, { createContext, useState } from 'react';
+
+const ColorContext = createContext({
+  state: { color: 'black', subcolor: 'red' },
+  actions: {
+    setColor: () => {},
+    setSubcolor: () => {}
+  }
+});
+
+const ColorProvider = ({ children }) => {
+  const [color, setColor] = useState('black');
+  const [subcolor, setSubcolor] = useState('red');
+
+  const value = {
+    state: { color, subcolor },
+    actions: { setColor, setSubcolor }
+  };
+  return (
+    <ColorContext.Provider value={value}>{children}</ColorContext.Provider>
+  );
+};
+
+// const ColorConsumer = ColorContext.Consumer과 같은 의미
+const { Consumer: ColorConsumer } = ColorContext;
+
+// ColorProvider와 ColorConsumer 내보내기
+export { ColorProvider, ColorConsumer };
+
+export default ColorContext;
+```
+
+@/App.js
+```js
+import React from 'react';
+import ColorBox from './components/ColorBox';
+import { ColorProvider } from './contexts/color';
+import SelectColors from './components/SelectColors';
+
+const App = () => {
+  return (
+    <ColorProvider>
+      <div>
+        <SelectColors />
+        <ColorBox />
+      </div>
+    </ColorProvider>
+  );
+};
+
+export default App;
+```
+
+##### useContext Hook
+ColorContext 모듈의 state를 구조분해 할당으로 가져온 예시이다.
+```js
+import React, { useContext } from 'react';
+import ColorContext from '../contexts/color';
+
+const ColorBox = () => {
+  const { state } = useContext(ColorContext);
+  return (
+    <>
+      <div
+        style={{
+          width: '64px',
+          height: '64px',
+          background: state.color
+        }}
+      />
+      <div
+        style={{
+          width: '32px',
+          height: '32px',
+          background: state.subcolor
+        }}
+      />
+    </>
+  );
+};
+
+export default ColorBox;
+```
+
+##### Class의 contextType 프로퍼티 사용하기
+클래스형 컴포넌트 컴포넌트명.contextType을 통하여 this.context에 createContext()로 생성된 컨텍스트를 바인딩할 수 있다.    
+
+이 경우 하나의 context만 바인딩 됨에 유의하자.  
+(여러 컨텍스트를 사용하는 경우 CONTEXT.Provider를 통해 프로퍼티를 넘겨주어야 한다.)  
+
+Babel을 통해서 Static 클래스 필드를 사용하면 아래와 같이 정의할 수 있다.  
+
+```js
+import React, { Component } from 'react';
+import ColorContext from '../contexts/color';
+
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
+class SelectColors extends Component {
+  static contextType = ColorContext;
+
+  handleSetColor = color => {
+    this.context.actions.setColor(color);
+  };
+
+  handleSetSubcolor = subcolor => {
+    this.context.actions.setSubcolor(subcolor);
+  };
+
+  render() {
+    return (
+      <div>
+        <h2>색상을 선택하세요.</h2>
+        <div style={{ display: 'flex' }}>
+          {colors.map(color => (
+            <div
+              key={color}
+              style={{
+                background: color,
+                width: '24px',
+                height: '24px',
+                cursor: 'pointer'
+              }}
+              onClick={() => this.handleSetColor(color)}
+              onContextMenu={e => {
+                e.preventDefault();
+                this.handleSetSubcolor(color);
+              }}
+            />
+          ))}
+        </div>
+        <hr />
+      </div>
+    );
+  }
+}
+
+export default SelectColors;
+```
+
+### 리덕스
+
+
+
+
+
+
