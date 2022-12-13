@@ -8,18 +8,265 @@
 [리액트를 다루는 기술](https://thebook.io/080203/) [깃허브](https://github.com/gilbutITbook/080203/)  
 [PoiemaWeb](https://poiemaweb.com/)  
 
-## DOM과 쿼리 셀렉터
-바닐라 자바스크립트의  DOM과 쿼리 셀렉터  
-
-
-### DOM Query
-```js
-document.getElementById(id)
-document.getElementsByClassName(class)
-document.getElementsByTagName(tagName)
+## HTML 기초
+### HTML 기본 구조
+#### HEAD, META, BODY
+```html
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <p>안녕하세요! HTML5</p>
+  </body>
+</html>
 ```
-DOM Query에서 GetElements를 하는 경우 HTMLCollection을 반환한다.
-HTMLCollection은 live로 결과값을 반환한다. 때문에 반복문 등을 돌릴 때 유의해야 한다. (반복문을 아래에서부터 돌리는 등의 방법으로 우회한다.)
+
+##### HEAD 태그
+- title : 문서의 제목
+- meta
+    - name어트리뷰트 - keywords(검색엔진 최적화에 사용할 키워드), description(웹페이지의 설명), author(웹페이지의 저자)
+    - `<meta name="description" content="Web tutorials on HTML and CSS">`
+- style : html 문서를 위한 style 정보
+- link : 외부 리소스와의 연계에 사용 `<link rel="stylesheet" href="style.css">`
+
+#### 글로벌 어트리뷰트
+모든 HTML 엘리먼트가 공통으로 사용할 수 있는 어트리뷰트이다.   
+
+id	유일한 식별자(id)를 요소에 지정한다. 중복 지정이 불가하다.  
+class	스타일시트에 정의된 class를 요소에 지정한다. 중복 지정이 가능하다.  
+hidden	css의 hidden과는 다르게 의미상으로도 브라우저에 노출되지 않게 된다.  
+title	요소에 관한 제목을 지정한다.  
+style	요소에 인라인 스타일을 지정한다.  
+
+lang	지정된 요소의 언어를 지정한다. 검색엔진의 크롤링 시 웹페이지의 언어를 인식할 수 있게 한다.  
+tabindex	사용자가 키보드로 페이지를 내비게이션 시 이동 순서를 지정한다.  
+
+
+### 시멘틱 태그
+기능이 없다. 의미론적으로만 존재하며, div태그와 같게 작동한다. 단, 화면낭독기, 검색엔진 등에서는 주요한 역할을 한다.  
+
+header	헤더를 의미한다  
+nav	내비게이션을 의미한다    
+aside	사이드에 위치하는 공간을 의미한다  
+section	본문의 여러 내용(article)을 포함하는 공간을 의미한다  
+article	분문의 주내용이 들어가는 공간을 의미한다  
+footer	푸터를 의미한다  
+
+### form 태그
+action - 입력 데이터가 전송될 url을 지정한다.
+method - get 혹은 post로 전달 방식을 지정한다.
+
+```html
+    <form action="http://jsonplaceholder.typicode.com/users" method="get">
+      <input type="text" name="id" value="1" placeholder="아이디를 입력하세요"><br>
+      <input type="text" name="username" value="Bret" placeholder="유저네임을 입력하세요"><br>
+      <input type="submit" value="Submit">
+    </form>
+```
+
+#### fieldset, legend
+```html
+      <fieldset>
+        <legend>Login</legend>
+        Username <input type="text" name="username">
+        Password <input type="text" name="password">
+      </fieldset>
+```
+form의 요소를 필드셋으로 묶을 수 있으며, 해당 필드셋의 이름을 legend로 삽입한다.  
+
+## CSS 작성 방식
+링크 스타일 : `<link rel="stylesheet" href="css/style.css">`
+임베딩 스타일 : 
+```html
+  <head>
+    <style>
+      h1 { color: red; }
+      p  { background: aqua; }
+    </style>
+  </head>
+```
+인라인 스타일 : `<h1 style="color: red">Hello World</h1>`
+
+### CSS 리셋하기
+모든 사이트에서 동일하게 보이도록 마진, 패딩 등을 0으로 지정한 후 스타일을 지정한다. 
+아래는 Eric Meyer’s reset css의 예시이다.
+```css
+/* http://meyerweb.com/eric/tools/css/reset/
+  v2.0 | 20110126
+  License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+```
+
+### display / visibility 
+
+블록 레벨 요소 : div, h1 ~ h6, p, ol, ul, li, hr, table, form
+블록레벨 요소 중 기능이 없는 것은 div 태그이다.
+
+인라인 레벨 요소 : span, a, strong, img, br, input, select, textarea, button
+인라인 레벨 요소 중 기능이 없는 것은 span 태그이다.
+
+display 프로퍼티를 통해 레이아웃 정의를 할 수 있다.  
+- display 프로퍼티의 속성
+block	block 특성을 가지는 요소(block 레벨 요소)로 지정    
+inline	inline 특성을 가지는 요소(inline 레벨 요소)로 지정    
+inline-block	inline-block 특성을 가지는 요소(inline-block 레벨 요소)로 지정    
+none	해당 요소를 화면에 표시하지 않는다 (공간조차 사라진다)    
+
+visibility 프로퍼티를 통해 요소를 보이거나 감출 수 있다. 
+- visibility  프로퍼티의 속성
+**visible**	해당 요소를 보이게 한다 (기본값)  
+**hidden**	해당 요소를 보이지 않게 한다. display: none;은 해당 요소의 공간까지 사라지게 하지만 visibility: hidden;은 해당 요소의 공간은 사라지지 않고 남아있게 된다.  
+collapse	table 요소에 사용하며 행이나 열을 보이지 않게 한다.
+none	table 요소의 row나 column을 보이지 않게 한다. IE, 파이어폭스에서만 동작하며 크롬에서는 hidden과 동일하게 동작한다.
+
+`.hidden  { visibility: hidden; }`과 `.none { display: none; }`의 차이에 대해 인지하자.
+
+### opacity, transition, animation
+opacity 프로퍼티는 투명도를 지정한다. rgba()함수를 통해 투명도를 지정할 수도 있다.  
+`div, img { opacity: 0.5; }`, `img:hover { opacity: 1.0; }`  
+
+`transition: 애니메이션명 시간` 프로퍼티는 변화하는 시간을 지정한다.   
+
+애니메이션은 @keyframes룰을 이용해 `@keyframes 애니메이션명`으로 선언한 후, 규칙을 넣는다.   
+아래와 같이 지정한다.    
+```css
+@keyframes move {
+  /* 애니메이션 시작 시점 */
+  from { left: 0; }
+  /* 애니메이션 종료 시점 */
+  to   { left: 300px; }
+}
+@keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+}
+```
+위와 같이 선언된 애니메이션을 아래와 같이 애니메이션 프로퍼티로 사용하게 된다.    
+`div:hover { background: rgba(255, 255, 255, 1.0); animation-name: move, fadeOut; animation-duration: 2s;}`, 
+
+### 부트스트랩과 그리드
+반응형 웹을 위해 미디어 쿼리, flexbox 등을 알아야 한다. 부트스트랩으로 설명을 대신한다.
+
+- [설치](https://getbootstrap.kr/docs/5.2/getting-started/introduction/)
+- 중단점  
+
+| Breakpoint	Class | infix	| Dimensions |  
+|---|---|---|  
+|Extra small|	None|	<576px|
+|Small|	sm|	≥576px|  
+|Medium|	md|	≥768px|  
+|Large|	lg|	≥992px|
+|Extra large|	xl|	≥1200px|
+|Extra extra large|	xxl	|≥1400px|| 
+
+- 컨테이너 : 그리드에서 반응형으로 특정 태그 전체를 감쌀 때 사용. 최대 넓이가 고정됨
+
+|  |Extra small<576px|Small≥576px|Medium≥768px|Large≥992px|X-Large≥1200px|XX-Large≥1400px|  
+|---|---|---|---|---|---|---|  
+.container|	100%|	540px|	720px|	960px|	1140px|	1320px|  
+|.container-sm|	100%|	540px|	720px|	960px	|1140px	|1320px|
+|.container-md|	100%	|100%	|720px|	960px|	1140px|	1320px|
+|.container-lg|	100%	|100%|	100%|	960px|	1140px|	1320px|
+|.container-xl|	100%|	100%|	100%|	100%|	1140px|	1320px|
+|.container-xxl|	100%|	100%|	100%|	100%|	100%|	1320px|
+|.container-fluid|	100%|	100%|	100%|	100%|	100%|	100%|
+
+- 그리드 : 부스트스랩은 12개의 세로줄(col)로 구성됨 넓이를 지정하지 않은 경우 이에 맞추어 확장됨.
+```html
+<div class="container text-center">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      1 of 3
+    </div>
+    <div class="col-md-auto">
+      Variable width content
+    </div>
+    <div class="col col-lg-2">
+      3 of 3
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      1 of 3
+    </div>
+    <div class="col-md-auto">
+      Variable width content
+    </div>
+    <div class="col col-lg-2">
+      3 of 3
+    </div>
+  </div>
+</div>
+```
+위의 예시에서 `<div class="row justify-content-md-center">`는 768px 이상일 때에는 가운데 정렬됨. 768px 미만인 경우에는 확장됨.
+
+container - row - col의 계층구조를 기억할 것.
+(container가 width 값을 갖기에 container가 있어야 반응형 웹이 적용 됨.)  
+
+
+- 정렬 : `row justify-content-start`등으로 수평정렬, `col align-items-start` 등으로 수직정렬, 
+
+- 기타  
+`sticky-top` : fixed는 문서의 흐름에서 제외된다. 하지만 sticky는 제외되지 않아 navbar를 만들 때에 좋다.
+`overflow-hidden` : 스크롤을 불가능하게 넘치는 부분을 제외한다.  
+`text-truncate` : text-overflow에 대해 ellipsis를 적용한다. 여러줄에 걸친 텍스트에 대해서는 아래의 css web-kit 예시를 참조하자
+```css
+p {
+    display: -webkit-box;
+    max-width: 200px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+```
+
 
 
 ### CSS 셀렉터
@@ -69,6 +316,18 @@ document.querySelector(cssSelector)
 document.querySelectorAll('li.red')
 ```
 querySelectorAll은 NodeList(non-live)를 반환한다.
+
+## DOM과 쿼리 셀렉터
+바닐라 자바스크립트의  DOM과 쿼리 셀렉터  
+
+### DOM Query
+```js
+document.getElementById(id)
+document.getElementsByClassName(class)
+document.getElementsByTagName(tagName)
+```
+DOM Query에서 GetElements를 하는 경우 HTMLCollection을 반환한다.
+HTMLCollection은 live로 결과값을 반환한다. 때문에 반복문 등을 돌릴 때 유의해야 한다. (반복문을 아래에서부터 돌리는 등의 방법으로 우회한다.)
 
 ## Virtual DOM
 실제 돔이 아니라 메모리에 존재하는 JavaScript 객체.  
