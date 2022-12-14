@@ -1550,10 +1550,310 @@ class SelectColors extends Component {
 export default SelectColors;
 ```
 
+
+### flux 패턴
+하나의 상태 저장소와 이를 변경하는 Dispatcher를 통해 단방향 순환 구조를 갖는 것. 
+
+1. Action - Dispatcher - Model - View 의 구조를 갖는 패턴을 의미한다.  
+2. Model(Store)라는 하나의 상태를 가지며, 계층 구조가 없이 흐름이 단방향이다.  
+3. View(Controller View)는 Action을 호출할 수 있으며, Action - Dispatcher - Model - View - Action - Dispatcher...의 순환 구조가 된다.  
+
 ### 리덕스
 
+`npm install --save redux`
+혹은 cdn을 통해 삽입할 수 있다.
+
+1. reducer(state, action) : action에 따라 state를 변경시키는 함수이다.
+2. Redux.createStore(리듀서함수) : 리듀서 함수를 주입받아 store를 반환한다. 이 때 store는 Object.assign() 등을 통해 새로운 객체를 반환하여 불변성을 유지하는 것이 좋다.
+3. action : dispatch에 주입되는 객체이며, type 프로퍼티를 반드시 가져야 한다.
+4. 스토어.getState() : store에 저장된 state의 데이터를 가져온다.
+5. 스토어.dispatch(액션객체): 액션 객체를 주입받아 리듀서 함수를 호출한다. 
+6. 스토어.subscribe(콜백함수) : subscribe 메서드는 스토어의 변경을 감지하여 콜백 함수를 실행시킨다.
+
+따라서 리덕스는 아래와 같이 작동하게 된다.
+
+1. Redux.createStore(reducer) 를 통해 store를 만든다. 최초에 reducer함수가 실행되며 state를 초기화하여 store에 저장한다.
+```js
+//reducer 함수를 선언한다.
+  function reducer(state,action){
+      //state 초기화
+      if(state === undefined){
+          return{
+              max_id:2,
+              mode:'create',
+              selected_id:1,
+              contents:[
+                  {id:1, title:"HTML", desc:'HTML is ...'},
+                  {id:2, title:"CSS", desc:"CSS is ..."}
+              ]
+          }
+      }
+
+      var newState={};
+      if(action.type === 'SELECT'){
+          newState = Object.assign({},state,{selected_id:action.id, mode:'read'} );
+      } 
+      else if(action.type === 'CREATE'){
+        ..
+      }
+      else if(action.type === 'DELETE'){
+        ...
+      }
+      else if(action.type === 'CHANGE_MODE') {
+        ...
+      }
+      return newState;
+  }
+
+//Redux.createStore(reducer)를 통해 새로운 store를 만든다.
+  var store = Redux.createStore(reducer);
+```
+
+2. store.dispatch({type: ... [, state ]})는 store.state와 action을 인수로 reducer함수를 호출한다.
+3. reducer함수가 state를 변경하여 store에 반영한다.
+```js
+  function article(){
+    //store에 저장된 state를 가져온다.
+      var state = store.getState();
+
+      if(state.mode === 'create'){
+    //html에서 submit 이벤트가 발생하면
+    //store.dispatch에 action객체를 주입한다
+      document.querySelector('#content').innerHTML=`
+      <article>
+        <form onsubmit="
+          event.preventDefault();
+          var _title = this.title.value;
+          var _desc = this.desc.value;
+          store.dispatch({
+              type:'CREATE',
+              title: _title,
+              desc: _desc,
+          })
+        ">
+          <p>
+              <input type="text" name="title" placeholder="title">
+          </p>
+          <p>
+              <textarea name="desc" placeholder="description"></textarea>
+          </p>
+          <p>
+              <input type="submit">
+          </p>
+      </form>
+      </article>
+          `
+      }
+  }
+
+  // dispatch가 리듀서 함수를 호출하여 store의 state를 변경하게 된다.
+```
+4. store.subscribe(콜백)을 통해 store의 변경사항을 옵저빙한다.
+```js
+// store.subscribe를 통해 store가 변경될 때마다 글의 내용과 목차의 DOM를 변경한다.
+  store.subscribe(article);
+  store.subscribe(TOC);
+```
+
+```html
+<!-- https://opentutorials.org/module/4078 -->
+<!-- https://velog.io/@annie1004619/Redux-생활코딩 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"></script>
+</head>
+<body>
+    <div id="subject"></div>
+    <div id="toc"></div>
+    <div id="control"></div>
+    <div id="content"></div>
+    <script>
+        // 제목
+        function subject(){
+            document.querySelector('#subject').innerHTML =`
+            <header>
+                <h1>WEB</h1>
+                 Hello, WEB!
+            </header>
+            `
+        }
+
+        // 목차
+        function TOC(){
+            var state = store.getState();
+            var i =0;
+            var liTags = '';
+            while(i<state.contents.length){
+                liTags+= `
+                <li>
+                  <a onclick="
+                    event.preventDefault();
+                    var action = {type:'SELECT', id:${state.contents[i].id}}
+                    store.dispatch(action);
+                  " href="${state.contents[i].id}">
+                    ${state.contents[i].title}
+                  </a>
+                </li>`;
+                i+=1;
+            }
+            document.querySelector('#toc').innerHTML=`
+            <nav>
+             <ol>
+            ${liTags}
+             </ol>
+            </nav>
+             `
+        }
+
+        // 생성, 삭제 버튼
+        function control(){
+            document.querySelector('#control').innerHTML=`
+            <ul>
+            <li><a onclick="
+            event.preventDefault();
+            store.dispatch({
+                type:'CHANGE_MODE',
+                mode:'create'
+            })
+            " href="/create">create</a></li>
+            <li><input onclick="
+                store.dispatch({
+                    type:'DELETE'
+                });
+            " type="button" value="delete"></li>
+        </ul>
+        `
+        }
+
+        //컨텐츠의 내용
+        function article(){
+            var state = store.getState();
+
+            if(state.mode === 'create'){
+            document.querySelector('#content').innerHTML=`
+            <article>
+             <form onsubmit="
+                event.preventDefault();
+                var _title = this.title.value;
+                var _desc = this.desc.value;
+                store.dispatch({
+                    type:'CREATE',
+                    title: _title,
+                    desc: _desc,
+                   
+                })
+             ">
+                <p>
+                   <input type="text" name="title" placeholder="title">
+                </p>
+                <p>
+                   <textarea name="desc" placeholder="description"></textarea>
+                </p>
+                <p>
+                   <input type="submit">
+                </p>
+            </form>
+            </article>
+               `
+            }else if(state.mode === 'read'){
+            var i = 0;
+            var aTitle, aDesc;
+            while(i < state.contents.length){
+                if(state.contents[i].id === state.selected_id){
+                    aTitle = state.contents[i].title;
+                    aDesc = state.contents[i].desc;
+                    break;
+                }
+                i=i+1;
+            }
+            document.querySelector('#content').innerHTML=`
+            <article>
+             <h2>${aTitle}</h2>
+             ${aDesc}
+            </article>
+               `
+            }
+            else if(state.mode === 'welcome'){
+            document.querySelector('#content').innerHTML=`
+            <article>
+             <h2>welcome</h2>
+             hello redux
+            </article>
+               `
+            }
+        }
 
 
+        // --------리덕스--------
+        function reducer(state,action){
+            if(state === undefined){
+                return{
+                    max_id:2,
+                    mode:'create',
+                    selected_id:1,
+                    contents:[
+                        {id:1, title:"HTML", desc:'HTML is ...'},
+                        {id:2, title:"CSS", desc:"CSS is ..."}
+                    ]
+                }
+            }
+            var newState={};
+            if(action.type === 'SELECT'){
+                newState = Object.assign({},state,{selected_id:action.id, mode:'read'} );
+            } 
+            else if(action.type === 'CREATE'){
+                var newMaxId = state.max_id + 1;
+                var newContents = state.contents.concat();
+                newContents.push({id:newMaxId, title:action.title, desc:action.desc});
 
+                var newState=Object.assign({}, state, {
+                    max_id:newMaxId,
+                    contents:newContents,
+                    selected_id:newMaxId,
+                    mode:'read'
+                })
+            }
+            else if(action.type === 'DELETE'){
+                var newContents = [];
+                var i =0;
+                while(i<state.contents.length){
+                    if(state.selected_id !== state.contents[i].id){
+                        newContents.push(
+                            state.contents[i]
+                        );
+                    }
+                    i+=1;
+                }
+                newState = Object.assign({},state, {
+                    contents:newContents,
+                    mode:'welcome'
+                })
+            }
+            else if(action.type === 'CHANGE_MODE') {
+                newState = Object.assign({}, state, {
+                    mode:action.mode
+                })
+            }           console.log(action, state,newState);
+            return newState;
+        }
+        var store = Redux.createStore(reducer);
+        store.subscribe(article);
+        store.subscribe(TOC);
+        subject();
+        TOC();
+        control();
+        article();
+    </script>
+    
+</body>
+</html>
+```
+
+
+### 리액트 리덕스
 
 
