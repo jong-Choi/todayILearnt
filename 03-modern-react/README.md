@@ -2678,3 +2678,629 @@ const loggerMiddleware = function loggerMiddleware(store) {
   */
 ```
 
+
+설치 `yarn add redux react-redux`
+
+#### 파일구조
+
+1. actions/constants/reducers
+   action함수와 reducer함수를 관리하는 폴더, actionsType을 관리하는 폴더, 총 세 개의 폴더를 만드는 방식.
+
+2. Ducks 패턴
+   modules 폴더 안에 action, reducer, actionsType을 하나의 파일로 관리.
+   이하는 ducks의 예시이다.
+
+#### 모듈 생성
+
+1. 액션 타입 생성하기
+   `const 액션 = '모듈명/액션명'`으로 타입을 생성한다. 모듈명을 함께 적음으로서 액션명의 중복을 방지할 수 있다.
+
+```js
+// modules/counter.js
+const INCREASE = "counter/INCREASE";
+const DECREASE = "counter/DECREASE";
+```
+
+2. 액션 함수 생성하기
+   export 키워드를 통해 액션 함수의 생성과 동시에 export 하기
+
+```js
+// modules/counter.js
+const INCREASE = "counter/INCREASE";
+const DECREASE = "counter/DECREASE";
+
+export const increase = () => ({ type: INCREASE });
+export const decrease = () => ({ type: DECREASE });
+```
+
+3. reducer를 통해 상태 초기화 하기
+
+```js
+// modules/counter.js
+const INCREASE = "counter/INCREASE";
+const DECREASE = "counter/DECREASE";
+
+export const increase = () => ({ type: INCREASE });
+export const decrease = () => ({ type: DECREASE });
+
+const initialState = {
+  number: 0,
+};
+
+function counter(state = initialState, action) {
+  switch (action.type) {
+    case INCREASE:
+      return {
+        number: state.number + 1,
+      };
+    case DECREASE:
+      return {
+        number: state.number - 1,
+      };
+    default:
+      return state;
+  }
+}
+
+export default counter;
+```
+
+4. 모듈을 불러오는 방법 (export default와 export의 차이)
+
+```js
+import counter from ‘./counter‘;
+import { increase, decrease } from ‘./counter‘;
+// 한꺼번에 불러오고 싶을 때
+import counter, { increase, decrease } from ‘./counter‘;
+```
+
+위의 내용을 참조하여 todo 모듈을 생성해보자.
+
+props를 받아 해당 props가 액션타입에 들어감을 확인할 것.
+
+1. 액션 타입 및 액션 작성하기
+
+```js
+// modules/todos.js
+
+const CHANGE_INPUT = "todos/CHANGE_INPUT"; // 인풋 값을 변경함
+const INSERT = "todos/INSERT"; // 새로운 todo를 등록함
+const TOGGLE = "todos/TOGGLE"; // todo를 체크/체크 해제함
+const REMOVE = "todos/REMOVE"; // todo를 제거함
+
+export const changeInput = (input) => ({
+  type: CHANGE_INPUT,
+  input,
+});
+
+let id = 3; // insert가 호출될 때마다 1씩 더해집니다.
+export const insert = (text) => ({
+  type: INSERT,
+  todo: {
+    id: id++,
+    text,
+    done: false,
+  },
+});
+
+export const toggle = (id) => ({
+  type: TOGGLE,
+  id,
+});
+
+export const remove = (id) => ({
+  type: REMOVE,
+  id,
+});
+```
+
+2. 리듀서 작성하기
+
+```js
+// modules/todos.js
+...
+
+const initialState = {
+  input: “,
+  todos: [
+    {
+      id: 1,
+      text: ‘리덕스 기초 배우기‘,
+      done: true
+    },
+    {
+      id: 2,
+      text: ‘리액트와 리덕스 사용하기‘,
+      done: false
+    }
+  ]
+};
+
+function todos(state = initialState, action) {
+  switch (action.type) {
+    case CHANGE_INPUT:
+      return {
+        …state,
+        input: action.input
+      };
+    case INSERT:
+      return {
+        …state,
+        todos: state.todos.concat(action.todo)
+      };
+    case TOGGLE:
+      return {
+        …state,
+        todos: state.todos.map(todo =>
+          todo.id = = = action.id ? { …todo, done: !todo.done } : todo
+        )
+      };
+    case REMOVE:
+      return {
+        …state,
+        todos: state.todos.filter(todo => todo.id != = action.id)
+      };
+    default:
+      return state;
+  }
+}
+
+export default todos;
+```
+
+##### 루트 리듀서 만들기
+
+```js
+// modules/index.js
+import { combineReducers } from ‘redux‘;
+import counter from ‘./counter‘;
+import todos from ‘./todos‘;
+
+
+const rootReducer = combineReducers({
+  counter,
+  todos,
+});
+
+
+
+export default rootReducer;
+```
+
+`import rootReducer from ‘./modules‘;`
+
+#### 리듀서 적용하기
+
+1. src/index.js에 store 생성하기
+
+```js
+// src/index.js
+import { createStore } from ‘redux‘;
+...
+
+const store = createStore(rootReducer);
+
+```
+
+2. provider로 프로젝트에 리덕스 적용하기
+
+```js
+// index.js
+import React from ‘react‘;
+import ReactDOM from ‘react-dom‘;
+import { createStore } from ‘redux‘;
+import { Provider } from ‘react-redux‘;
+import ‘./index.css‘;
+import App from ‘./App‘;
+import * as serviceWorker from ‘./serviceWorker‘;
+import rootReducer from ‘./modules‘;
+
+const store = createStore(rootReducer);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById(‘root‘),
+);
+
+serviceWorker.unregister();
+```
+
+##### Redux DevTools
+
+1. [크롬 웹스토어](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=ko)에서 리덕스 데브툴 설치
+2. src/index.js에 리덕스 데브툴 적용
+
+```js
+const store = createStore(
+  rootReducer, /* preloadedState, */
+  window._ _REDUX_DEVTOOLSEXTENSION  && window. _REDUX_DEVTOOLSEXTENSION _()
+);
+```
+
+3. 패키지를 사용하여 적용할 수도 있다. `yarn add redux-devtools-extension`
+
+```js
+import { composeWithDevTools } from ‘redux-devtools-extension‘;
+const store = createStore(rootReducer, composeWithDevTools());
+```
+
+##### containers 만들기
+
+스토어에 접근하여 상태를 받아오고, 액션도 디스패치하는 컨테이너 컴포넌트를 만들자.
+
+1. 컨테이너 컴포넌트 생성
+
+```js
+// containers/CounterContainers.js
+import React from "react";
+import Counter from "../components/Counter";
+
+const CounterContainer = () => {
+  return <Counter />;
+};
+
+export default CounterContainer;
+```
+
+2. connect 함수 사용
+   connect 함수는 `connect(mapStateToProps, mapDispatchToProps)(연동할 컴포넌트)`의 구조를 갖는다.
+   mapStateToProps는 스토어의 상태를 props로 넘겨주는 함수,  
+   mapDispatchToProps는 디스패치를 props로 넘겨주는 함수.
+
+```js
+import React from ‘react‘;
+import { connect } from ‘react-redux‘;
+import Counter from ‘../components/Counter‘;
+
+
+const CounterContainer = ({ number, increase, decrease }) => {
+  return (
+    <Counter number={number} onIncrease={increase} onDecrease={decrease} />
+  );
+};
+
+
+
+const mapStateToProps = state => ({
+  number: state.counter.number,
+});
+const mapDispatchToProps = dispatch => ({
+  // 임시 함수
+  increase: () => {
+    console.log(‘increase‘);
+  },
+  decrease: () => {
+    console.log(‘decrease‘);
+  },
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CounterContainer);
+```
+
+CounterContainer로 선언한 컴포넌트에  
+mapStateToProps와 mapDispatchToProps를 넘겨주는 모습.
+mapStateToProps에는 sotre의 counter리듀서로 생성된 state 중 number를 객체로 넘겨주고 있으며,  
+mapDispatchToProps는 increase라는 함수와 decrease라는 함수를 하나의 객체로 넘겨주고 있다.
+해당 값들은 비구조화 할당으로 CounterContainer 컴포넌트의 props로 받아진다.
+
+###### container 적용하기
+
+```js
+// App.js
+App.js
+
+import React from ‘react‘;
+import Todos from ‘./components/Todos‘;
+import CounterContainer from ‘./containers/CounterContainer‘;
+
+
+const App = () => {
+  return (
+    <div>
+      <CounterContainer />
+      <hr />
+      <Todos />
+    </div>
+  );
+};
+
+
+
+export default App;
+```
+
+Counter 컴포넌트를 CounterContainer로 대체하였다.
+CounterContainer에서 mapStateToProps, mapDispatchToProps를 통해 state와 dispatch를 받은 후,  
+Counter 컴포넌트에 props로 넘겨주게 된다.
+
+컨테이너의 state와 함수 부분을 아래와 같이 수정한다.
+
+```js
+const mapStateToProps = (state) => ({
+  number: state.counter.number,
+});
+const mapDispatchToProps = (dispatch) => ({
+  increase: () => {
+    dispatch(increase());
+  },
+  decrease: () => {
+    dispatch(decrease());
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CounterContainer);
+```
+
+위와 같이 미리 mapStateToProps와 mapDispatchToProps를 선언하지 않고, connect 함수 내부에 직접 익명함수로 선언할 수도 있다.
+
+```js
+export default connect(
+  (state) => ({
+    number: state.counter.number,
+  }),
+  (dispatch) => ({
+    increase: () => dispatch(increase()),
+    // 위 코드는 다음과 완전히 동일하게 작동함 increase: () => { return dispatch(increase()) }
+    decrease: () => dispatch(decrease()),
+  })
+)(CounterContainer);
+```
+
+bindActionCreators 유틸 함수를 이용하여 여러개의 액션 함수를 dispatch할 수도 있다.
+
+```js
+import { bindActionCreators } from 'redux';
+...
+export default connect(
+  state => ({
+    number: state.counter.number,
+  }),
+  dispatch =>
+    bindActionCreators(
+      {
+        increase,
+        decrease,
+      },
+      dispatch,
+    ),
+)(CounterContainer);
+```
+
+익명함수의 state, dispatch는 아래와 같이 비구조화 할당을 사용하여 가독성을 높일 수 있다.
+
+```js
+export default connect(
+  // 비구조화 할당을 통해 todos를 분리하여
+  // state.todos.input 대신 todos.input을 사용
+  ({ todos }) => ({
+    input: todos.input,
+    todos: todos.todos,
+  }),
+  {
+    changeInput,
+    insert,
+    toggle,
+    remove,
+  }
+)(TodosContainer);
+```
+
+#### redux-actions
+
+디스패치와 리듀서를 더욱 쉽게 작성하게 해주는 라이브러리.
+createAction으로 액션을 만들고, handleActions(업데이트 함수, 초기 상태)으로 액션을 관리한다.  
+`yarn add redux-actions`
+
+```js
+// 기존 코드
+// modules/counter.js
+const INCREASE = "counter/INCREASE";
+const DECREASE = "counter/DECREASE";
+
+export const increase = () => ({ type: INCREASE });
+export const decrease = () => ({ type: DECREASE });
+
+const initialState = {
+  number: 0,
+};
+
+function counter(state = initialState, action) {
+  switch (action.type) {
+    case INCREASE:
+      return {
+        number: state.number + 1,
+      };
+    case DECREASE:
+      return {
+        number: state.number - 1,
+      };
+    default:
+      return state;
+  }
+}
+
+// 새로운 코드
+import { createAction, handleActions } from "redux-actions";
+
+const INCREASE = "counter/INCREASE";
+const DECREASE = "counter/DECREASE";
+
+export const increase = createAction(INCREASE);
+export const decrease = createAction(DECREASE);
+
+const initialState = {
+  number: 0,
+};
+
+const counter = handleActions(
+  {
+    [INCREASE]: (state, action) => ({ number: state.number + 1 }),
+    [DECREASE]: (state, action) => ({ number: state.number - 1 }),
+  },
+  initialState
+);
+
+export default counter;
+```
+
+#### immer
+
+`yarn add immer`
+`import produce from 'immer';`
+
+produce(변경할 값, 변경함수)
+
+```js
+const state = {
+  number: 1,
+  dontChangeMe: 2,
+};
+
+//불변성을 지키지 않는 방식
+state.number += 1;
+
+//기존 방식
+const nextState = { ...state, number: (state.number += 1) };
+
+//immer
+const nextState = produce(state, (draft) => {
+  draft.number += 1;
+});
+```
+
+#### react-redux Hooks
+
+connect 대신 hooks를 사용할 수 있다.
+
+1. useSelector(상태를반환하는함수)
+2. useDispatch() : dispatch 함수를 반환함.
+   `const dispatch = useDispatch()`
+   `dispatch({type :...})`
+
+```js
+import React from ‘react‘;
+import { useSelector, useDispatch } from ‘react-redux‘;
+import Counter from ‘../components/Counter‘;
+import { increase, decrease } from ‘../modules/counter‘;
+
+
+const CounterContainer = () => {
+  const number = useSelector(state => state.counter.number);
+  const dispatch = useDispatch();
+  return (
+    <Counter
+      number={number}
+      onIncrease={() => dispatch(increase())}
+      onDecrease={() => dispatch(decrease())}
+    />
+  );
+};
+
+export default CounterContainer;
+```
+
+디스패치 함수에 useCallback을 이용하여 아래와 같이 최적화
+
+```js
+import React, { useCallback } from 'react';
+...
+  const onIncrease = useCallback(() => dispatch(increase()), [dispatch]);
+  const onDecrease = useCallback(() => dispatch(decrease()), [dispatch]);
+  return (
+    <Counter number={number} onIncrease={onIncrease} onDecrease={onDecrease} />
+  );
+```
+
+3. useStore() : 리덕스 스토어 객체를 직접 사용할 때에 사용
+
+```js
+const store = useStore();
+store.dispatch({ type: "SAMPLE_ACTION " });
+store.getState();
+```
+
+4. useActions(액션배열, 의존자배열) 커스텀훅 [출처](https://react-redux.js.org/next/api/hooks#recipe-useactions)
+
+```js
+// @/lib/useActions.js
+import { bindActionCreators } from "redux";
+import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+
+export default function useActions(actions, deps) {
+  const dispatch = useDispatch();
+  return useMemo(
+    () => {
+      if (Array.isArray(actions)) {
+        return actions.map((a) => bindActionCreators(a, dispatch));
+      }
+      return bindActionCreators(actions, dispatch);
+    },
+    deps ? [dispatch, ...deps] : deps
+  );
+}
+```
+
+```js
+import useActions from "../lib/useActions";
+
+// const dispatch = useDispatch();
+// const onChangeInput = useCallback(input => dispatch(changeInput(input)), [
+//   dispatch
+// ]);
+// const onInsert = useCallback(text => dispatch(insert(text)), [dispatch]);
+// const onToggle = useCallback(id => dispatch(toggle(id)), [dispatch]);
+// const onRemove = useCallback(id => dispatch(remove(id)), [dispatch]);
+
+const [onChangeInput, onInsert, onToggle, onRemove] = useActions(
+  [changeInput, insert, toggle, remove],
+  []
+);
+```
+
+액션 배열에 있는 액션들을 dispatch하며 새로운 배열을 만든다.  
+의존자 배열을 빈 배열로 초기화하여 최적화할 수 있다.
+
+##### react-redux Hooks의 최적화
+
+connect함수는 컨테이너 컴포넌트의 props가 바뀌지 않았다면 리렌더링이 방지되어 성능이 최적화된다.
+
+반면 useSelector 훅은 부모컴포넌트가 리렌더링될 때에 최적화가 되지 않고 계속해서 리렌더링이 이루어 진다.
+
+React.memo를 통해 리렌더링을 방지할 수 있다.
+
+```js
+import React from 'react';
+import { useSelector } from 'react-redux';
+...
+export default React.memo(TodosContainer);
+```
+
+### 미들웨어를 이용한 비동기작업 관리
+
+`yarn add redux react-redux redux-actions`
+
+미들웨어란 액션과 리듀서 사이의 중간자라 볼 수 있다.  
+액션에서의 처리 결과에 따라 미들웨어에서 작업한 후, 리듀서를 호출하거나, 액션을 취소하는 등의 작업을 진행한다.
+
+```js
+// @/lib/loggerMiddleware.js
+const loggerMiddleware = (store) => (next) => (action) => {
+  // 미들웨어 기본 구조
+};
+export default loggerMiddleware;
+
+// 아래와 같은 구조임
+/* 
+const loggerMiddleware = function loggerMiddleware(store) {
+  return function (next) {
+    return function (action) {
+      // 미들웨어 기본 구조
+    };
+  };
+};
+  */
+```
