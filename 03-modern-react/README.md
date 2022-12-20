@@ -2465,11 +2465,17 @@ export default React.memo(TodosContainer);
 미들웨어란 액션과 리듀서 사이의 중간자라 볼 수 있다.  
 액션에서의 처리 결과에 따라 미들웨어에서 작업한 후, 리듀서를 호출하거나, 액션을 취소하는 등의 작업을 진행한다.
 
-미들웨어는 기본적으로 
+미들웨어는 기본적으로 함수를 반환하는 함수이다. 
+
+store.dispatch({액션객체}는 `middleware = store => next => action => {액션내용}`으로 치환되는데,  
+이때 next()는 다음 미들웨어로 액션을 넘겨주거나, 다음 미들웨어가 없는 경우 store.dispatch(액션)을 실행시킨다.  
+
+
 ```js
 // @/lib/loggerMiddleware.js
 const loggerMiddleware = (store) => (next) => (action) => {
   // 미들웨어 기본 구조
+  console.log('이전 상태', store.)
 };
 export default loggerMiddleware;
 
@@ -2484,3 +2490,4 @@ const loggerMiddleware = function loggerMiddleware(store) {
 };
   */
 ```
+
