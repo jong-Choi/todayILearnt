@@ -529,17 +529,16 @@ export default App;
 클래스에서 프롭을 받을 때에는 아래와 같이 사용할 수 있다. (prop-types를 이용해 타입 지정 + static을 이용해 클래스 내부에서 기본값과 타입 지정)
 
 ```js
-import React, { Component } from ‘react‘;
-import PropTypes from ‘prop-types‘;
-
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class MyComponent extends Component {
   static defaultProps = {
-    name: ‘기본 이름‘
+    name: "기본 이름",
   };
   static propTypes = {
     name: PropTypes.string,
-    favoriteNumber: PropTypes.number.isRequired
+    favoriteNumber: PropTypes.number.isRequired,
   };
   render() {
     const { name, favoriteNumber, children } = this.props; // 비구조화 할당
@@ -561,14 +560,14 @@ export default MyComponent;
 #### State
 
 ```js
-import React, { Component } from ‘react‘;
+import React, { Component } from "react";
 
 class Counter extends Component {
   constructor(props) {
     super(props);
     // state의 초깃값 설정하기
     this.state = {
-      number: 0
+      number: 0,
     };
   }
   render() {
@@ -597,11 +596,11 @@ export default Counter;
 (단 constructor(props)에 사용된 super(props)가 없어져서 this.props에 접근하지 못하는 점은 유의)
 
 ```js
-import React, { Component } from ‘react‘;
+import React, { Component } from "react";
 
 class Counter extends Component {
   state = {
-    number: 0
+    number: 0,
   };
 
   render() {
@@ -714,32 +713,31 @@ dispatch(액션{타입}) 실행 => 리듀서 함수 호출
 => 반환된 객체에 맞게 state 수정
 
 ```js
-import React, { useReducer } from ‘react‘;
+import React, { useReducer } from "react";
 
 const Counter = () => {
-
-function reducer(state, action) {
-  // action.type에 따라 다른 작업 수행
-  switch (action.type) {
-    case ‘INCREMENT‘:
-      return { value: state.value + 1 };
-    case ‘DECREMENT‘:
-      return { value: state.value - 1 };
-    default:
-      // 아무것도 해당되지 않을 때 기존 상태 반환
-      return state;
+  function reducer(state, action) {
+    // action.type에 따라 다른 작업 수행
+    switch (action.type) {
+      case "INCREMENT":
+        return { value: state.value + 1 };
+      case "DECREMENT":
+        return { value: state.value - 1 };
+      default:
+        // 아무것도 해당되지 않을 때 기존 상태 반환
+        return state;
+    }
   }
-}
 
-const [state, dispatch] = useReducer(reducer, { value: 0 });
+  const [state, dispatch] = useReducer(reducer, { value: 0 });
 
   return (
     <div>
       <p>
         현재 카운터 값은 <b>{state.value}</b>입니다.
       </p>
-      <button onClick={() => dispatch({ type: ‘INCREMENT‘ })}>+1</button>
-      <button onClick={() => dispatch({ type: ‘DECREMENT‘ })}>-1</button>
+      <button onClick={() => dispatch({ type: "INCREMENT" })}>+1</button>
+      <button onClick={() => dispatch({ type: "DECREMENT" })}>-1</button>
     </div>
   );
 };
@@ -762,7 +760,7 @@ event.target을 action객체로 받는다.
 이후 state 객체에서 `[action.name]` 프로퍼티를 오버라이딩 하여 반환한다.
 
 ```js
-import React, { useReducer } from ‘react‘;
+import React, { useReducer } from 'react';
 
 
 function reducer(state, action) {
@@ -942,7 +940,7 @@ Flux 패턴을 사용하는 상태관리 툴을 이용하는 것이 권장된다
 
 ```js
 // useInputs.js
-import { useReducer } from ‘react‘;
+import { useReducer } from 'react';
 
 function reducer(state, action) {
   return {
@@ -2040,7 +2038,6 @@ store.subscribe(TOC);
 </html>
 ```
 
-
 ### 리액트 리덕스
 
 컨테이너 컴포넌트에서 프레젠테이셔널 컴포넌트로 프롭스로 전달한다.
@@ -2113,10 +2110,10 @@ export default counter;
 4. 모듈을 불러오는 방법 (export default와 export의 차이)
 
 ```js
-import counter from ‘./counter‘;
-import { increase, decrease } from ‘./counter‘;
+import counter from "./counter";
+import { increase, decrease } from "./counter";
 // 한꺼번에 불러오고 싶을 때
-import counter, { increase, decrease } from ‘./counter‘;
+import counter, { increase, decrease } from "./counter";
 ```
 
 위의 내용을 참조하여 todo 모듈을 생성해보자.
@@ -2170,12 +2167,12 @@ const initialState = {
   todos: [
     {
       id: 1,
-      text: ‘리덕스 기초 배우기‘,
+      text: '리덕스 기초 배우기',
       done: true
     },
     {
       id: 2,
-      text: ‘리액트와 리덕스 사용하기‘,
+      text: '리액트와 리덕스 사용하기',
       done: false
     }
   ]
@@ -2217,22 +2214,19 @@ export default todos;
 
 ```js
 // modules/index.js
-import { combineReducers } from ‘redux‘;
-import counter from ‘./counter‘;
-import todos from ‘./todos‘;
-
+import { combineReducers } from "redux";
+import counter from "./counter";
+import todos from "./todos";
 
 const rootReducer = combineReducers({
   counter,
   todos,
 });
 
-
-
 export default rootReducer;
 ```
 
-`import rootReducer from ‘./modules‘;`
+`import rootReducer from './modules';`
 
 #### 리듀서 적용하기
 
@@ -2240,7 +2234,7 @@ export default rootReducer;
 
 ```js
 // src/index.js
-import { createStore } from ‘redux‘;
+import { createStore } from 'redux';
 ...
 
 const store = createStore(rootReducer);
@@ -2251,14 +2245,14 @@ const store = createStore(rootReducer);
 
 ```js
 // index.js
-import React from ‘react‘;
-import ReactDOM from ‘react-dom‘;
-import { createStore } from ‘redux‘;
-import { Provider } from ‘react-redux‘;
-import ‘./index.css‘;
-import App from ‘./App‘;
-import * as serviceWorker from ‘./serviceWorker‘;
-import rootReducer from ‘./modules‘;
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import rootReducer from "./modules";
 
 const store = createStore(rootReducer);
 
@@ -2266,7 +2260,7 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById(‘root‘),
+  document.getElementById("root")
 );
 
 serviceWorker.unregister();
@@ -2287,7 +2281,7 @@ const store = createStore(
 3. 패키지를 사용하여 적용할 수도 있다. `yarn add redux-devtools-extension`
 
 ```js
-import { composeWithDevTools } from ‘redux-devtools-extension‘;
+import { composeWithDevTools } from "redux-devtools-extension";
 const store = createStore(rootReducer, composeWithDevTools());
 ```
 
@@ -2315,10 +2309,9 @@ export default CounterContainer;
    mapDispatchToProps는 디스패치를 props로 넘겨주는 함수.
 
 ```js
-import React from ‘react‘;
-import { connect } from ‘react-redux‘;
-import Counter from ‘../components/Counter‘;
-
+import React from "react";
+import { connect } from "react-redux";
+import Counter from "../components/Counter";
 
 const CounterContainer = ({ number, increase, decrease }) => {
   return (
@@ -2326,24 +2319,19 @@ const CounterContainer = ({ number, increase, decrease }) => {
   );
 };
 
-
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   number: state.counter.number,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   // 임시 함수
   increase: () => {
-    console.log(‘increase‘);
+    console.log("increase");
   },
   decrease: () => {
-    console.log(‘decrease‘);
+    console.log("decrease");
   },
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CounterContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CounterContainer);
 ```
 
 CounterContainer로 선언한 컴포넌트에  
@@ -2356,12 +2344,11 @@ mapDispatchToProps는 increase라는 함수와 decrease라는 함수를 하나�
 
 ```js
 // App.js
-App.js
+App.js;
 
-import React from ‘react‘;
-import Todos from ‘./components/Todos‘;
-import CounterContainer from ‘./containers/CounterContainer‘;
-
+import React from "react";
+import Todos from "./components/Todos";
+import CounterContainer from "./containers/CounterContainer";
 
 const App = () => {
   return (
@@ -2372,8 +2359,6 @@ const App = () => {
     </div>
   );
 };
-
-
 
 export default App;
 ```
@@ -2546,14 +2531,13 @@ connect 대신 hooks를 사용할 수 있다.
    `dispatch({type :...})`
 
 ```js
-import React from ‘react‘;
-import { useSelector, useDispatch } from ‘react-redux‘;
-import Counter from ‘../components/Counter‘;
-import { increase, decrease } from ‘../modules/counter‘;
-
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Counter from "../components/Counter";
+import { increase, decrease } from "../modules/counter";
 
 const CounterContainer = () => {
-  const number = useSelector(state => state.counter.number);
+  const number = useSelector((state) => state.counter.number);
   const dispatch = useDispatch();
   return (
     <Counter
@@ -2651,22 +2635,25 @@ export default React.memo(TodosContainer);
 미들웨어란 액션과 리듀서 사이의 중간자라 볼 수 있다.  
 액션에서의 처리 결과에 따라 미들웨어에서 작업한 후, 리듀서를 호출하거나, 액션을 취소하는 등의 작업을 진행한다.
 
-미들웨어는 기본적으로 함수를 반환하는 함수이다. 
+미들웨어는 기본적으로 함수를 반환하는 함수이다.
 
 store.dispatch({액션객체}는 `middleware = store => next => action => {액션내용}`으로 치환되는데,  
-이때 next()는 다음 미들웨어로 액션을 넘겨주거나, 다음 미들웨어가 없는 경우 store.dispatch(액션)을 실행시킨다.  
-
+이때 next()는 다음 미들웨어로 액션을 넘겨주거나, 다음 미들웨어가 없는 경우 store.dispatch(액션)을 실행시킨다.
 
 ```js
 // @/lib/loggerMiddleware.js
 const loggerMiddleware = (store) => (next) => (action) => {
-  // 미들웨어 기본 구조
-  console.log('이전 상태', store.)
+  console.group(action && action.type); // 액션 타입으로 log를 그룹화함
+  console.log("이전 상태", store.getState());
+  console.log("액션", action);
+  next(action); // 다음 미들웨어 혹은 리듀서에게 전달
+  console.log("다음 상태", store.getState()); // 업데이트된 상태
+  console.groupEnd(); // 그룹 끝
 };
 export default loggerMiddleware;
 
 // 아래와 같은 구조임
-/* 
+/*
 const loggerMiddleware = function loggerMiddleware(store) {
   return function (next) {
     return function (action) {
@@ -2677,3 +2664,223 @@ const loggerMiddleware = function loggerMiddleware(store) {
   */
 ```
 
+위의 미들웨어는 액션의 타입과 상태를 하나의 그룹으로 묶어서 console에 출력한다.
+
+만들어진 미들웨어는 index.js의 스토어에 아래와 같이 적용한다.
+
+```js
+import loggerMiddleware from ‘./lib/loggerMiddleware‘;
+
+const store = createStore(rootReducer, applyMiddleware(loggerMiddleware));
+```
+
+#### redux-logger
+
+`yarn add redux-logger`
+
+```js
+// import loggerMiddleware from ‘./lib/loggerMiddleware‘;
+import { createLogger } from ‘redux-logger‘;
+
+const logger = createLogger();
+const store = createStore(rootReducer, applyMiddleware(logger));
+```
+
+redux-logger는 액션의 타입과 디스패치된 시간, 스토어의 상태 등을 알록달록 이쁘게 출력해주는 미들웨어다.
+
+#### redux-thunk
+
+thunk는 특정 작업을 나중으로 미루기 위해 함수 형태로 감싼 단위를 의미한다. 즉 비동기 처리에서 넘겨주는 콜백함수가 thunk에 포함된다.  
+redux-thunk를 이용하면 함수를 디스패치할 수 있게된다.
+
+`yarn add redux-thunk`
+
+```js
+import { createLogger } from ‘redux-logger‘;
+import ReduxThunk from ‘redux-thunk‘;
+
+const logger = createLogger();
+const store = createStore(rootReducer, applyMiddleware(logger, ReduxThunk));
+```
+
+위와 같이 store에 ReduxThunk를 등록하면 함수를 디스패치 할 수 있다.
+
+```js
+//기본 방식
+export const increase = () => ({ type: INCREASE });
+export const decrease = () => ({ type: DECREASE });
+
+function counter(state = initialState, action) {
+  switch (action.type) {
+    case INCREASE:
+      return {
+        number: state.number + 1,
+      };
+    case DECREASE:
+      return {
+        number: state.number - 1,
+      };
+    default:
+      return state;
+  }
+}
+
+//redux-action을 사용한 방식
+const INCREASE = "counter/INCREASE";
+const DECREASE = "counter/DECREASE";
+
+export const increase = createAction(INCREASE);
+export const decrease = createAction(DECREASE);
+
+const initialState = {
+  number: 0,
+};
+
+const counter = handleActions(
+  {
+    [INCREASE]: (state, action) => ({ number: state.number + 1 }),
+    [DECREASE]: (state, action) => ({ number: state.number - 1 }),
+  },
+  initialState
+);
+
+// redux-thunk를 사용한 방식
+import { createAction, handleActions } from ‘redux-actions‘;
+
+
+const INCREASE = ‘counter/INCREASE‘;
+const DECREASE = ‘counter/DECREASE‘;
+
+export const increase = createAction(INCREASE);
+export const decrease = createAction(DECREASE);
+
+export const increaseAsync = () => dispatch => {
+  setTimeout(() => {
+    dispatch(increase());
+  }, 1000);
+};
+export const decreaseAsync = () => dispatch => {
+  setTimeout(() => {
+    dispatch(decrease());
+  }, 1000);
+};
+
+const initialState = 0; // 상태는 꼭 객체일 필요가 없습니다. 숫자도 작동해요.
+
+const counter = handleActions(
+  {
+    [INCREASE]: state => state + 1,
+    [DECREASE]: state => state - 1
+  },
+  initialState
+);
+
+export default counter;
+```
+
+```js
+// container/CounterContainer.js
+
+//redux-action을 사용한 방식
+import React from "react";
+import { connect } from "react-redux";
+import Counter from "../components/Counter";
+
+const CounterContainer = ({ number, increase, decrease }) => {
+  return (
+    <Counter number={number} onIncrease={increase} onDecrease={decrease} />
+  );
+};
+
+export default connect(
+  (state) => ({
+    number: state.counter.number,
+  }),
+  (dispatch) => ({
+    increase: () => dispatch(increase()),
+    // 위 코드는 다음과 완전히 동일하게 작동함 increase: () => { return dispatch(increase()) }
+    decrease: () => dispatch(decrease()),
+  })
+)(CounterContainer);
+
+//redux-thunk를 이용한 방식. state에는 숫자를, mapDispatchToProps에는 함수들을 넣어주었다.
+const CounterContainer = ({ number, increaseAsync, decreaseAsync }) => {
+  return (
+    <Counter
+      number={number}
+      onIncrease={increaseAsync}
+      onDecrease={decreaseAsync}
+    />
+  );
+};
+
+export default connect(
+  state => ({
+    number: state.counter
+  }),
+  {
+    increaseAsync,
+    decreaseAsync
+  }
+)(CounterContainer);
+```
+
+#### redux-saga
+
+대부분의 비동기 처리는 redux-thunk에서도 가능하지만,
+redux-saga는 다음의 상황에서 유리하다.
+
+• 기존 요청을 취소 처리해야 할 때(불필요한 중복 요청 방지)
+
+• 특정 액션이 발생했을 때 다른 액션을 발생시키거나, API 요청 등 리덕스와 관계없는 코드를 실행할 때
+
+• 웹소켓을 사용할 때
+
+• API 요청 실패 시 재요청해야 할 때
+
+##### 제너레이터 함수
+
+ES6에 추가된 사양이다.
+함수 내에 yield를 만나면 함수의 흐름을 중단하며,
+함수를 호출할 때마다 다음 yield를 호출한다.
+
+```js
+function* foo() {
+  var index = 0;
+  while (index <= 2)
+    // when index reaches 3,
+    // yield's done will be true
+    // and its value will be undefined;
+    yield index++;
+}
+
+var iterator = foo();
+console.log(iterator.next()); // { value: 0, done: false }
+console.log(iterator.next()); // { value: 1, done: false }
+console.log(iterator.next()); // { value: 2, done: false }
+console.log(iterator.next()); // { value: undefined, done: true }
+```
+
+next 함수에 value값을 넘겨서 yield로 멈춘 곳에 값을 추가해줄 수 있다.
+
+```js
+function* sumGenerator() {
+  console.log("sumGenerator가 만들어졌습니다.");
+  let a = yield;
+  let b = yield;
+  yield a + b;
+}
+
+const sum = sumGenerator();
+sum.next();
+// sumGenerator가 만들어졌습니다.
+// {value: undefined, done: false}
+sum.next(1);
+// {value: undefined, done: false}
+sum.next(2);
+// {value: 3, done: false}
+sum.next();
+// {value: undefined, done: true}
+```
+
+redux-saga는 `const action = yield;` `제너레이터.next({ type: 'TEST' });`와 같이 next 함수에 type 값을 포함한 객체를 넘겨주며 작동한다.
